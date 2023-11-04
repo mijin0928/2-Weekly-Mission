@@ -32,6 +32,10 @@ body {
   text-align: center;
 }
 
+.join-member .logo img {
+  width: 210px;
+}
+
 .join-member .logo span {
   overflow: hidden;
   position: absolute;
@@ -55,18 +59,18 @@ body {
   border-bottom: 1px solid var(--primary-color);
 }
 
-.form-box {
+.form-wrap {
   margin: 30px 0 0;
 }
 
-.form-box label {
+.form-wrap label {
   display: block;
   margin: 0 0 12px 0;
   font-size: 14px;
   line-height: 16px;
 }
 
-.form-box input {
+.form-wrap input {
   width: 100%;
   padding: 18px 15px;
   color: var(--black-color);
@@ -75,31 +79,12 @@ body {
   background-color: var(--white-color);
 }
 
-.form-box input:focus {
+.form-wrap input:focus {
   border: 1px solid var(--primary-color);
 }
 
-.form-box .password-box {
-  margin: 24px 0;
-}
-
-.form-box .btn-box {
-  margin: 30px 0 0;
-}
-
-.form-box .btn-box button {
-  display: block;
-  width: 100%;
-  padding: 16px 20px;
-  border: 0;
-  border-radius: 8px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 21px;
-  cursor: pointer;
-  color: var(--btn-color);
-  background: linear-gradient(90.99deg, #6D6AFE 0.12%, #6AE3FE 101.84%);
+.form-box + .form-box {
+  margin: 24px 0 0;
 }
 
 .form-box .user-password {
@@ -112,6 +97,25 @@ body {
   right: 15px;
   transform: translateY(-50%);
   cursor: pointer;
+}
+
+.btn-box {
+  margin: 30px 0 0;
+}
+
+.btn-box button {
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  border: 0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 21px;
+  cursor: pointer;
+  color: var(--btn-color);
+  background: linear-gradient(90.99deg, #6D6AFE 0.12%, #6AE3FE 101.84%);
 }
 
 .sns-login {
@@ -157,11 +161,18 @@ body {
 }
 
 .sns-login ul li .google {
-  background: url('/images/ico-google.png') no-repeat;
+  background: url('../images/ico-google.png') no-repeat;
   background-size: 100% 42px;
 }
 
 .sns-login ul li .kakao {
-  background: url('/images/ico-kakao.png') no-repeat;
+  background: url('../images/ico-kakao.png') no-repeat;
   background-size: 100% 42px;
+}
+
+@media screen and (max-width:400px) {
+  .inner-wrap {
+    width: 100%;
+    padding: 0 32px;
+  }
 }
