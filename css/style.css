@@ -83,6 +83,18 @@ body {
   border: 1px solid var(--primary-color);
 }
 
+.form-box.active input {
+  border: 1px solid #ff5b56;
+}
+
+.form-box.active .messeage {
+  display: block;
+  margin: 6px 0 0;
+  color: #ff5b56;
+  font-size: 14px;
+  line-height: 16px;
+}
+
 .form-box + .form-box {
   margin: 24px 0 0;
 }
@@ -168,11 +180,4 @@ body {
 .sns-login ul li .kakao {
   background: url('../images/ico-kakao.png') no-repeat;
   background-size: 100% 42px;
-}
-
-@media screen and (max-width:400px) {
-  .inner-wrap {
-    width: 100%;
-    padding: 0 32px;
-  }
 }

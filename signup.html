@@ -26,28 +26,31 @@
       </div>
   
       <div class="form-wrap">
-        <form> 
-          <div class="form-box">
+        <form action = './folder.html'> 
+          <div class="form-box email">
             <label for="signup-email">이메일</label>
             <input type="email" id="signup-email" name="email">
+            <p class="messeage"></p>
           </div>
           
-          <div class="form-box">
+          <div class="form-box pw">
             <label for="signup-password">비밀번호</label>
   
             <div class="user-password">
               <input type="password" id="signup-password" name="password">
               <img src="./images/ico-eye-on.svg" alt="비밀번호 눈 켜짐" class="eye-on">
             </div>
+            <p class="messeage"></p>
           </div>
 
-          <div class="form-box">
+          <div class="form-box pw-check">
             <label for="signup-check-password">비밀번호 확인</label>
   
             <div class="user-password">
               <input type="password" id="signup-check-password" name="password">
               <img src="./images/ico-eye-on.svg" alt="비밀번호 눈 켜짐" class="eye-on">
             </div>
+            <p class="messeage"></p>
           </div>
     
           <div class="btn-box">
@@ -70,5 +73,6 @@
       </div>
     </div>
   </div>
+  <script src="./js/signup.js"></script>
 </body>
 </html>
