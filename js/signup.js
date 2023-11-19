@@ -7,11 +7,9 @@ const eye = document.querySelectorAll('.eye');
 const btnJoin = document.querySelector('.btn-box .btn-join');
 
 // 회원가입 버튼 클릭 시 페이지 이동
-function join(e){
-  e.preventDefault();
-
+function join(){
   const { email } = correct.userInfo;
- 
+  
   if(emailInput.value !== email){
     if(pwInput.value !== '' && pwCheckInput.value !== '') location.href = './folder.html';
   }else{
@@ -50,10 +48,71 @@ function eyeToggle(e){
   }
 }
 
-btnJoin.addEventListener('click', join);
+// 이메일 중복체크 api
+async function emailCheck(){
+  if(emailInput.value === '') return;
+
+  try{
+    const data = {
+      email: emailInput.value,
+    }
+
+    const response = await fetch('https://bootcamp-api.codeit.kr/api/check-email',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+
+    if(response.status === 200){
+      const { email } = data;
+      join(email);
+    }
+  }catch(error){
+    console.log(error);
+  }  
+}
+
+// 회원가입 api
+async function userJoin(emailInput, pwInput, pwCheckInput){
+  if(emailInput.value === '' && pwInput.value === '') return;
+  
+  try{
+    const data = {
+      email: emailInput.value,
+      password: pwInput.value,
+      passwordCheck: pwCheckInput,
+    }
+
+    const response = await fetch('https://bootcamp-api.codeit.kr/api/sign-up',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    
+    const { email, password } = data;
+    const takeToken = await response.json();
+    const token = await takeToken.data.accessToken;
+    localStorage.setItem('accessToken', token);
+
+    if(localStorage.getItem('accessToken')) join(email, password);
+  }catch(error){
+    console.log(error);
+  }  
+}
+
+btnJoin.addEventListener('click', (e) => {
+  e.preventDefault();
+  join();
+  emailCheck(emailInput);
+  userJoin(emailInput, pwInput);
+});
 eye.forEach((el) => el.addEventListener('click', eyeToggle))
 input.forEach((el) => {el.addEventListener('focusout', ({ target }) => {
   emptyInput({ target });
-  pwCheck();   
+  pwCheck();  
 })})
 
