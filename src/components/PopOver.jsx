@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import Modal from './Modal';
-import { useState } from 'react';
+import { useContext } from 'react';
+import modalContext from '../components/modal/modalContext';
 
 const PopOverContainer = styled.div`
-  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
+  display: ${({ $popOverOpen }) => ($popOverOpen ? 'block' : 'none')};
   position: absolute;
   right: -4rem;
   bottom: 2.1rem;
@@ -31,20 +31,8 @@ const Button = styled.button`
   }
 `;
 
-function PopOver({ $isOpen, url, menu, menuActive }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [mode, setMode] = useState(null);
-
-  const handleClickOpen = (e, buttonId) => {
-    e.preventDefault();
-    setIsOpen(true);
-    setMode(buttonId);
-  };
-
-  const handleClickClose = (e) => {
-    e.preventDefault();
-    setIsOpen(false);
-  };
+function PopOver({ popOverOpen, cardUrl }) {
+  const { handleClickModalOpen } = useContext(modalContext);
 
   const BUTTON = [
     {
@@ -59,26 +47,17 @@ function PopOver({ $isOpen, url, menu, menuActive }) {
 
   return (
     <>
-      <PopOverContainer $isOpen={$isOpen}>
+      <PopOverContainer $popOverOpen={popOverOpen}>
         {BUTTON.map((button) => (
           <Button
             key={button.id}
             type="button"
-            onClick={(e) => handleClickOpen(e, button.id)}
+            onClick={() => handleClickModalOpen(button.id, cardUrl)}
           >
-            {button?.name}
+            {button.name}
           </Button>
         ))}
       </PopOverContainer>
-      <Modal
-        $isOpen={isOpen}
-        onClick={(e) => handleClickClose(e)}
-        $linkRemove={mode === 'linkRemove'}
-        folderAdd={mode === 'folderAdd'}
-        url={url}
-        menu={menu}
-        menuActive={menuActive}
-      />
     </>
   );
 }

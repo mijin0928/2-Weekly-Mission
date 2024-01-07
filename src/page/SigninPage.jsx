@@ -1,9 +1,8 @@
 import { Helmet } from 'react-helmet';
-import UserInput from '../components/UserInput';
-import SignButton from '../components/SignButton';
 import JoinSns from '../components/JoinSns';
 import JoinLink from '../components/JoinLink';
 import styled from 'styled-components';
+import UserInput from '../components/UserInput';
 
 const Container = styled.div`
   display: flex;
@@ -27,7 +26,6 @@ function SigninPage() {
         <Wrap>
           <JoinLink />
           <UserInput />
-          <SignButton />
           <JoinSns />
         </Wrap>
       </Container>

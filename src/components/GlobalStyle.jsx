@@ -31,15 +31,14 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
 
-  .main {
+  main {
     margin: 4rem 0 10rem 0;
     padding: 0 19rem;
 
-    @media screen and (max-width:1124px) {
+    @media screen and (max-width: 1124px) {
       padding: 0 3.2rem;
     }
   }
-
 `;
 
 export default GlobalStyle;

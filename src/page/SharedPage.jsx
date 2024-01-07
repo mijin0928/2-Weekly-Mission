@@ -1,53 +1,25 @@
-import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import FolderUser from '../components/FolderUser';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
-import SearchBar from '../components/SearchBar';
-import CardList from '../components/CardList';
-import useAsync from '../hook/useAsync';
+import SearchBar from '../components/main/SearchBar';
+import CardList from '../components/main/CardList';
 
 function SharedPage() {
-  const [cardList, setCardList] = useState([]);
-  const [profileImg, setProfileImg] = useState(null);
-  const [profileEmail, setProfileEmail] = useState('');
-
-  const [getProfileSample] = useAsync('/sample/user', '', '', '');
-  const [getFolderSample] = useAsync('/sample/folder', '', '', '');
-
-  const handleLoadProfile = async () => {
-    const { email, profileImageSource } = await getProfileSample();
-    setProfileImg(profileImageSource);
-    setProfileEmail(email);
-  };
-
-  const handleLoadFolder = async () => {
-    const { folder } = await getFolderSample();
-    const { links } = folder;
-    setCardList(links);
-  };
-
-  useEffect(() => {
-    handleLoadProfile();
-    handleLoadFolder();
-  }, []);
-
   return (
     <>
       <Helmet>
         <title>SharedPage</title>
       </Helmet>
-      <div className="container">
+      <div>
         <header>
-          <Nav profileEmail={profileEmail} profileImg={profileImg} />
+          <Nav />
           <FolderUser/>
         </header>
-        <div className="main">
+        <main>
           <SearchBar />
-          <CardList
-            cardList={cardList}
-          />
-        </div>
+          <CardList />
+        </main>
         <footer>
           <Footer />
         </footer>

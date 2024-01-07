@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import google from '../assets/ico-google.png';
 import kakao from '../assets/ico-kakao.png';
+import { Link } from 'react-router-dom';
 
-const Container = styled.div`
+const SnsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,13 +14,15 @@ const Container = styled.div`
   line-height: 1.6rem;
   border: 1px solid var(--gray20);
   background-color: var(--gray10);
+`;
 
-  p {
-    font-size: 1.4rem;
-    line-height: 1.6rem;
-    color: var(--gray100);
-  }
+const Text = styled.p`
+  font-size: 1.4rem;
+  line-height: 1.6rem;
+  color: var(--gray100);
+`;
 
+const SnsList = styled.div`
   ul {
     overflow: hidden;
     list-style-type: none;
@@ -42,23 +45,23 @@ const Container = styled.div`
 
 function JoinSns() {
   return (
-    <Container>
-      <p>다른 방식으로 가입하기</p>
-      <div>
+    <SnsContainer>
+      <Text>다른 방식으로 가입하기</Text>
+      <SnsList>
         <ul>
           <li>
-            <a href="https://www.google.com/">
-              <img src={google} alt="구글 홈페이지로 연결된 구글 로고" />
-            </a>
+            <Link to="https://www.google.com/">
+              <img src={google} alt="구글" />
+            </Link>
           </li>
           <li>
-            <a href="https://www.kakaocorp.com/page/">
-              <img src={kakao} alt="카카오 홈페이지로 연결된 카카오 로고" />
-            </a>
+            <Link to="https://www.kakaocorp.com/page/">
+              <img src={kakao} alt="카카오톡" />
+            </Link>
           </li>
         </ul>
-      </div>
-    </Container>
+      </SnsList>
+    </SnsContainer>
   );
 }
 

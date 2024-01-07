@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import UserInput from '../components/UserInput';
-import SignButton from '../components/SignButton';
 import JoinSns from '../components/JoinSns';
 import JoinLink from '../components/JoinLink';
 import styled from 'styled-components';
@@ -19,12 +17,6 @@ const Wrap = styled.div`
 `;
 
 function SignupPage() {
-  const [signup, setSignup] = useState('');
-
-  useEffect(() => {
-    setSignup('signup');
-  }, []);
-
   return (
     <>
       <Helmet>
@@ -32,9 +24,8 @@ function SignupPage() {
       </Helmet>
       <Container>
         <Wrap>
-          <JoinLink signup={signup} />
-          <UserInput signup={signup} />
-          <SignButton signup={signup} />
+          <JoinLink />
+          <UserInput />
           <JoinSns />
         </Wrap>
       </Container>

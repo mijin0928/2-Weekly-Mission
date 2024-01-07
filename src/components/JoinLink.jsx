@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import logo from '../assets/logo.svg';
+import { useLocation, Link } from 'react-router-dom';
 
 const Logo = styled.div`
   text-align: center;
@@ -18,7 +19,7 @@ const Logo = styled.div`
   }
 `;
 
-const Link = styled.div`
+const SignLink = styled.div`
   display: flex;
   justify-content: center;
   gap: 0.8rem;
@@ -37,35 +38,26 @@ const Link = styled.div`
   }
 `;
 
-function JoinLink({ signup }) {
-  return signup ? (
-    <div>
+function JoinLink() {
+  const { pathname } = useLocation();
+  return (
+    <>
       <Logo>
-        <a href="/">
+        <Link to="/">
           <img src={logo} alt="Linkbrary 로고" />
           <span>Linkbrary</span>
-        </a>
+        </Link>
       </Logo>
 
-      <Link>
-        <p>이미 회원이신가요?</p>
-        <a href="/">로그인 하기</a>
-      </Link>
-    </div>
-  ) : (
-    <div>
-      <Logo>
-        <a href="/">
-          <img src={logo} alt="Linkbrary 로고" />
-          <span>Linkbrary</span>
-        </a>
-      </Logo>
-
-      <Link>
-        <p>회원이 아니신가요?</p>
-        <a href="/">회원가입 하기</a>
-      </Link>
-    </div>
+      <SignLink>
+        <p>
+          {pathname === '/signup' ? '이미 회원이신가요?' : '회원이 아니신가요?'}
+        </p>
+        <Link to="/">
+          {pathname === '/signup' ? '로그인 하기' : '회원가입 하기'}
+        </Link>
+      </SignLink>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GlobalStyle from './components/GlobalStyle';
 import SharedPage from './page/SharedPage';
 import FolderPage from './page/FolderPage';

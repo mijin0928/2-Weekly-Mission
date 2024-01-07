@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import linkIcon from '../assets/ico-link.png';
-import Modal from './Modal';
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
+import modalContext from '../components/modal/modalContext';
 
 const AddLinkBarContainer = styled.div`
   padding: 6rem 0 9rem 0;
@@ -84,22 +84,11 @@ const Button = styled.button`
   }
 `;
 
-function AddLinkBar({ menu, menuActive }) {
-  const [value, setValue] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-  const [folderAdd, setFolderAdd] = useState(false);
+function AddLinkBar() {
+  const { handleClickModalOpen } = useContext(modalContext);
+  const [linkValue, setLinkValue] = useState('');
 
-  const handleOnChangeValue = (e) => setValue(e.target.value);
-
-  const handleClickOpen = () => {
-    if (value) setIsOpen(true);
-  };
-
-  const handleClickClose = () => setIsOpen(false);
-
-  useEffect(() => {
-    setFolderAdd(true);
-  }, []);
+  const handleChangeLinkValue = (e) => setLinkValue(e.target.value);
 
   return (
     <>
@@ -108,21 +97,14 @@ function AddLinkBar({ menu, menuActive }) {
           <Input
             type="text"
             placeholder="링크를 추가해보세요"
-            onChange={handleOnChangeValue}
-            value={value}
+            onChange={handleChangeLinkValue}
+            value={linkValue}
           />
-          <Button type="button" onClick={handleClickOpen}>
+          <Button type="button" onClick={() => linkValue && handleClickModalOpen('folderAdd')}>
             추가하기
           </Button>
         </Wrap>
       </AddLinkBarContainer>
-      <Modal
-        $isOpen={isOpen}
-        onClick={handleClickClose}
-        folderAdd={folderAdd}
-        menu={menu}
-        menuActive={menuActive}
-      />
     </>
   );
 }
