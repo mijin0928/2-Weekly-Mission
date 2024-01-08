@@ -4,7 +4,7 @@ interface ModalContext {
   modalOpen: boolean;
   type: string;
   cardUrl: string;
-  handleClickModalOpen: (buttonId: string) => void,
+  handleClickModalOpen: (buttonId: string, cardUrl?: string) => void,
   handleClickModalClose: () => void,
 }
 
