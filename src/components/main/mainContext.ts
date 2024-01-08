@@ -3,8 +3,8 @@ import { createContext } from 'react';
 export interface Folder {
   id: string;
   name: string;
-  user_id: number;
-  link: {
+  user_id?: number;
+  link?: {
     count: number;
   };
 }

@@ -3,6 +3,7 @@ import mainContext from './mainContext';
 import styled from 'styled-components';
 import add from '../../assets/btn-add.svg';
 import modalContext from '../modal/modalContext';
+import { Folder } from './mainContext'
 
 const TabMenuContainer = styled.div`
   position: relative;
@@ -58,8 +59,7 @@ const Button = styled.button`
     display: none;
   }
 `;
-
-interface Folder {
+interface All {
   id: string;
   name: string;
 }
@@ -75,12 +75,12 @@ function TabMenuList({
   $selectedMenu,
   handleClickMenu,
 }: TabMenuListProps) {
-  const All = {
+  const All: All = {
     id: 'all',
     name: '전체',
   };
   const folderListArr = [...folderList];
-  folderListArr.unshift(All);
+  folderList.unshift(All)
 
   const item = folderListArr.map((folder) => (
     <li key={folder.id}>
