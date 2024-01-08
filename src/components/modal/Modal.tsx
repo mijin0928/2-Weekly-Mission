@@ -188,7 +188,7 @@ function shareFacebook({ title }: { title: string }, currentUrl: string) {
   );
 }
 
-function Foldera({ folderList }: { folderList: Folder[] }) {
+function FolderItem ({ folderList }: { folderList: Folder[] }) {
   const [selectedFolder, setSelectedFolder] = useState<string>('');
 
   const handleClickFolderList = (folder: Folder) => setSelectedFolder(folder.name);
@@ -269,7 +269,7 @@ function Modal() {
         )}
         {type === 'folderAdd' && (
           <FolderList>
-            <Foldera folderList={folderList} />
+            <FolderItem folderList={folderList} />
           </FolderList>
         )}
         {type !== 'share' ? (
