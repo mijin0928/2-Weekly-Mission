@@ -1,5 +1,5 @@
 import mainContext from './mainContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import useAsync from '../../hook/useAsync';
 
 function MainProvider({ children, cardUrl }) {
@@ -19,11 +19,11 @@ function MainProvider({ children, cardUrl }) {
     selectedMenu
   );
 
-  const handleClickMenu = (folder) => {
+  const handleClickMenu = useCallback((folder) => {
     setSelectedMenu(folder?.id);
     setButtonOption(folder?.name !== '전체' && true);
-    setTitle(folder?.name !== '전체' && folder?.name);
-  };
+    setTitle(folder?.name !== '전체' ? folder?.name : '');
+  }, []);
 
   const handleLoadFolderList = async () => {
     const { data } = await getfolderList();
@@ -40,7 +40,7 @@ function MainProvider({ children, cardUrl }) {
     }
   };
 
-  const handleChangeSearch = (e) => {
+  const handleChangeSearch = useCallback((e) => {
     setSearchKeyword(e.target.value);
 
     const filterItem = cardList.filter(
@@ -52,7 +52,7 @@ function MainProvider({ children, cardUrl }) {
     setSearchResult(filterItem);
 
     if (!e.target.value) return setSearchResult(cardList);
-  };
+  }, []);
 
   useEffect(() => {
     handleLoadFolderList();

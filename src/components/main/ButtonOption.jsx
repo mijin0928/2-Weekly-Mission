@@ -58,7 +58,7 @@ const Button = styled.button`
   }
 `;
 
-function ButtonOption() {
+const ButtonOption = () => {
   const { title, buttonOption, selectedMenu } = useContext(mainContext);
   const { handleClickModalOpen } = useContext(modalContext);
 
