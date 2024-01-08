@@ -3,7 +3,7 @@ import { createContext } from "react";
 interface ModalContext {
   modalOpen: boolean;
   type: string;
-  cardUrl: string;
+  cardUrl?: string;
   handleClickModalOpen: (buttonId: string, cardUrl?: string) => void,
   handleClickModalClose: () => void,
 }
