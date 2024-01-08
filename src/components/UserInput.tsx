@@ -199,6 +199,7 @@ function UserInput() {
           onChange={handleChangeInputValue}
           onBlur={handleFocusoutEmail}
           className={errorEmail ? 'active' : ''}
+          placeholder="이메일을 입력해주세요"
         />
         {errorEmail && <Messages>{errorEmail}</Messages>}
       </InputBox>
@@ -224,6 +225,7 @@ function UserInput() {
             onChange={handleChangeInputValue}
             onBlur={handleFocusoutPassword}
             className={errorPassword ? 'active' : ''}
+            placeholder="비밀번호를 입력해주세요"
           />
           {togglePassword ? (
             <EyeImg
