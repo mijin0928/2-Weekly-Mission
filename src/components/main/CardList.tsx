@@ -168,7 +168,7 @@ function CardList() {
   const [cardList, setCardList] = useState<SharedCard[]>([]);
   const [getFolderSample] = useAsync('/sample/folder', '', '', '');
 
-  const handleClickKebab = (e: MouseEvent<HTMLAnchorElement>, cardId: string) => {
+  const handleClickKebab = (e: MouseEvent<HTMLSpanElement>, cardId: string) => {
     e.preventDefault();
     setPopOverOpen((prevOpen) => prevOpen !== cardId && cardId);
   };
