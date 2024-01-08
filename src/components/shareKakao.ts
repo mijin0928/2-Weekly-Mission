@@ -1,5 +1,4 @@
 export const shareKakao = ({ title }: {title: string}, currentUrl: string) => {
-  console.log(currentUrl)
   if ((window as any).Kakao) {
     const kakao: any = (window as any).Kakao;
     
