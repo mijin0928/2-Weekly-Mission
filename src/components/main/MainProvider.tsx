@@ -4,8 +4,8 @@ import useAsync from '../../hook/useAsync';
 import { Folder, Card } from './mainContext';
 
 interface MainProviderProps {
-  children: ReactNode;
   cardUrl: string;
+  children: ReactNode;
 }
 
 function MainProvider({ children, cardUrl }: MainProviderProps) {

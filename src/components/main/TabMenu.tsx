@@ -80,7 +80,7 @@ function TabMenuList({
     name: '전체',
   };
   const folderListArr = [...folderList];
-  folderList.unshift(All)
+  folderListArr.unshift(All);
 
   const item = folderListArr.map((folder) => (
     <li key={folder.id}>
