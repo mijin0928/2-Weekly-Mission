@@ -5,12 +5,10 @@ import TabMenu from './TabMenu';
 import SearchBar from './SearchBar';
 import Modal from '../modal/Modal';
 
-const cardUrl = '';
-
 function Main() {
   return (
     <>
-      <MainProvider cardUrl={cardUrl}>
+      <MainProvider cardUrl={''}>
         <Modal />
         <SearchBar />
         <TabMenu />
