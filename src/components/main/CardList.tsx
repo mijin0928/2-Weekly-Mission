@@ -168,12 +168,12 @@ function CardList() {
   const [cardList, setCardList] = useState<SharedCard[]>([]);
   const [getFolderSample] = useAsync('/sample/folder', '', '', '');
 
-  const handleClickKebab = (e: MouseEvent, cardId: string) => {
+  const handleClickKebab = (e: MouseEvent<HTMLAnchorElement>, cardId: string) => {
     e.preventDefault();
     setPopOverOpen((prevOpen) => prevOpen !== cardId && cardId);
   };
 
-  const handleMouseOver = (e: MouseEvent, isOver: boolean) =>
+  const handleMouseOver = (e: MouseEvent<HTMLAnchorElement>, isOver: boolean) =>
     e.currentTarget.classList[isOver ? 'add' : 'remove']('active');
 
   const handleLoadFolder = async () => {
