@@ -1,4 +1,9 @@
-function useAsync(baseUrl: string, folderId: string, path:string, userId: string) {
+function useAsync(
+  baseUrl: string,
+  folderId: string,
+  path: string,
+  userId: string
+) {
   const fetchUrl = async () => {
     try {
       const response = await fetch(

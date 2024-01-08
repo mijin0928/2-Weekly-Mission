@@ -38,7 +38,7 @@ function MainProvider({ children, cardUrl }: MainProviderProps) {
 
   const handleLoadFolderData = async (options: string) => {
     if (options !== 'all') {
-      const { data } = await getFolderData(options);
+      const { data } = await getFolderData();
       setCardList(data);
     } else {
       const { data } = await getFolderAll();
@@ -46,19 +46,22 @@ function MainProvider({ children, cardUrl }: MainProviderProps) {
     }
   };
 
-  const handleChangeSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(e.target.value);
+  const handleChangeSearch = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchKeyword(e.target.value);
 
-    const filterItem = cardList.filter(
-      (card: Card) =>
-        card?.title?.includes(e.target.value.toLowerCase()) ||
-        card?.description?.includes(e.target.value.toLowerCase()) ||
-        card?.url?.includes(e.target.value.toLowerCase())
-    );
-    setSearchResult(filterItem);
+      const filterItem = cardList.filter(
+        (card: Card) =>
+          card?.title?.includes(e.target.value.toLowerCase()) ||
+          card?.description?.includes(e.target.value.toLowerCase()) ||
+          card?.url?.includes(e.target.value.toLowerCase())
+      );
+      setSearchResult(filterItem);
 
-    if (!e.target.value) setSearchResult(cardList);
-  }, [cardList]);
+      if (!e.target.value) setSearchResult(cardList);
+    },
+    [cardList]
+  );
 
   useEffect(() => {
     handleLoadFolderList();
