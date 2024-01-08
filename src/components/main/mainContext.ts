@@ -5,14 +5,21 @@ export interface Folder {
   name: string;
 }
 
+export interface Card {
+  title: string;
+  url: string;
+  description: string;
+}
+
 interface MainContext {
   selectedMenu: string;
   title: string;
   buttonOption: boolean;
-  folderList: string[];
-  cardList: string[];
+  folderList: Folder[];
+  cardList: Card[];
   searchKeyword: string;
-  searchResult: string[];
+  searchResult: Card[];
+  cardUrl: string;
   handleClickMenu: (folder: Folder) => void;
   handleChangeSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
