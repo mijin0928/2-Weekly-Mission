@@ -24,6 +24,16 @@ interface MainContext {
   handleChangeSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const mainContext = createContext<MainContext | null>(null);
-
+const mainContext = createContext<MainContext>({
+  selectedMenu: '',
+  title: '',
+  buttonOption: false,
+  folderList: [],
+  cardList: [],
+  searchKeyword: '',
+  searchResult: [],
+  cardUrl: '',
+  handleClickMenu: () => {},
+  handleChangeSearch: () => {},
+});
 export default mainContext;
