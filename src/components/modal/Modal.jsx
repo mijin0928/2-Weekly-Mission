@@ -10,7 +10,7 @@ import modalContext from './modalContext';
 import mainContext from '../main/mainContext';
 
 const ModalContainer = styled.div`
-  display: ${({ $modalOpen }) => ($modalOpen ? 'block' : 'none')};
+  display: ${({ modalOpen }) => (modalOpen ? 'block' : 'none')};
   position: fixed;
   left: 50%;
   top: 50%;
@@ -256,7 +256,7 @@ function Modal() {
 
   return (
     <>
-      <ModalContainer $modalOpen={modalOpen}>
+      <ModalContainer modalOpen={modalOpen}>
         <Title>
           <ModalType />
         </Title>
@@ -315,7 +315,7 @@ function Modal() {
           닫기
         </CloseButton>
       </ModalContainer>
-      <Dim $modalOpen={modalOpen}></Dim>
+      <Dim modalOpen={modalOpen}></Dim>
     </>
   );
 }
