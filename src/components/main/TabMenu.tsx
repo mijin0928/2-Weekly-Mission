@@ -59,19 +59,23 @@ const Button = styled.button`
   }
 `;
 
-interface TabMenuProps {
-  folderList: string;
-  $selectedMenu: string;
-  handleClickMenu: string;
-}
-
-interface All {
+interface Folder {
   id: string;
   name: string;
 }
 
-function TabMenuList({ folderList, $selectedMenu, handleClickMenu }: TabMenuProps) {
-  const All: All = {
+interface TabMenuListProps {
+  folderList: Folder[];
+  $selectedMenu: string;
+  handleClickMenu: (folder: Folder) => void;
+}
+
+function TabMenuList({
+  folderList,
+  $selectedMenu,
+  handleClickMenu,
+}: TabMenuListProps) {
+  const All = {
     id: 'all',
     name: '전체',
   };
@@ -93,8 +97,7 @@ function TabMenuList({ folderList, $selectedMenu, handleClickMenu }: TabMenuProp
 }
 
 function TabMenu() {
-  const { folderList, selectedMenu, handleClickMenu } =
-    useContext(mainContext);
+  const { folderList, selectedMenu, handleClickMenu } = useContext(mainContext);
   const { handleClickModalOpen } = useContext(modalContext);
 
   return (
@@ -107,7 +110,10 @@ function TabMenu() {
             $selectedMenu={selectedMenu}
           />
         </ul>
-        <Button type="button" onClick={() => handleClickModalOpen('folderListAdd')}></Button>
+        <Button
+          type="button"
+          onClick={() => handleClickModalOpen('folderListAdd')}
+        ></Button>
       </TabMenuContainer>
     </>
   );
