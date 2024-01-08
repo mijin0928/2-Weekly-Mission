@@ -4,8 +4,9 @@ export interface Folder {
   id: string;
   name: string;
   user_id: number;
-  link: string;
-  count: number;
+  link: {
+    count: number;
+  };
 }
 
 export interface Card {

@@ -188,7 +188,6 @@ function shareFacebook({ title }: { title: string }, currentUrl: string) {
   );
 }
 
-
 function Foldera({ folderList }: { folderList: Folder[] }) {
   const [selectedFolder, setSelectedFolder] = useState<string>('');
 
@@ -201,7 +200,7 @@ function Foldera({ folderList }: { folderList: Folder[] }) {
       className={selectedFolder === folder?.name ? 'active' : ''}
     >
       <Name>{folder?.name}</Name>
-      {/* <Count>{folder?.link?.count}개</Count> */}
+      <Count>{folder?.link?.count}개</Count>
     </Item>
   ));
 
