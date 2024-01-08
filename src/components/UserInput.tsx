@@ -1,0 +1,294 @@
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import eyeOn from '../assets/ico-eye-on.svg';
+import eyeOff from '../assets/ico-eye-off.svg';
+import UserButton from './UserButton';
+
+const InputContainer = styled.div`
+  margin: 3rem 0 0;
+`;
+
+const InputBox = styled.div`
+  margin: 2.4rem 0 0;
+`;
+
+const Label = styled.label`
+  display: block;
+  margin: 0 0 1.2rem 0;
+  font-size: 1.4rem;
+  line-height: 1.6rem;
+`;
+
+const Input = styled.input`
+  outline: none;
+  border: none;
+  width: 100%;
+  padding: 1.8rem 1.5rem;
+  font-size: 1.6rem;
+  color: var(--gray100);
+  border-radius: 0.8rem;
+  border: 1px solid var(--gray20);
+  background-color: var(--white);
+
+  &:focus {
+    border: 1px solid var(--primary);
+  }
+
+  &.active {
+    border: 1px solid var(--red);
+  }
+`;
+
+const Messages = styled.p`
+  margin: 0.6rem 0 0;
+  color: var(--red);
+  font-size: 1.4rem;
+  line-height: 1.6rem;
+`;
+
+const PassWord = styled.div`
+  position: relative;
+`;
+
+const EyeImg = styled.img`
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+`;
+
+interface InputValue {
+  email: string;
+  password: string;
+  passwordCheck: string;
+}
+
+interface Validation {
+  email: RegExp;
+  password: RegExp;
+}
+
+interface UserInfo {
+  email: string;
+  password: string;
+}
+
+function UserInput() {
+  const [togglePassword, setTogglePassword] = useState<boolean>(false);
+  const [togglePasswordCheck, setTogglePasswordCheck] = useState<boolean>(false);
+  const [errorEmail, setErrorEmail] = useState<string>('');
+  const [errorPassword, setErrorPassword] = useState<string>('');
+  const [errorPasswordCheck, setErrorPasswordCheck] = useState<string>('');
+  const [inputValue, setInputValue] = useState<InputValue>({
+    email: '',
+    password: '',
+    passwordCheck: '',
+  });
+  const VALIDATION: Validation = {
+    email: /^[A-Za-z0-9.\-_]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,6}$/,
+    password: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/,
+  }
+
+  const USER_INFO: UserInfo = {
+    email: 'test@codeit.com',
+    password: 'sprint101',
+  };
+  const BASE_URL = 'https://bootcamp-api.codeit.kr/api'
+  const { pathname } = useLocation();
+
+  const handleClickPassword = () => setTogglePassword(!togglePassword);
+
+  const handleClickPasswordCheck = () =>
+    setTogglePasswordCheck(!togglePasswordCheck);
+
+  const handleChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setInputValue((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const handleFocusoutEmail = () => {
+    if (!inputValue.email) {
+      setErrorEmail('이메일을 입력하세요');
+    } else {
+      if (!VALIDATION.email.test(inputValue.email)) {
+        setErrorEmail('올바른 이메일 주소가 아닙니다');
+      } else {
+        setErrorEmail('');
+      }
+    }
+  };
+
+  const handleFocusoutPassword = () => {
+    if (!inputValue.password) {
+      setErrorPassword('비밀번호를 입력하세요');
+    } else {
+      if (!VALIDATION.password.test(inputValue.password)) {
+        setErrorPassword('비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요');
+      } else {
+        setErrorPassword('');
+      }
+    }
+  };
+
+  const handleFocusoutPasswordCheck = () => {
+    if (inputValue.password !== inputValue.passwordCheck) {
+      setErrorPasswordCheck('비밀번호가 일치하지 않습니다');
+    } else {
+      setErrorPasswordCheck('');
+    }
+  };
+
+  const handleClickLogin = async (): Promise<void> => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/sign-in`,
+        {
+          method: 'POST',
+          body: JSON.stringify(USER_INFO),
+        }
+      );
+
+      const { email, password } = USER_INFO;
+
+      if (inputValue.email === email && inputValue.password === password)
+        window.location.href = '/folder';
+
+      if (!response.ok) throw new Error('로그인 정보가 일치하지 않습니다');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleClickEmailCheck = async (): Promise<void> => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/check-email`,
+        {
+          method: 'POST',
+          body: JSON.stringify(USER_INFO.email),
+        }
+      );
+
+      if (inputValue.email !== USER_INFO.email) {
+        if (
+          inputValue.email &&
+          inputValue.password &&
+          inputValue.passwordCheck &&
+          !errorEmail &&
+          !errorPassword &&
+          !errorPasswordCheck
+        )
+          window.location.href = '/folder';
+      } else {
+        setErrorEmail('이미 사용중인 이메일입니다');
+      }
+
+      if (!response.ok) throw new Error('중복된 이메일입니다');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <InputContainer>
+      <InputBox>
+        <Label
+          htmlFor={pathname === '/signup' ? 'signup-email' : 'signin-email'}
+        >
+          이메일
+        </Label>
+        <Input
+          type="email"
+          id={pathname === '/signup' ? 'signup-email' : 'signin-email'}
+          name="email"
+          value={inputValue.email}
+          onChange={handleChangeInputValue}
+          onBlur={handleFocusoutEmail}
+          className={errorEmail ? 'active' : ''}
+        />
+        {errorEmail && <Messages>{errorEmail}</Messages>}
+      </InputBox>
+
+      <InputBox>
+        <Label
+          htmlFor={
+            pathname === '/signup' ? 'signup-password' : 'signin-emapasswordil'
+          }
+        >
+          비밀번호
+        </Label>
+        <PassWord>
+          <Input
+            type={togglePassword ? 'text' : 'password'}
+            id={
+              pathname === '/signup'
+                ? 'signup-password'
+                : 'signin-emapasswordil'
+            }
+            name="password"
+            value={inputValue.password}
+            onChange={handleChangeInputValue}
+            onBlur={handleFocusoutPassword}
+            className={errorPassword ? 'active' : ''}
+          />
+          {togglePassword ? (
+            <EyeImg
+              src={eyeOn}
+              alt="비밀번호 표시"
+              onClick={handleClickPassword}
+            />
+          ) : (
+            <EyeImg
+              src={eyeOff}
+              alt="비밀번호 숨기기"
+              onClick={handleClickPassword}
+            />
+          )}
+        </PassWord>
+        {errorPassword && <Messages>{errorPassword}</Messages>}
+      </InputBox>
+      {pathname === '/signup' && (
+        <InputBox>
+          <Label htmlFor="signup-check-password">비밀번호 확인</Label>
+          <PassWord>
+            <Input
+              type={togglePasswordCheck ? 'text' : 'password'}
+              id="signup-check-password"
+              name="passwordCheck"
+              value={inputValue.passwordCheck}
+              onChange={handleChangeInputValue}
+              onBlur={handleFocusoutPasswordCheck}
+              className={errorPasswordCheck ? 'active' : ''}
+            />
+            {togglePasswordCheck ? (
+              <EyeImg
+                src={eyeOn}
+                alt="비밀번호 표시"
+                onClick={handleClickPasswordCheck}
+              />
+            ) : (
+              <EyeImg
+                src={eyeOff}
+                alt="비밀번호 숨기기"
+                onClick={handleClickPasswordCheck}
+              />
+            )}
+          </PassWord>
+          {errorPasswordCheck && <Messages>{errorPasswordCheck}</Messages>}
+        </InputBox>
+      )}
+      <UserButton
+        handleClickLogin={handleClickLogin}
+        handleClickEmailCheck={handleClickEmailCheck}
+      />
+    </InputContainer>
+  );
+}
+
+export default UserInput;
