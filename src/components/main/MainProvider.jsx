@@ -22,7 +22,7 @@ function MainProvider({ children, cardUrl }) {
   const handleClickMenu = useCallback((folder) => {
     setSelectedMenu(folder?.id);
     setButtonOption(folder?.name !== '전체' && true);
-    setTitle(folder?.name !== '전체' ? folder?.name : '');
+    setTitle(folder?.name !== '전체' && folder?.name);
   }, []);
 
   const handleLoadFolderList = async () => {
