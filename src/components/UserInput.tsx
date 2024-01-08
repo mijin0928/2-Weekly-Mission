@@ -116,11 +116,7 @@ function UserInput() {
     if (!inputValue.email) {
       setErrorEmail('이메일을 입력하세요');
     } else {
-      if (!VALIDATION.email.test(inputValue.email)) {
-        setErrorEmail('올바른 이메일 주소가 아닙니다');
-      } else {
-        setErrorEmail('');
-      }
+      !VALIDATION.email.test(inputValue.email) ? setErrorEmail('올바른 이메일 주소가 아닙니다') : setErrorEmail('');
     }
   };
 
@@ -128,20 +124,12 @@ function UserInput() {
     if (!inputValue.password) {
       setErrorPassword('비밀번호를 입력하세요');
     } else {
-      if (!VALIDATION.password.test(inputValue.password)) {
-        setErrorPassword('비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요');
-      } else {
-        setErrorPassword('');
-      }
+      !VALIDATION.password.test(inputValue.password) ? setErrorPassword('비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요') :  setErrorPassword('');
     }
   };
 
   const handleFocusoutPasswordCheck = () => {
-    if (inputValue.password !== inputValue.passwordCheck) {
-      setErrorPasswordCheck('비밀번호가 일치하지 않습니다');
-    } else {
-      setErrorPasswordCheck('');
-    }
+    inputValue.password !== inputValue.passwordCheck ? setErrorPasswordCheck('비밀번호가 일치하지 않습니다') : setErrorPasswordCheck('');
   };
 
   const handleClickLogin = async () => {
