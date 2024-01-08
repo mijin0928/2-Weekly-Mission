@@ -206,7 +206,7 @@ function UserInput() {
       <InputBox>
         <Label
           htmlFor={
-            pathname === '/signup' ? 'signup-password' : 'signin-emapasswordil'
+            pathname === '/signup' ? 'signup-password' : 'signin-password'
           }
         >
           비밀번호
