@@ -5,7 +5,7 @@ import kebab from '../../assets/btn-kebab.png';
 import { Link, useLocation } from 'react-router-dom';
 import PopOver from '../PopOver';
 import { useState, useContext, useEffect } from 'react';
-import mainContext from './mainContext';
+import mainContext, { Card } from './mainContext';
 import useAsync from '../../hook/useAsync';
 import { MouseEvent } from 'react';
 
@@ -125,19 +125,24 @@ const NoLink = styled.p`
   text-align: center;
   font-size: 1.6rem;
 `;
+interface SharedCard {
+  id: string;
+  url: string;
+  imageSource: string;
+  createdAt: string;
+  description: string;
+}
 
-
-
-function getDateText({ createdAt }) {
+function getDateText({ createdAt }: { createdAt: string }) {
   const idx = createdAt.indexOf('T');
   const text = createdAt.slice(0, idx);
   return text;
 }
 
-function getDateInfo({ createdAt }) {
+function getDateInfo({ createdAt }: { createdAt: string }) {
   const createdDate = new Date(createdAt);
   const today = new Date();
-  const result = today - createdDate;
+  const result = +today - +createdDate;
 
   const seconds = result / 1000;
   const minites = seconds / 60;
@@ -159,11 +164,11 @@ function getDateInfo({ createdAt }) {
 function CardList() {
   const { searchResult } = useContext(mainContext);
   const { pathname } = useLocation();
-  const [popOverOpen, setPopOverOpen] = useState<boolean>(false);
-  const [cardList, setCardList] = useState<string[]>([]);
+  const [popOverOpen, setPopOverOpen] = useState<string | boolean>(false);
+  const [cardList, setCardList] = useState<SharedCard[]>([]);
   const [getFolderSample] = useAsync('/sample/folder', '', '', '');
 
-  const handleClickKebab = (e: MouseEvent, cardId: boolean) => {
+  const handleClickKebab = (e: MouseEvent, cardId: string) => {
     e.preventDefault();
     setPopOverOpen((prevOpen) => prevOpen !== cardId && cardId);
   };
@@ -181,28 +186,11 @@ function CardList() {
     handleLoadFolder();
   }, []);
 
-  interface Card {
-    id: string;
-    url: string;
-    image_source?: string;
-    imageSource?: string;
-    created_at: string;
-    createdAt: string;
-  }
-
   if (searchResult.length === 0) return <NoLink>저장된 링크가 없습니다</NoLink>;
-  interface Props {
-    pathname: string;
-    searchResult: Card[];
-    cardList: Card[];
-    handleMouseOver: (e: React.MouseEvent, isOver: boolean) => void;
-    handleClickKebab: (e: React.MouseEvent, cardId: number) => void;
-    popOverOpen: number | null;
-  }
-  
+
   const cards =
     pathname !== '/shared'
-      ? searchResult.map((card) => (
+      ? searchResult.map((card: Card) => (
           <Cards key={card.id}>
             <Link
               to={card.url}
@@ -232,7 +220,7 @@ function CardList() {
             <PopOver popOverOpen={card.id === popOverOpen} cardUrl={card.url} />
           </Cards>
         ))
-      : cardList.map((card) => (
+      : cardList.map((card: SharedCard) => (
           <Cards key={card.id}>
             <Link
               to={card.url}

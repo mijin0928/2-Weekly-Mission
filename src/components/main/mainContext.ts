@@ -6,8 +6,19 @@ export interface Folder {
 }
 
 export interface Card {
+  id: string;
   title: string;
   url: string;
+  description: string;
+  image_source: string;
+  created_at: string;
+}
+
+export interface Card {
+  id: string;
+  url: string;
+  image_source: string;
+  created_at: string;
   description: string;
 }
 
