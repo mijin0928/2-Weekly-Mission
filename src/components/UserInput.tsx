@@ -144,7 +144,7 @@ function UserInput() {
     }
   };
 
-  const handleClickLogin = async (): Promise<void> => {
+  const handleClickLogin = async () => {
     try {
       const response = await fetch(
         `${BASE_URL}/sign-in`,
@@ -165,7 +165,7 @@ function UserInput() {
     }
   };
 
-  const handleClickEmailCheck = async (): Promise<void> => {
+  const handleClickEmailCheck = async () => {
     try {
       const response = await fetch(
         `${BASE_URL}/check-email`,
