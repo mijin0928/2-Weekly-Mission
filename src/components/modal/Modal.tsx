@@ -7,7 +7,7 @@ import { shareKakao } from '../shareKakao';
 import check from '../../assets/ico-check.svg';
 import { useContext, useState } from 'react';
 import modalContext from './modalContext';
-import mainContext from '../main/mainContext';
+import mainContext, { Folder } from '../main/mainContext';
 
 const ModalContainer = styled.div<{ modalOpen: boolean }>`
   display: ${({ modalOpen }) => (modalOpen ? 'block' : 'none')};
@@ -168,17 +168,7 @@ const Count = styled.span`
   color: var(--gray60);
 `;
 
-interface Folders {
-  id: string;
-  name: string;
-}
-
-interface FolderProps {
-  folderList: Folders[];
-  title: string;
-}
-
-async function clipBoard(text) {
+async function clipBoard(text: string) {
   try {
     await navigator.clipboard.writeText(text);
     alert(text);
@@ -187,7 +177,7 @@ async function clipBoard(text) {
   }
 }
 
-function shareFacebook({ title }: FolderProps, currentUrl) {
+function shareFacebook({ title }: { title: string }, currentUrl: string) {
   const facebookUrl = encodeURIComponent(`${currentUrl}`);
   const facebookTitle = title;
 
@@ -198,19 +188,20 @@ function shareFacebook({ title }: FolderProps, currentUrl) {
   );
 }
 
-function Folder({ folderList }: FolderProps) {
+
+function Foldera({ folderList }: { folderList: Folder[] }) {
   const [selectedFolder, setSelectedFolder] = useState<string>('');
 
-  const handleClickFolderList = (folder: string) => setSelectedFolder(folder);
+  const handleClickFolderList = (folder: Folder) => setSelectedFolder(folder.name);
 
   const item = folderList.map((folder) => (
     <Item
       key={folder?.id}
       onClick={() => handleClickFolderList(folder)}
-      className={selectedFolder === folder ? 'active' : ''}
+      className={selectedFolder === folder?.name ? 'active' : ''}
     >
       <Name>{folder?.name}</Name>
-      <Count>{folder?.link?.count}개</Count>
+      {/* <Count>{folder?.link?.count}개</Count> */}
     </Item>
   ));
 
@@ -218,9 +209,9 @@ function Folder({ folderList }: FolderProps) {
 }
 
 function Modal() {
-  const { modalOpen, handleClickModalClose, type, cardUrl } = useContext(modalContext);
-  const { title, folderList, selectedMenu } =
-    useContext(mainContext);
+  const { modalOpen, handleClickModalClose, type, cardUrl } =
+    useContext(modalContext);
+  const { title, folderList, selectedMenu } = useContext(mainContext);
 
   const host = window.location.href;
   let userId;
@@ -279,7 +270,7 @@ function Modal() {
         )}
         {type === 'folderAdd' && (
           <FolderList>
-            <Folder folderList={folderList} />
+            <Foldera folderList={folderList} />
           </FolderList>
         )}
         {type !== 'share' ? (

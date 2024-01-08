@@ -3,6 +3,9 @@ import { createContext } from 'react';
 export interface Folder {
   id: string;
   name: string;
+  user_id: number;
+  link: string;
+  count: number;
 }
 
 export interface Card {
@@ -12,14 +15,6 @@ export interface Card {
   description: string;
   image_source: string;
   created_at: string;
-}
-
-export interface Card {
-  id: string;
-  url: string;
-  image_source: string;
-  created_at: string;
-  description: string;
 }
 
 interface MainContext {
