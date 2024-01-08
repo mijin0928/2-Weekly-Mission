@@ -3,4 +3,4 @@ declare module "*.png";
 declare module "*.jpeg";
 declare module "*.gif";
 declare module "*.svg";
-declare module 'react-helmet'
+declare module "react-helmet";
