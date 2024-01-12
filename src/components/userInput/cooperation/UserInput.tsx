@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useFormContext } from 'react-hook-form';
 import EyeOn from '@/public/image/ico-eye-on.svg';
 import EyeOff from '@/public/image/ico-eye-off.svg';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export interface FormValues {
   email: string;
