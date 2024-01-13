@@ -85,8 +85,8 @@ export default function UserInput() {
     password: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/,
   };
   const USER_INFO: InputValue = {
-    email: 'test@codeit.com',
-    password: 'sprint101',
+    email: inputValue.email,
+    password: inputValue.password,
   };
   const BASE_URL = 'https://bootcamp-api.codeit.kr/api';
   const { pathname } = useRouter();
@@ -147,22 +147,36 @@ export default function UserInput() {
       const response = await fetch(`${BASE_URL}/sign-in`, {
         method: 'POST',
         body: JSON.stringify(USER_INFO),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const { data } = await response.json();
+      localStorage.setItem('accessToken', data.accessToken);
+      if (localStorage.getItem('accessToken')) window.location.href = '/folder';
+      if (!response.ok) throw new Error('로그인 정보가 일치하지 않습니다');
+    } catch {
+      setErrorEmail('이메일을 확인해주세요');
+      setErrorPassword('비밀번호를 확인해주세요');
+    }
+  };
+
+  const handleClickJoin = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/sign-up`, {
+        method: 'POST',
+        body: JSON.stringify(USER_INFO),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
-      const { email, password } = USER_INFO;
-
-      if (inputValue.email && inputValue.password) {
-        if (inputValue.email === email && inputValue.password === password) {
-          window.location.href = '/folder';
-        } else {
-          setErrorEmail('이메일을 확인해주세요');
-          setErrorPassword('비밀번호를 확인해주세요');
-        }
-      }
-
-      if (!response.ok) throw new Error('로그인 정보가 일치하지 않습니다');
-    } catch (error) {
-      console.error(error);
+      const { data } = await response.json();
+      localStorage.setItem('accessToken', data.accessToken);
+      if (localStorage.getItem('accessToken')) window.location.href = '/folder';
+      if (!response.ok) throw new Error('이미 사용중인 이메일입니다');
+    } catch {
+      setErrorEmail('이미 사용중인 이메일입니다');
     }
   };
 
@@ -171,25 +185,15 @@ export default function UserInput() {
       const response = await fetch(`${BASE_URL}/check-email`, {
         method: 'POST',
         body: JSON.stringify(USER_INFO.email),
+        headers: {
+          'Content-type': 'application/json',
+        },
       });
-
-      if (inputValue.email !== USER_INFO.email) {
-        if (
-          inputValue.email &&
-          inputValue.password &&
-          inputValue.passwordCheck &&
-          !errorEmail &&
-          !errorPassword &&
-          !errorPasswordCheck
-        )
-          window.location.href = '/folder';
-      } else {
-        setErrorEmail('이미 사용중인 이메일입니다');
-      }
-
+      const { data } = await response.json();
+      console.log(data)
       if (!response.ok) throw new Error('중복된 이메일입니다');
     } catch (error) {
-      console.error(error);
+      setErrorEmail('이미 사용중인 이메일입니다');
     }
   };
 
@@ -279,6 +283,7 @@ export default function UserInput() {
       <UserButton
         handleClickLogin={handleClickLogin}
         handleClickEmailCheck={handleClickEmailCheck}
+        handleClickJoin={handleClickJoin}
         handleFocusoutEmpty={handleFocusoutEmpty}
       />
     </InputContainer>
