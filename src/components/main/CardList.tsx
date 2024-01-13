@@ -8,123 +8,6 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import star from '@/public/image/ico-star.png';
 import Image from 'next/image';
-
-const CardContainer = styled.div`
-  margin: 4rem 0 0;
-`;
-
-const CardImg = styled.img`
-  display: block;
-  width: 100%;
-  height: 20rem;
-  object-fit: cover;
-`;
-
-const CardBox = styled.ul`
-  list-style-type: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2.5rem;
-
-  @media screen and (min-width: 375px) and (max-width: 768px) {
-    gap: 2rem 0;
-  }
-`;
-
-const Text = styled.div`
-  overflow: hidden;
-  min-height: 11.5rem;
-  padding: 1.5rem 2rem;
-`;
-
-const Cards = styled.li`
-  position: relative;
-  width: calc(33.3% - 2rem);
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
-  border-radius: 15px;
-
-  @media screen and (max-width: 1124px) {
-    width: calc(50% - 2.4rem);
-  }
-
-  @media screen and (min-width: 375px) and (max-width: 768px) {
-    width: 100%;
-  }
-
-  a {
-    display: block;
-    overflow: hidden;
-    border: 3px solid transparent;
-    border-radius: 15px;
-
-    &.active {
-      border: 3px solid var(--primary);
-
-      ${CardImg} {
-        transform: scale(1.3);
-        transition: transform 0.5s;
-      }
-
-      ${Text} {
-        background-color: var(--bg);
-      }
-    }
-  }
-`;
-
-const ImgBox = styled.div`
-  overflow: hidden;
-  position: relative;
-  height: 20rem;
-`;
-
-const StarImg = styled.div`
-  position: absolute;
-  top: 1.6rem;
-  right: 1.6rem;
-  width: 3.4rem;
-  height: 3.4rem;
-`;
-
-const Kebab = styled.span`
-  display: block;
-  float: right;
-  width: 2.1rem;
-  height: 1.7rem;
-  background: url('/image/btn-kebab.png') no-repeat;
-`;
-
-const TimeStamp = styled.p`
-  float: left;
-  font-size: 1.3rem;
-  line-height: 1.5rem;
-  color: var(--gray-666);
-`;
-
-const Desc = styled.p`
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  text-overflow: ellipsis;
-  min-height: 3.8rem;
-  margin: 2.1rem 0 1rem 0;
-  font-size: 1.6rem;
-  color: var(--black-000);
-  clear: both;
-`;
-
-const CreatedDate = styled.p`
-  font-size: 1.4rem;
-  line-height: 1.6rem;
-  color: var(--black-333);
-`;
-
-const NoLink = styled.p`
-  margin: 4rem 0;
-  text-align: center;
-  font-size: 1.6rem;
-`;
 interface SharedCard {
   id: string;
   url: string;
@@ -261,3 +144,120 @@ export default function CardList() {
     </>
   );
 }
+
+const CardContainer = styled.div`
+  margin: 4rem 0 0;
+`;
+
+const CardImg = styled.img`
+  display: block;
+  width: 100%;
+  height: 20rem;
+  object-fit: cover;
+`;
+
+const CardBox = styled.ul`
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+
+  @media screen and (min-width: 375px) and (max-width: 768px) {
+    gap: 2rem 0;
+  }
+`;
+
+const Text = styled.div`
+  overflow: hidden;
+  min-height: 11.5rem;
+  padding: 1.5rem 2rem;
+`;
+
+const Cards = styled.li`
+  position: relative;
+  width: calc(33.3% - 2rem);
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 15px;
+
+  @media screen and (max-width: 1124px) {
+    width: calc(50% - 2.4rem);
+  }
+
+  @media screen and (min-width: 375px) and (max-width: 768px) {
+    width: 100%;
+  }
+
+  a {
+    display: block;
+    overflow: hidden;
+    border: 3px solid transparent;
+    border-radius: 15px;
+
+    &.active {
+      border: 3px solid var(--primary);
+
+      ${CardImg} {
+        transform: scale(1.3);
+        transition: transform 0.5s;
+      }
+
+      ${Text} {
+        background-color: var(--bg);
+      }
+    }
+  }
+`;
+
+const ImgBox = styled.div`
+  overflow: hidden;
+  position: relative;
+  height: 20rem;
+`;
+
+const StarImg = styled.div`
+  position: absolute;
+  top: 1.6rem;
+  right: 1.6rem;
+  width: 3.4rem;
+  height: 3.4rem;
+`;
+
+const Kebab = styled.span`
+  display: block;
+  float: right;
+  width: 2.1rem;
+  height: 1.7rem;
+  background: url('/image/btn-kebab.png') no-repeat;
+`;
+
+const TimeStamp = styled.p`
+  float: left;
+  font-size: 1.3rem;
+  line-height: 1.5rem;
+  color: var(--gray-666);
+`;
+
+const Desc = styled.p`
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  min-height: 3.8rem;
+  margin: 2.1rem 0 1rem 0;
+  font-size: 1.6rem;
+  color: var(--black-000);
+  clear: both;
+`;
+
+const CreatedDate = styled.p`
+  font-size: 1.4rem;
+  line-height: 1.6rem;
+  color: var(--black-333);
+`;
+
+const NoLink = styled.p`
+  margin: 4rem 0;
+  text-align: center;
+  font-size: 1.6rem;
+`;

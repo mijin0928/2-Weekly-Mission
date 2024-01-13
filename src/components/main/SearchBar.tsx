@@ -1,6 +1,23 @@
 import styled from 'styled-components';
 import MainContext from '@/src/components/main/MainContext';
-import { ChangeEvent, useContext } from 'react';
+import { ChangeEvent, useContext } from 'react'
+
+export default function SearchBar() {
+  const { handleChangeSearch, searchKeyword } = useContext(MainContext);
+  return (
+    <SearchBarContainer>
+      <Input
+        type="search"
+        placeholder="링크를 검색해 보세요."
+        value={searchKeyword}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeSearch(e)}
+      />
+      <Text $searchKeyword={searchKeyword}>
+        <span>{searchKeyword}</span>로 검색한 결과입니다.
+      </Text>
+    </SearchBarContainer>
+  );
+}
 
 const SearchBarContainer = styled.div`
   position: relative;
@@ -56,20 +73,3 @@ const Text = styled.p<{ $searchKeyword: string }>`
     font-size: 3.2rem;
   }
 `;
-
-export default function SearchBar() {
-  const { handleChangeSearch, searchKeyword } = useContext(MainContext);
-  return (
-    <SearchBarContainer>
-      <Input
-        type="search"
-        placeholder="링크를 검색해 보세요."
-        value={searchKeyword}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeSearch(e)}
-      />
-      <Text $searchKeyword={searchKeyword}>
-        <span>{searchKeyword}</span>로 검색한 결과입니다.
-      </Text>
-    </SearchBarContainer>
-  );
-}

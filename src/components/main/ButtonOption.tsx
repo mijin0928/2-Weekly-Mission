@@ -3,6 +3,45 @@ import { useContext } from 'react';
 import MainContext from '@/src/components/main/MainContext';
 import ModalContext from '@/src/components/modal/ModalContext';
 
+export default function ButtonOption() {
+  const { title, buttonOption, selectedMenu } = useContext(MainContext);
+  const { handleClickModalOpen } = useContext(ModalContext);
+
+  const BUTTON = [
+    {
+      id: 'share',
+      name: '공유',
+    },
+    {
+      id: 'edit',
+      name: '이름 변경',
+    },
+    {
+      id: 'folderRemove',
+      name: '삭제',
+    },
+  ];
+
+  return (
+    <>
+      <ButtonOptionContainer>
+        <Title>{title}</Title>
+        <Option $selectedMenu={selectedMenu} $buttonOption={buttonOption}>
+          {BUTTON.map((button) => (
+            <Button
+              key={button.id}
+              type="button"
+              onClick={() => handleClickModalOpen(button.id)}
+            >
+              {button.name}
+            </Button>
+          ))}
+        </Option>
+      </ButtonOptionContainer>
+    </>
+  );
+}
+
 const ButtonOptionContainer = styled.div`
   position: relative;
 `;
@@ -54,42 +93,3 @@ const Button = styled.button`
     background: url('/image/btn-delete.png') no-repeat left center;
   }
 `;
-
-export default function ButtonOption() {
-  const { title, buttonOption, selectedMenu } = useContext(MainContext);
-  const { handleClickModalOpen } = useContext(ModalContext);
-
-  const BUTTON = [
-    {
-      id: 'share',
-      name: '공유',
-    },
-    {
-      id: 'edit',
-      name: '이름 변경',
-    },
-    {
-      id: 'folderRemove',
-      name: '삭제',
-    },
-  ];
-
-  return (
-    <>
-      <ButtonOptionContainer>
-        <Title>{title}</Title>
-        <Option $selectedMenu={selectedMenu} $buttonOption={buttonOption}>
-          {BUTTON.map((button) => (
-            <Button
-              key={button.id}
-              type="button"
-              onClick={() => handleClickModalOpen(button.id)}
-            >
-              {button.name}
-            </Button>
-          ))}
-        </Option>
-      </ButtonOptionContainer>
-    </>
-  );
-}

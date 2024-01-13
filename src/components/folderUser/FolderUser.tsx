@@ -3,6 +3,43 @@ import { useState, useEffect } from 'react';
 import useAsync from '@/src/hook/useAsync';
 import Image from 'next/image';
 
+export default function FolderUser() {
+  const [folderUserProfile, setFolderUserProfile] = useState<string | null>(
+    null
+  );
+  const [folderUserName, setFolderUserName] = useState<string>('');
+  const [folderName, setFolderName] = useState<string>('');
+  const [getFolderSample] = useAsync('/sample/folder', '', '', '');
+
+  const handleLoadFolder = async () => {
+    const { folder } = await getFolderSample();
+    setFolderName(folder?.name);
+    setFolderUserName(folder?.owner?.name);
+    setFolderUserProfile(folder?.owner?.profileImageSource);
+  };
+
+  useEffect(() => {
+    handleLoadFolder();
+  }, []);
+
+  return (
+    <FolderUserContainer>
+      {folderUserProfile && (
+        <UserProfileImg>
+          <Image
+            fill
+            src={folderUserProfile !== null ? folderUserProfile : ''}
+            alt="폴더 사용자 프로필 이미지"
+            object-fit="cover"
+          />
+        </UserProfileImg>
+      )}
+      <UserName>{folderUserName}</UserName>
+      <FolderName>{folderName}</FolderName>
+    </FolderUserContainer>
+  );
+}
+
 const FolderUserContainer = styled.div`
   margin: 9.4rem 0 0;
   padding: 2rem 0 6rem 0;
@@ -47,40 +84,3 @@ const FolderName = styled.p`
     line-height: 3.8rem;
   }
 `;
-
-export default function FolderUser() {
-  const [folderUserProfile, setFolderUserProfile] = useState<string | null>(
-    null
-  );
-  const [folderUserName, setFolderUserName] = useState<string>('');
-  const [folderName, setFolderName] = useState<string>('');
-  const [getFolderSample] = useAsync('/sample/folder', '', '', '');
-
-  const handleLoadFolder = async () => {
-    const { folder } = await getFolderSample();
-    setFolderName(folder?.name);
-    setFolderUserName(folder?.owner?.name);
-    setFolderUserProfile(folder?.owner?.profileImageSource);
-  };
-
-  useEffect(() => {
-    handleLoadFolder();
-  }, []);
-
-  return (
-    <FolderUserContainer>
-      {folderUserProfile && (
-        <UserProfileImg>
-          <Image
-            fill
-            src={folderUserProfile !== null ? folderUserProfile : ''}
-            alt="폴더 사용자 프로필 이미지"
-            object-fit="cover"
-          />
-        </UserProfileImg>
-      )}
-      <UserName>{folderUserName}</UserName>
-      <FolderName>{folderName}</FolderName>
-    </FolderUserContainer>
-  );
-}

@@ -2,6 +2,39 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
 
+export default function JoinSns() {
+  return (
+    <SnsContainer>
+      <Text>다른 방식으로 가입하기</Text>
+      <SnsList>
+        <ul>
+          <li>
+            <Link href="https://www.google.com/">
+              <Image
+                src="/image/ico-google.svg"
+                width={42}
+                height={42}
+                alt="구글"
+              />
+            </Link>
+          </li>
+          <li>
+            <Link href="https://www.kakaocorp.com/page/">
+              <Image
+                src="/image/ico-kakao.svg"
+                width={42}
+                height={42}
+                alt="카카오톡"
+              />
+            </Link>
+          </li>
+        </ul>
+      </SnsList>
+    </SnsContainer>
+  );
+}
+
+
 const SnsContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -41,35 +74,3 @@ const SnsList = styled.div`
     }
   }
 `;
-
-export default function JoinSns() {
-  return (
-    <SnsContainer>
-      <Text>다른 방식으로 가입하기</Text>
-      <SnsList>
-        <ul>
-          <li>
-            <Link href="https://www.google.com/">
-              <Image
-                src="/image/ico-google.svg"
-                width={42}
-                height={42}
-                alt="구글"
-              />
-            </Link>
-          </li>
-          <li>
-            <Link href="https://www.kakaocorp.com/page/">
-              <Image
-                src="/image/ico-kakao.svg"
-                width={42}
-                height={42}
-                alt="카카오톡"
-              />
-            </Link>
-          </li>
-        </ul>
-      </SnsList>
-    </SnsContainer>
-  );
-}

@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export default function AddFolder() {
+  return <AddFolderButton type="button">폴더 추가</AddFolderButton>;
+}
+
 const AddFolderButton = styled.button`
   overflow: hidden;
   text-indent: 100%;
@@ -34,7 +38,3 @@ const AddFolderButton = styled.button`
     }
   }
 `;
-
-export default function AddFolder() {
-  return <AddFolderButton type="button">폴더 추가</AddFolderButton>;
-}

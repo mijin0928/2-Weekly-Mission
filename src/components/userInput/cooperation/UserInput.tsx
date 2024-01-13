@@ -35,6 +35,55 @@ type validation = {
   };
 };
 
+export default function UserInputCommon({
+  label,
+  id,
+  type,
+  placeholder,
+  validation,
+}: InputProps) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<FormValues>();
+  const [togglePassword, setTogglePassword] = useState<boolean>(false);
+  const [togglePasswordCheck, setTogglePasswordCheck] =
+    useState<boolean>(false);
+
+  const source = togglePasswordCheck ? EyeOn : EyeOff;
+
+  return (
+    <InputContainer>
+      <InputLabel htmlFor={id}>{label}</InputLabel>
+      <InputWrapper hasError={!!errors[id]}>
+        <InputValue
+          id={id}
+          type={togglePassword ? 'text' : type}
+          placeholder={placeholder}
+          {...register(id, validation)}
+        />
+        {type === 'password' && (
+          <Button
+            type="button"
+            onClick={() => {
+              setTogglePassword((prev) => !prev);
+              setTogglePasswordCheck((prev) => !prev);
+            }}
+          >
+            <Image
+              src={source}
+              alt="비밀번호 숨김 표시"
+              width={16}
+              height={16}
+            />
+          </Button>
+        )}
+      </InputWrapper>
+      <ErrorMessage>{errors[id]?.message}</ErrorMessage>
+    </InputContainer>
+  );
+}
+
 const InputContainer = styled.div`
   position: relative;
   display: flex;
@@ -85,52 +134,3 @@ const ErrorMessage = styled.small`
   font-size: 1.4rem;
   color: var(--red);
 `;
-
-export default function UserInputCommon({
-  label,
-  id,
-  type,
-  placeholder,
-  validation,
-}: InputProps) {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<FormValues>();
-  const [togglePassword, setTogglePassword] = useState<boolean>(false);
-  const [togglePasswordCheck, setTogglePasswordCheck] =
-    useState<boolean>(false);
-
-  const source = togglePasswordCheck ? EyeOn : EyeOff;
-
-  return (
-    <InputContainer>
-      <InputLabel htmlFor={id}>{label}</InputLabel>
-      <InputWrapper hasError={!!errors[id]}>
-        <InputValue
-          id={id}
-          type={togglePassword ? 'text' : type}
-          placeholder={placeholder}
-          {...register(id, validation)}
-        />
-        {type === 'password' && (
-          <Button
-            type="button"
-            onClick={() => {
-              setTogglePassword((prev) => !prev);
-              setTogglePasswordCheck((prev) => !prev);
-            }}
-          >
-            <Image
-              src={source}
-              alt="비밀번호 숨김 표시"
-              width={16}
-              height={16}
-            />
-          </Button>
-        )}
-      </InputWrapper>
-      <ErrorMessage>{errors[id]?.message}</ErrorMessage>
-    </InputContainer>
-  );
-}
