@@ -126,10 +126,7 @@ export default function UserInput() {
   };
 
   const handleFocusoutEmpty = () => {
-    if (
-      !inputValue.email &&
-      !inputValue.password
-    ) {
+    if (!inputValue.email && !inputValue.password) {
       setErrorEmail('이메일을 입력하세요');
       setErrorPassword('비밀번호를 입력하세요');
     }
@@ -173,8 +170,8 @@ export default function UserInput() {
       const { data } = await response.json();
       localStorage.setItem('accessToken', data.accessToken);
       if (localStorage.getItem('accessToken')) window.location.href = '/folder';
-      if (!response.ok) throw new Error('');
-    } catch(error) {
+      if (!response.ok) throw new Error('이미 가입된 회원입니다');
+    } catch {
       return;
     }
   };
@@ -183,17 +180,15 @@ export default function UserInput() {
     try {
       const response = await fetch(`${BASE_URL}/check-email`, {
         method: 'POST',
-        body: JSON.stringify(USER_INFO.email),
+        body: JSON.stringify({ email: USER_INFO.email }),
         headers: {
           'Content-type': 'application/json',
         },
       });
-      console.log(response)
-      // const { data } = await response.json();
-      // console.log(data);
-      // if (!response.ok) throw new Error('중복된 이메일입니다');
-    } catch (error) {
-      // setErrorEmail('이미 사용중인 이메일입니다');
+
+      if (!response.ok) throw new Error('중복된 이메일입니다');
+    } catch {
+      setErrorEmail('이미 사용중인 이메일입니다');
     }
   };
 
