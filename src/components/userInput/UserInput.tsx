@@ -128,8 +128,7 @@ export default function UserInput() {
   const handleFocusoutEmpty = () => {
     if (
       !inputValue.email &&
-      !inputValue.password &&
-      !inputValue.passwordCheck
+      !inputValue.password
     ) {
       setErrorEmail('이메일을 입력하세요');
       setErrorPassword('비밀번호를 입력하세요');
@@ -174,13 +173,13 @@ export default function UserInput() {
       const { data } = await response.json();
       localStorage.setItem('accessToken', data.accessToken);
       if (localStorage.getItem('accessToken')) window.location.href = '/folder';
-      if (!response.ok) throw new Error('이미 사용중인 이메일입니다');
-    } catch {
-      setErrorEmail('이미 사용중인 이메일입니다');
+      if (!response.ok) throw new Error('');
+    } catch(error) {
+      return;
     }
   };
 
-  const handleClickEmailCheck = async () => {
+  const handleFocusoutEmailCheck = async () => {
     try {
       const response = await fetch(`${BASE_URL}/check-email`, {
         method: 'POST',
@@ -189,11 +188,12 @@ export default function UserInput() {
           'Content-type': 'application/json',
         },
       });
-      const { data } = await response.json();
-      console.log(data)
-      if (!response.ok) throw new Error('중복된 이메일입니다');
+      console.log(response)
+      // const { data } = await response.json();
+      // console.log(data);
+      // if (!response.ok) throw new Error('중복된 이메일입니다');
     } catch (error) {
-      setErrorEmail('이미 사용중인 이메일입니다');
+      // setErrorEmail('이미 사용중인 이메일입니다');
     }
   };
 
@@ -211,7 +211,10 @@ export default function UserInput() {
           name="email"
           value={inputValue.email}
           onChange={handleChangeInputValue}
-          onBlur={handleFocusoutEmail}
+          onBlur={() => {
+            handleFocusoutEmail();
+            handleFocusoutEmailCheck();
+          }}
           className={errorEmail ? 'active' : ''}
           placeholder="이메일을 입력해주세요"
         />
@@ -282,7 +285,6 @@ export default function UserInput() {
       )}
       <UserButton
         handleClickLogin={handleClickLogin}
-        handleClickEmailCheck={handleClickEmailCheck}
         handleClickJoin={handleClickJoin}
         handleFocusoutEmpty={handleFocusoutEmpty}
       />

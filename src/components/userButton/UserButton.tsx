@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 
 interface UserButtonProps {
   handleClickLogin: () => void;
-  handleClickEmailCheck: () => void;
   handleClickJoin: () => void;
   handleFocusoutEmpty: () => void;
 }
@@ -27,24 +26,27 @@ const Button = styled.button`
   background: linear-gradient(90.99deg, #6d6afe 0.12%, #6ae3fe 101.84%);
 `;
 
-export default function UserButton({ handleClickLogin, handleClickEmailCheck, handleClickJoin, handleFocusoutEmpty }: UserButtonProps) {
+export default function UserButton({
+  handleClickLogin,
+  handleClickJoin,
+  handleFocusoutEmpty,
+}: UserButtonProps) {
   const { pathname } = useRouter();
 
   const handleClickButton = () => {
-    if(pathname === '/signup'){
-      handleClickEmailCheck();
+    if (pathname === '/signup') {
       handleClickJoin();
-    }else{
+    } else {
       handleClickLogin();
     }
     handleFocusoutEmpty();
-  }
+  };
 
   return (
     <ButtonContainer>
-      <Button type="button" onClick={handleClickButton}>{pathname === '/signup' ? '회원가입' : '로그인'}</Button>
+      <Button type="button" onClick={handleClickButton}>
+        {pathname === '/signup' ? '회원가입' : '로그인'}
+      </Button>
     </ButtonContainer>
   );
 }
-
-
