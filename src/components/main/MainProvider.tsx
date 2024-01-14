@@ -1,5 +1,5 @@
 import MainContext from '@/src/components/main/MainContext';
-import { useState, useEffect, useCallback, ReactNode } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import useAsync from '@/src/hook/useAsync';
 import { Folder, Card } from '@/src/components/main/MainContext';
 
@@ -25,11 +25,11 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
     selectedMenu
   );
 
-  const handleClickMenu = useCallback((folder: Folder) => {
+  const handleClickMenu = (folder: Folder) => {
     setSelectedMenu(folder?.id);
     setButtonOption(folder?.name !== '전체' && true);
     setTitle(folder?.name !== '전체' ? folder?.name : '');
-  }, []);
+  };
 
   const handleLoadFolderList = async () => {
     const { data } = await getfolderList();
@@ -46,22 +46,19 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
     }
   };
 
-  const handleChangeSearch = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchKeyword(e.target.value);
+  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(e.target.value);
 
-      const filterItem = cardList.filter(
-        (card: Card) =>
-          card?.title?.includes(e.target.value.toLowerCase()) ||
-          card?.description?.includes(e.target.value.toLowerCase()) ||
-          card?.url?.includes(e.target.value.toLowerCase())
-      );
-      setSearchResult(filterItem);
+    const filterItem = cardList.filter(
+      (card: Card) =>
+        card?.title?.includes(e.target.value.toLowerCase()) ||
+        card?.description?.includes(e.target.value.toLowerCase()) ||
+        card?.url?.includes(e.target.value.toLowerCase())
+    );
+    setSearchResult(filterItem);
 
-      if (!e.target.value) setSearchResult(cardList);
-    },
-    [cardList]
-  );
+    if (!e.target.value) setSearchResult(cardList);
+  };
 
   useEffect(() => {
     handleLoadFolderList();
