@@ -1,8 +1,8 @@
 interface url {
   baseUrl: string;
-  folderId?: string;
-  path?: string,
-  userId?: string
+  folderId: string;
+  path: string,
+  userId: string
 }
 
 export default function useAsync({
