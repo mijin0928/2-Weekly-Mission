@@ -1,30 +1,12 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-interface UserButtonProps {
-  handleClickLogin: () => void;
-  handleClickJoin: () => void;
-  handleFocusoutEmpty: () => void;
-}
 
-export default function UserButton({
-  handleClickLogin,
-  handleClickJoin,
-  handleFocusoutEmpty,
-}: UserButtonProps) {
+export default function UserButton() {
   const { pathname } = useRouter();
-
-  const handleClickButton = () => {
-    if (pathname === '/signup') {
-      handleClickJoin();
-    } else {
-      handleClickLogin();
-    }
-    handleFocusoutEmpty();
-  };
 
   return (
     <ButtonContainer>
-      <Button type="button" onClick={handleClickButton}>
+      <Button type="submit">
         {pathname === '/signup' ? '회원가입' : '로그인'}
       </Button>
     </ButtonContainer>
