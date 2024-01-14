@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
 import ModalContext from '@/src/components/modal/ModalContext';
+import { BUTTON } from '@/constant';
 
 interface PopOverProps {
   popOverOpen: boolean;
@@ -9,17 +10,6 @@ interface PopOverProps {
 
 export default function PopOver({ popOverOpen, cardUrl }: PopOverProps) {
   const { handleClickModalOpen } = useContext(ModalContext);
-
-  const BUTTON = [
-    {
-      id: 'linkRemove',
-      name: '삭제하기',
-    },
-    {
-      id: 'folderAdd',
-      name: '폴더에 추가',
-    },
-  ];
 
   return (
     <>

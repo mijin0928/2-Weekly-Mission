@@ -2,9 +2,14 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { PAGE_CONTENT } from '@/constant'
 
 export default function JoinLink() {
   const { pathname } = useRouter();
+  const isMember = pathname === '/signup' ? PAGE_CONTENT.signup?.text : PAGE_CONTENT.signin?.text;
+  const link = pathname === '/signup' ? PAGE_CONTENT.signup?.linkText : PAGE_CONTENT.signin?.linkText;
+  const path = pathname === '/signup' ? PAGE_CONTENT.signup?.path : PAGE_CONTENT.signin?.path;
+
   return (
     <>
       <Logo>
@@ -21,10 +26,10 @@ export default function JoinLink() {
 
       <SignLink>
         <p>
-          {pathname === '/signup' ? '이미 회원이신가요?' : '회원이 아니신가요?'}
+          {isMember}
         </p>
-        <Link href={pathname === '/signup' ? '/signin' : '/signup'}>
-          {pathname === '/signup' ? '로그인 하기' : '회원가입 하기'}
+        <Link href={path}>
+          {link}
         </Link>
       </SignLink>
     </>
