@@ -33,12 +33,12 @@ export default function UserInput() {
     useState<boolean>(false);
   const { pathname } = useRouter();
 
-  const path = pathname === '/signup' ? true : false;
-  const inputId =
+  const path: boolean = pathname === '/signup' ? true : false;
+  const inputId: string =
     pathname === '/signup'
       ? PAGE_CONTENT.signup?.email
       : PAGE_CONTENT.signin?.email;
-  const inputPassword =
+  const inputPassword: string =
     pathname === '/signup'
       ? PAGE_CONTENT.signup?.password
       : PAGE_CONTENT.signin?.password;
