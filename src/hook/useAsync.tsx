@@ -1,9 +1,16 @@
-export default function useAsync(
-  baseUrl: string,
-  folderId: string,
-  path: string,
-  userId: string
-) {
+interface url {
+  baseUrl: string;
+  folderId?: string;
+  path?: string,
+  userId?: string
+}
+
+export default function useAsync({
+  baseUrl,
+  folderId,
+  path,
+  userId
+}: url) {
   const fetchUrl = async () => {
     try {
       const response = await fetch(

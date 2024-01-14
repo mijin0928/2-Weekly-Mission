@@ -49,7 +49,9 @@ export default function CardList() {
   const { pathname } = useRouter();
   const [popOverOpen, setPopOverOpen] = useState<string | boolean>(false);
   const [cardList, setCardList] = useState<SharedCard[]>([]);
-  const [getFolderSample] = useAsync('/sample/folder', '', '', '');
+  const [getFolderSample] = useAsync({
+    baseUrl: '/sample/folder',
+  });
 
   const handleClickKebab = (e: MouseEvent<HTMLSpanElement>, cardId: string) => {
     e.preventDefault();

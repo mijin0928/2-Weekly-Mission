@@ -11,8 +11,13 @@ export default function Nav() {
   const [profileEmail, setProfileEmail] = useState<string>('');
   const [position, setPosition] = useState<string>('');
   const { pathname } = useRouter();
-  const [getProfile] = useAsync('/users', '/1', '', '');
-  const [getProfileSample] = useAsync('/sample/user', '', '', '');
+  const [getProfile] = useAsync({
+    baseUrl: '/users',
+    folderId: '/1',
+  });
+  const [getProfileSample] = useAsync({
+    baseUrl: '/sample/user',
+  });
 
   const handleLoadProfile = async () => {
     const { email, profileImageSource } = await getProfileSample();
@@ -88,7 +93,7 @@ const LogoImg = styled.div`
   position: relative;
   width: 13.3rem;
   height: 2.4rem;
-  
+
   @media screen and (min-width: 375px) and (max-width: 768px) {
     width: 8.8rem;
   }

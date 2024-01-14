@@ -9,7 +9,7 @@ export default function FolderUser() {
   );
   const [folderUserName, setFolderUserName] = useState<string>('');
   const [folderName, setFolderName] = useState<string>('');
-  const [getFolderSample] = useAsync('/sample/folder', '', '', '');
+  const [getFolderSample] = useAsync({baseUrl: '/sample/folder'});
 
   const handleLoadFolder = async () => {
     const { folder } = await getFolderSample();

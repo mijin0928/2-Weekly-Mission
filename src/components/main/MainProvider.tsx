@@ -16,14 +16,22 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
   const [cardList, setCardList] = useState<Card[]>([]);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [searchResult, setSearchResult] = useState<Card[]>([]);
-  const [getfolderList] = useAsync('/users', '/1', '/folders', '');
-  const [getFolderAll] = useAsync('/users', '/1', '/links', '');
-  const [getFolderData] = useAsync(
-    '/users',
-    '/1',
-    '/links?folderId=',
-    selectedMenu
-  );
+  const [getfolderList] = useAsync({
+    baseUrl: '/users',
+    folderId: '/1',
+    path: '/folders',
+  });
+  const [getFolderAll] = useAsync({
+    baseUrl: '/users',
+    folderId: '/1',
+    path: '/links',
+  });
+  const [getFolderData] = useAsync({
+    baseUrl: '/users',
+    folderId: '/1',
+    path: '/links?folderId=',
+    userId: selectedMenu,
+  });
 
   const handleClickMenu = (folder: Folder) => {
     setSelectedMenu(folder?.id);
