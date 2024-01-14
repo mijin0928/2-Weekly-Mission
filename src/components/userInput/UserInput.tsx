@@ -40,8 +40,8 @@ export default function UserInput() {
       : PAGE_CONTENT.signin?.email;
   const inputPassword =
     pathname === '/signup'
-      ? PAGE_CONTENT.signup?.email
-      : PAGE_CONTENT.signin?.email;
+      ? PAGE_CONTENT.signup?.password
+      : PAGE_CONTENT.signin?.password;
 
   const handleClickPassword = () => setTogglePassword(!togglePassword);
 
