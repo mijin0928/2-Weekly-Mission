@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import { PAGE_CONTENT } from '@/constant';
 
 export default function UserButton() {
   const { pathname } = useRouter();
+  const buttonType = pathname === '/signup' ? PAGE_CONTENT.signup?.button : PAGE_CONTENT.signin?.button;
 
   return (
     <ButtonContainer>
       <Button type="submit">
-        {pathname === '/signup' ? '회원가입' : '로그인'}
+        {buttonType}
       </Button>
     </ButtonContainer>
   );
