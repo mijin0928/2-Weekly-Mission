@@ -1,34 +1,9 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
+import { SNS_INFO } from '@/constant';
 
 function SnsList() {
-  const SNS_INFO = [
-    {
-      id: 'facebook',
-      src: '/image/ico-facebook.png',
-      alt: 'facebook',
-    },
-
-    {
-      id: 'twitter',
-      src: '/image/ico-twitter.png',
-      alt: 'twitter',
-    },
-
-    {
-      id: 'youtube',
-      src: '/image/ico-youtube.png',
-      alt: 'youtube',
-    },
-
-    {
-      id: 'instagram',
-      src: '/image/ico-instagram.png',
-      alt: 'instagram',
-    },
-  ];
-
   const sns = SNS_INFO.map((sns) => (
     <li key={sns.id}>
       <Link href="/" target="_blank" rel="noopener noreferrer">

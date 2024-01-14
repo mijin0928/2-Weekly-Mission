@@ -30,5 +30,31 @@ const BUTTON = [
   },
 ];
 
+const SNS_INFO = [
+  {
+    id: 'facebook',
+    src: '/image/ico-facebook.png',
+    alt: 'facebook',
+  },
 
-export { BASE_URL, PAGE_CONTENT, BUTTON }
+  {
+    id: 'twitter',
+    src: '/image/ico-twitter.png',
+    alt: 'twitter',
+  },
+
+  {
+    id: 'youtube',
+    src: '/image/ico-youtube.png',
+    alt: 'youtube',
+  },
+
+  {
+    id: 'instagram',
+    src: '/image/ico-instagram.png',
+    alt: 'instagram',
+  },
+];
+
+
+export { BASE_URL, PAGE_CONTENT, BUTTON, SNS_INFO }
