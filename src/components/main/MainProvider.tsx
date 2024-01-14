@@ -20,11 +20,13 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
     baseUrl: '/users',
     folderId: '/1',
     path: '/folders',
+    userId: '',
   });
   const [getFolderAll] = useAsync({
     baseUrl: '/users',
     folderId: '/1',
     path: '/links',
+    userId: '',
   });
   const [getFolderData] = useAsync({
     baseUrl: '/users',

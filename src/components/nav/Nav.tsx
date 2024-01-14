@@ -14,9 +14,14 @@ export default function Nav() {
   const [getProfile] = useAsync({
     baseUrl: '/users',
     folderId: '/1',
+    path: '',
+    userId: '',
   });
   const [getProfileSample] = useAsync({
     baseUrl: '/sample/user',
+    folderId: '',
+    path: '',
+    userId: '',
   });
 
   const handleLoadProfile = async () => {

@@ -51,6 +51,9 @@ export default function CardList() {
   const [cardList, setCardList] = useState<SharedCard[]>([]);
   const [getFolderSample] = useAsync({
     baseUrl: '/sample/folder',
+    folderId: '',
+    path: '',
+    userId: '',
   });
 
   const handleClickKebab = (e: MouseEvent<HTMLSpanElement>, cardId: string) => {
