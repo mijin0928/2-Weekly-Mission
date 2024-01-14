@@ -50,6 +50,11 @@ export default function UserInputCommon({
   const [togglePasswordCheck, setTogglePasswordCheck] =
     useState<boolean>(false);
 
+  const handleClickTogglePassword = () => setTogglePassword((prev) => !prev);
+
+  const handleClickTogglePasswordCheck = () =>
+    setTogglePasswordCheck((prev) => !prev);
+
   const source = togglePasswordCheck ? EyeOn : EyeOff;
 
   return (
@@ -66,8 +71,8 @@ export default function UserInputCommon({
           <Button
             type="button"
             onClick={() => {
-              setTogglePassword((prev) => !prev);
-              setTogglePasswordCheck((prev) => !prev);
+              handleClickTogglePassword();
+              handleClickTogglePasswordCheck();
             }}
           >
             <Image
@@ -106,7 +111,8 @@ const InputWrapper = styled.div<{ hasError?: boolean }>`
   padding: 1.8rem 1.5rem;
   border-radius: 0.8rem;
   background: var(--white);
-  outline: ${({ hasError }) => hasError ? '1px solid var(--red)' : '1px solid var(--gray20)'};
+  outline: ${({ hasError }) =>
+    hasError ? '1px solid var(--red)' : '1px solid var(--gray20)'};
 
   &:focus-within {
     outline: 1px solid var(--primary);
@@ -126,7 +132,7 @@ const Button = styled.button`
   border: none;
   cursor: pointer;
   background-color: transparent;
-`
+`;
 
 const ErrorMessage = styled.small`
   width: 100%;
