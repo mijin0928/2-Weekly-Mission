@@ -105,13 +105,15 @@ export default function UserInput() {
   const handleFocusoutCheckEmail = async () => {
     await trigger('email');
 
-    if (!errors.email && getValues('email')) {
-      handleSubmitData({
-        url: `${BASE_URL}/check-email`,
-        newError: '중복된 이메일입니다',
-        emailErrorMessage: '이미 사용중인 이메일입니다',
-        checkEmail: true,
-      });
+    if (path) {
+      if (!errors.email && getValues('email')) {
+        handleSubmitData({
+          url: `${BASE_URL}/check-email`,
+          newError: '중복된 이메일입니다',
+          emailErrorMessage: '이미 사용중인 이메일입니다',
+          checkEmail: true,
+        });
+      }
     }
   };
 
