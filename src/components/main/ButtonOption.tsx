@@ -2,32 +2,18 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import MainContext from '@/src/components/main/MainContext';
 import ModalContext from '@/src/components/modal/ModalContext';
+import { BUTTON_OPTION } from '@/constant';
 
 export default function ButtonOption() {
   const { title, buttonOption, selectedMenu } = useContext(MainContext);
   const { handleClickModalOpen } = useContext(ModalContext);
-
-  const BUTTON = [
-    {
-      id: 'share',
-      name: '공유',
-    },
-    {
-      id: 'edit',
-      name: '이름 변경',
-    },
-    {
-      id: 'folderRemove',
-      name: '삭제',
-    },
-  ];
 
   return (
     <>
       <ButtonOptionContainer>
         <Title>{title}</Title>
         <Option $selectedMenu={selectedMenu} $buttonOption={buttonOption}>
-          {BUTTON.map((button) => (
+          {BUTTON_OPTION.map((button) => (
             <Button
               key={button.id}
               type="button"

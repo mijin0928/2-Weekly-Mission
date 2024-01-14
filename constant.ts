@@ -56,5 +56,19 @@ const SNS_INFO = [
   },
 ];
 
+const BUTTON_OPTION = [
+  {
+    id: 'share',
+    name: '공유',
+  },
+  {
+    id: 'edit',
+    name: '이름 변경',
+  },
+  {
+    id: 'folderRemove',
+    name: '삭제',
+  },
+];
 
-export { BASE_URL, PAGE_CONTENT, BUTTON, SNS_INFO }
+export { BASE_URL, PAGE_CONTENT, BUTTON, SNS_INFO, BUTTON_OPTION }
