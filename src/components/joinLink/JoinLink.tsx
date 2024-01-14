@@ -7,8 +7,8 @@ import { PAGE_CONTENT } from '@/constant'
 export default function JoinLink() {
   const { pathname } = useRouter();
   const isMember = pathname === '/signup' ? PAGE_CONTENT.signup?.text : PAGE_CONTENT.signin?.text;
-  const link = pathname === '/signup' ? PAGE_CONTENT.signup?.linkText : PAGE_CONTENT.signin?.linkText;
-  const path = pathname === '/signup' ? PAGE_CONTENT.signup?.path : PAGE_CONTENT.signin?.path;
+  const link = pathname === '/signup' ? PAGE_CONTENT.signin?.linkText : PAGE_CONTENT.signup?.linkText;
+  const path = pathname === '/signup' ? PAGE_CONTENT.signin?.path : PAGE_CONTENT.signup?.path;
 
   return (
     <>
