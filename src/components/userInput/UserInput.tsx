@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import UserButton from '@/src/components/userButton/UserButton';
 import { useForm } from 'react-hook-form';
+import { BASE_URL, PAGE_CONTENT } from '@/constant';
 
 interface InputValue {
   email: string;
@@ -30,8 +31,17 @@ export default function UserInput() {
   const [togglePassword, setTogglePassword] = useState<boolean>(false);
   const [togglePasswordCheck, setTogglePasswordCheck] =
     useState<boolean>(false);
-  const BASE_URL = 'https://bootcamp-api.codeit.kr/api';
   const { pathname } = useRouter();
+
+  const path = pathname === '/signup' ? true : false;
+  const inputId =
+    pathname === '/signup'
+      ? PAGE_CONTENT.signup?.email
+      : PAGE_CONTENT.signin?.email;
+  const inputPassword =
+    pathname === '/signup'
+      ? PAGE_CONTENT.signup?.email
+      : PAGE_CONTENT.signin?.email;
 
   const handleClickPassword = () => setTogglePassword(!togglePassword);
 
@@ -51,7 +61,9 @@ export default function UserInput() {
     checkEmail = false,
   }: Data) => {
     try {
-      const requestBody = checkEmail ? { email: getValues('email') } : USER_INFO;
+      const requestBody = checkEmail
+        ? { email: getValues('email') }
+        : USER_INFO;
       const response = await fetch(url, {
         method: 'POST',
         body: JSON.stringify(requestBody),
@@ -103,28 +115,17 @@ export default function UserInput() {
     }
   };
 
-  const handleSubmitForm = () => {
-    if (pathname === '/signup') {
-      handleSubmitJoin();
-    } else {
-      handleSubmitLogin();
-    }
-  };
+  const handleSubmitForm = () =>
+    path ? handleSubmitJoin() : handleSubmitLogin();
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <InputContainer>
         <InputBox>
-          <Label
-            htmlFor={
-              pathname === '/signup' ? 'signup-password' : 'signin-password'
-            }
-          >
-            이메일
-          </Label>
+          <Label htmlFor={inputId}>이메일</Label>
           <Input
             type="email"
-            id={pathname === '/signup' ? 'signup-password' : 'signin-password'}
+            id={inputId}
             className={errors.email ? 'active' : ''}
             placeholder="이메일을 입력해주세요"
             {...register('email', {
@@ -142,20 +143,14 @@ export default function UserInput() {
         </InputBox>
 
         <InputBox>
-          <Label
-            htmlFor={
-              pathname === '/signup' ? 'signup-password' : 'signin-password'
-            }
-          >
-            비밀번호
-          </Label>
+          <Label htmlFor={inputPassword}>비밀번호</Label>
           <PassWord>
             <Input
               type={togglePassword ? 'text' : 'password'}
-              id={
-                pathname === '/signup' ? 'signup-password' : 'signin-password'
+              id={inputPassword}
+              className={
+                errors.password && errors.password?.message ? 'active' : ''
               }
-              className={errors.password && errors.password.message ? 'active' : ''}
               placeholder="영문, 숫자를 조합해 8자 이상 입력해 주세요."
               {...register('password', {
                 required: '비밀번호를 입력해주세요',
@@ -176,9 +171,9 @@ export default function UserInput() {
               onClick={handleClickPassword}
             />
           </PassWord>
-          {errors.password && <Messages>{errors.password.message}</Messages>}
+          {errors.password && <Messages>{errors.password?.message}</Messages>}
         </InputBox>
-        {pathname === '/signup' && (
+        {path && (
           <InputBox>
             <Label htmlFor="signup-check-password">비밀번호 확인</Label>
             <PassWord>
@@ -209,7 +204,7 @@ export default function UserInput() {
               />
             </PassWord>
             {errors.passwordCheck && (
-              <Messages>{errors.passwordCheck.message}</Messages>
+              <Messages>{errors.passwordCheck?.message}</Messages>
             )}
           </InputBox>
         )}
