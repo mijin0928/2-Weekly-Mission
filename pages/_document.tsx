@@ -10,7 +10,10 @@ export default function Document() {
           type="text/css"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
         />
-        <Script src="https://developers.kakao.com/sdk/js/kakao.js" />
+        <Script
+          src="https://developers.kakao.com/sdk/js/kakao.js"
+          strategy="afterInteractive"
+        />
       </Head>
       <body>
         <Main />
