@@ -66,13 +66,9 @@ const TabMenuContainer = styled.div`
 
   ul {
     display: flex;
-    gap: 0 0.8rem;
+    flex-wrap: wrap;
+    gap: 1.2rem 0.8rem;
     list-style-type: none;
-
-    @media screen and (min-width: 375px) and (max-width: 768px) {
-      flex-wrap: wrap;
-      gap: 1.2rem 0.8rem;
-    }
 
     li {
       line-height: 1.9rem;
