@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
 import ModalContext from '@/src/components/modal/ModalContext';
-import { BUTTON } from '@/constant';
+import { POPOVER_BUTTONS } from '@/constant';
 
 interface PopOverProps {
   popOverOpen: boolean;
@@ -14,7 +14,7 @@ export default function PopOver({ popOverOpen, cardUrl }: PopOverProps) {
   return (
     <>
       <PopOverContainer $popOverOpen={popOverOpen}>
-        {BUTTON.map((button) => (
+        {POPOVER_BUTTONS.map((button) => (
           <Button
             key={button.id}
             type="button"
