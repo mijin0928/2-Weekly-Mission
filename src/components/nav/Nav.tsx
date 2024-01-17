@@ -24,22 +24,24 @@ export default function Nav() {
     userId: '',
   });
 
-  const handleLoadProfile = async () => {
+  const handleProfileShared = async () => {
     const { email, profileImageSource } = await getProfileSample();
+
+    setProfileImg(profileImageSource);
+    setProfileEmail(email);
+  };
+
+  const handleProfileFolder = async () => {
     const { data } = await getProfile();
 
-    if (pathname === '/shared') {
-      setProfileImg(profileImageSource);
-      setProfileEmail(email);
-    } else {
-      setProfileImg(data[0]?.image_source);
-      setProfileEmail(data[0]?.email);
-      setPosition('static');
-    }
+    setProfileImg(data[0]?.image_source);
+    setProfileEmail(data[0]?.email);
   };
 
   useEffect(() => {
-    handleLoadProfile();
+    handleProfileShared();
+    handleProfileFolder();
+    setPosition('static');
   }, []);
 
   return (
