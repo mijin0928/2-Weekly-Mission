@@ -3,7 +3,7 @@ import { ChangeEvent, useContext, useState } from 'react';
 import ModalContext from '@/src/components/modal/ModalContext';
 
 export default function AddLinkBar() {
-  const { handleClickModalOpen } = useContext(ModalContext);
+  const { handleModalOpen } = useContext(ModalContext);
   const [linkValue, setLinkValue] = useState<string>('');
 
   const handleChangeLinkValue = (e: ChangeEvent<HTMLInputElement>) =>
@@ -21,7 +21,7 @@ export default function AddLinkBar() {
           />
           <Button
             type="button"
-            onClick={() => linkValue && handleClickModalOpen('folderAdd')}
+            onClick={() => linkValue && handleModalOpen('folderAdd')}
           >
             추가하기
           </Button>

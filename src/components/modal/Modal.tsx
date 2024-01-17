@@ -46,8 +46,12 @@ function FolderItem({ folderList }: { folderList: Folder[] }) {
 }
 
 export default function Modal() {
-  const { modalOpen, handleClickModalClose, type, cardUrl } =
-    useContext(ModalContext);
+  const {
+    modalOpen,
+    handleModalClose: handleModalClose,
+    type,
+    cardUrl,
+  } = useContext(ModalContext);
   const { title, folderList, selectedMenu } = useContext(MainContext);
 
   let host;
@@ -156,7 +160,7 @@ export default function Modal() {
             </li>
           </Sns>
         )}
-        <CloseButton type="button" onClick={handleClickModalClose}>
+        <CloseButton type="button" onClick={handleModalClose}>
           닫기
         </CloseButton>
       </ModalContainer>

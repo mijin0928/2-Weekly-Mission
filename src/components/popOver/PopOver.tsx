@@ -9,7 +9,7 @@ interface PopOverProps {
 }
 
 export default function PopOver({ popOverOpen, cardUrl }: PopOverProps) {
-  const { handleClickModalOpen } = useContext(ModalContext);
+  const { handleModalOpen } = useContext(ModalContext);
 
   return (
     <>
@@ -18,7 +18,7 @@ export default function PopOver({ popOverOpen, cardUrl }: PopOverProps) {
           <Button
             key={button.id}
             type="button"
-            onClick={() => handleClickModalOpen(button.id, cardUrl)}
+            onClick={() => handleModalOpen(button.id, cardUrl)}
           >
             {button.name}
           </Button>
