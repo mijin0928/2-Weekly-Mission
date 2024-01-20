@@ -6,13 +6,13 @@ export default function ModalProvider({ children }: { children: ReactNode }) {
   const [type, setType] = useState<string>('');
   const [cardUrl, setCardUrl] = useState<string | undefined>('');
 
-  const handleClickModalOpen = (buttonId: string, cardUrl?: string) => {
+  const handleModalOpen = (buttonId: string, cardUrl?: string) => {
     setModalOpen(true);
     setType(buttonId);
     setCardUrl(cardUrl);
   };
 
-  const handleClickModalClose = () => setModalOpen(false);
+  const handleModalClose = () => setModalOpen(false);
 
   return (
     <>
@@ -21,8 +21,8 @@ export default function ModalProvider({ children }: { children: ReactNode }) {
           modalOpen,
           type,
           cardUrl,
-          handleClickModalOpen,
-          handleClickModalClose,
+          handleModalOpen,
+          handleModalClose: handleModalClose,
         }}
       >
         {children}

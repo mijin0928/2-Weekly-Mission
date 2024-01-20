@@ -3,7 +3,7 @@ import { ChangeEvent, useContext, useState, useRef, useEffect } from 'react';
 import ModalContext from '@/src/components/modal/ModalContext';
 
 export default function AddLinkBar() {
-  const { handleClickModalOpen } = useContext(ModalContext);
+  const { handleModalOpen } = useContext(ModalContext);
   const [linkValue, setLinkValue] = useState<string>('');
 
   const handleChangeLinkValue = (e: ChangeEvent<HTMLInputElement>) =>
@@ -52,7 +52,7 @@ export default function AddLinkBar() {
         />
         <Button
           type="button"
-          onClick={() => linkValue && handleClickModalOpen('folderAdd')}
+          onClick={() => linkValue && handleModalOpen('folderAdd')}
         >
           추가하기
         </Button>
@@ -129,11 +129,11 @@ const Button = styled.button`
   }
 
   @media screen and (min-width: 375px) and (max-width: 768px) {
-    top: 3.2rem;
+    right: 1rem;
   }
 `;
 
 const FooterFoint = styled.div`
   position: absolute;
   top: 900px;
-`;
+`

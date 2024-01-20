@@ -4,7 +4,7 @@ import { PAGE_CONTENT } from '@/constant';
 
 export default function UserButton() {
   const { pathname } = useRouter();
-  const buttonType = pathname === '/signup' ? PAGE_CONTENT.signup?.button : PAGE_CONTENT.signin?.button;
+  const buttonType = pathname === '/signup' ? PAGE_CONTENT.signup.button : PAGE_CONTENT.signin.button;
 
   return (
     <ButtonContainer>

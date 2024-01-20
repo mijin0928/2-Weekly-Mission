@@ -6,7 +6,7 @@ import { BUTTON_OPTION } from '@/constant';
 
 export default function ButtonOption() {
   const { title, buttonOption, selectedMenu } = useContext(MainContext);
-  const { handleClickModalOpen } = useContext(ModalContext);
+  const { handleModalOpen } = useContext(ModalContext);
 
   return (
     <>
@@ -17,7 +17,7 @@ export default function ButtonOption() {
             <Button
               key={button.id}
               type="button"
-              onClick={() => handleClickModalOpen(button.id)}
+              onClick={() => handleModalOpen(button.id)}
             >
               {button.name}
             </Button>

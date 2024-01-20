@@ -56,6 +56,7 @@ export default function UserInputCommon({
     setTogglePasswordCheck((prev) => !prev);
 
   const source = togglePasswordCheck ? EyeOn : EyeOff;
+  const isPassword = type === 'password' ? true : false;
 
   return (
     <InputContainer>
@@ -67,7 +68,7 @@ export default function UserInputCommon({
           placeholder={placeholder}
           {...register(id, validation)}
         />
-        {type === 'password' && (
+        {isPassword && (
           <Button
             type="button"
             onClick={() => {

@@ -19,7 +19,7 @@ const PAGE_CONTENT = {
   },
 };
 
-const BUTTON = [
+const POPOVER_BUTTONS = [
   {
     id: 'linkRemove',
     name: '삭제하기',
@@ -71,4 +71,4 @@ const BUTTON_OPTION = [
   },
 ];
 
-export { BASE_URL, PAGE_CONTENT, BUTTON, SNS_INFO, BUTTON_OPTION }
+export { BASE_URL, PAGE_CONTENT, POPOVER_BUTTONS, SNS_INFO, BUTTON_OPTION }

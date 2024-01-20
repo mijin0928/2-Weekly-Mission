@@ -4,16 +4,16 @@ interface ModalContext {
   modalOpen: boolean;
   type: string;
   cardUrl?: string;
-  handleClickModalOpen: (buttonId: string, cardUrl?: string) => void;
-  handleClickModalClose: () => void;
+  handleModalOpen: (buttonId: string, cardUrl?: string) => void;
+  handleModalClose: () => void;
 }
 
 const ModalContext = createContext<ModalContext>({
   modalOpen: false,
   type: '',
   cardUrl: '',
-  handleClickModalOpen: () => {},
-  handleClickModalClose: () => {},
+  handleModalOpen: () => {},
+  handleModalClose: () => {},
 });
 
 export default ModalContext;

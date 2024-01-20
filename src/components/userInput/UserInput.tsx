@@ -36,12 +36,12 @@ export default function UserInput() {
   const path: boolean = pathname === '/signup' ? true : false;
   const inputId: string =
     pathname === '/signup'
-      ? PAGE_CONTENT.signup?.email
-      : PAGE_CONTENT.signin?.email;
+      ? PAGE_CONTENT.signup.email
+      : PAGE_CONTENT.signin.email;
   const inputPassword: string =
     pathname === '/signup'
-      ? PAGE_CONTENT.signup?.password
-      : PAGE_CONTENT.signin?.password;
+      ? PAGE_CONTENT.signup.password
+      : PAGE_CONTENT.signin.password;
 
   const handleClickPassword = () => setTogglePassword(!togglePassword);
 

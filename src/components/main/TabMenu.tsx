@@ -40,7 +40,7 @@ function TabMenuList({
 
 export default function TabMenu() {
   const { folderList, selectedMenu, handleClickMenu } = useContext(MainContext);
-  const { handleClickModalOpen } = useContext(ModalContext);
+  const { handleModalOpen } = useContext(ModalContext);
 
   return (
     <>
@@ -54,7 +54,7 @@ export default function TabMenu() {
         </ul>
         <Button
           type="button"
-          onClick={() => handleClickModalOpen('folderListAdd')}
+          onClick={() => handleModalOpen('folderListAdd')}
         ></Button>
       </TabMenuContainer>
     </>
