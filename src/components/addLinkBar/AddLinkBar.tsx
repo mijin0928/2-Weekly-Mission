@@ -3,7 +3,7 @@ import { ChangeEvent, useContext, useState, useRef, useEffect } from 'react';
 import ModalContext from '@/src/components/modal/ModalContext';
 
 export default function AddLinkBar() {
-  const { handleModalOpen } = useContext(ModalContext);
+  const { handle } = useContext(ModalContext);
   const [linkValue, setLinkValue] = useState<string>('');
 
   const handleChangeLinkValue = (e: ChangeEvent<HTMLInputElement>) =>
@@ -136,4 +136,4 @@ const Button = styled.button`
 const FooterFoint = styled.div`
   position: absolute;
   top: 900px;
-`
+`;
