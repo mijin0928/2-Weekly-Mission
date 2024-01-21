@@ -3,7 +3,7 @@ import { ChangeEvent, useContext, useState, useRef, useEffect } from 'react';
 import ModalContext from '@/src/components/modal/ModalContext';
 
 export default function AddLinkBar() {
-  const { handle } = useContext(ModalContext);
+  const { handleModalOpen } = useContext(ModalContext);
   const [linkValue, setLinkValue] = useState<string>('');
 
   const handleChangeLinkValue = (e: ChangeEvent<HTMLInputElement>) =>

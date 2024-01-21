@@ -1,18 +1,20 @@
 import { BASE_URL } from '@/constant';
 import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';
-import styled from 'styled-components';
 import useToggle from '@/src/hook/useToggle';
 import { MouseEventHandler } from 'react';
-interface Inputvalue {
-  email: string;
-  password: string;
-  passwordCheck?: string;
-}
+import { Inputvalue, InputError } from '@/src/components/userInput/SignType';
+import {
+  InputContainer,
+  InputBox,
+  Label,
+  Input,
+  Messages,
+  PassWord,
+  EyeImg,
+} from '@/src/components/userInput/SignStyle';
 
-type Error = (name: 'email' | 'password', messages: {}) => void;
-
-async function onSubmit(USER_INFO: Inputvalue, setError: Error) {
+async function onSubmit(USER_INFO: Inputvalue, setError: InputError) {
   try {
     const response = await fetch(`${BASE_URL}/sign-in`, {
       method: 'POST',
@@ -39,14 +41,14 @@ export default function SigninForm() {
     handleSubmit,
     setError,
     formState: { errors },
-    getValues,
+    watch,
   } = useForm<Inputvalue>({ mode: 'onBlur' });
 
   const [togglePassword, setTogglePassword] = useToggle(false);
   
   const USER_INFO = {
-    email: getValues('email'),
-    password: getValues('password'),
+    email: watch('email'),
+    password: watch('password'),
   };
 
   return (
@@ -111,57 +113,3 @@ export default function SigninForm() {
     </>
   );
 }
-
-const InputContainer = styled.div`
-  margin: 3rem 0 0;
-`;
-
-const InputBox = styled.div`
-  margin: 2.4rem 0 0;
-`;
-
-const Label = styled.label`
-  display: block;
-  margin: 0 0 1.2rem 0;
-  font-size: 1.4rem;
-  line-height: 1.6rem;
-`;
-
-const Input = styled.input`
-  outline: none;
-  border: none;
-  width: 100%;
-  padding: 1.8rem 1.5rem;
-  font-size: 1.6rem;
-  color: var(--gray100);
-  border-radius: 0.8rem;
-  border: 1px solid var(--gray20);
-  background-color: var(--white);
-
-  &:focus {
-    border: 1px solid var(--primary);
-  }
-
-  &.active {
-    border: 1px solid var(--red);
-  }
-`;
-
-const Messages = styled.p`
-  margin: 0.6rem 0 0;
-  color: var(--red);
-  font-size: 1.4rem;
-  line-height: 1.6rem;
-`;
-
-const PassWord = styled.div`
-  position: relative;
-`;
-
-const EyeImg = styled.img`
-  position: absolute;
-  top: 50%;
-  right: 1.5rem;
-  transform: translateY(-50%);
-  cursor: pointer;
-`;
