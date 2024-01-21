@@ -4,8 +4,13 @@ import Nav from '@/src/components/nav/Nav';
 import Footer from '@/src/components/footer/Footer';
 import SearchBar from '@/src/components/main/SearchBar';
 import CardList from '@/src/components/main/CardList';
+import { useRouter } from 'next/router';
 
 export default function SharedPage() {
+  const router = useRouter();
+  const {folderId} = router.query;
+  
+  'https://bootcamp-api.codeit.kr/api/folders/283'
   return (
     <>
       <Head>

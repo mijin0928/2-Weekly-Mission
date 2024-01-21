@@ -22,7 +22,7 @@ export default function ModalProvider({ children }: { children: ReactNode }) {
           type,
           cardUrl,
           handleModalOpen,
-          handleModalClose: handleModalClose,
+          handleModalClose,
         }}
       >
         {children}

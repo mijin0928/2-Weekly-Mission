@@ -1,8 +1,8 @@
 import Head from 'next/head';
-import UserInput from '@/src/components/userInput/UserInput';
 import JoinSns from '@/src/components/joinSns/JoinSns';
 import JoinLink from '@/src/components/joinLink/JoinLink';
 import styled from 'styled-components';
+import SignFormProvider from '@/src/components/userInput/SignFormProvider';
 
 const Container = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ export default function SignupPage() {
       <Container>
         <Wrap>
           <JoinLink />
-          <UserInput />
+          <SignFormProvider />
           <JoinSns />
         </Wrap>
       </Container>

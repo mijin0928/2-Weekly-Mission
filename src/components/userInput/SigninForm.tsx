@@ -1,18 +1,11 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 import { BASE_URL } from '@/constant';
-import { useForm } from 'react-hook-form';
-import UserButton from '../userButton/UserButton';
+import { FormProvider, useForm } from 'react-hook-form';
+import UserButton from '@/src/components/userButton/UserButton';
+import styled from 'styled-components';
+import { InputValue, Error } from '@/src/components/userInput/SignFormProvider';
 
-interface InputValue {
-  email: string;
-  password: string;
-  passwordCheck?: string;
-}
-
-type Error = (name: 'email' | 'password', message: {}) => void;
-
-async function signin(USER_INFO: InputValue, setError: Error) {
+export async function onSubmit(USER_INFO: InputValue, setError: Error) {
   try {
     const response = await fetch(`${BASE_URL}/sign-in`, {
       method: 'POST',
@@ -52,9 +45,7 @@ export default function SigninForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(() => signin(USER_INFO, setError))}
-    >
+    <>
       <InputContainer>
         <InputBox>
           <Label htmlFor="">이메일</Label>
@@ -108,8 +99,8 @@ export default function SigninForm() {
           {errors.password && <Messages>{errors.password?.message}</Messages>}
         </InputBox>
       </InputContainer>
-      <UserButton />
-    </form>
+      {/* <UserButton /> */}
+    </>
   );
 }
 
