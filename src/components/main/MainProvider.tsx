@@ -65,18 +65,18 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
       // const { data } = await getFolderData();
       // setCardList(data);
 
-      // const accessToken = localStorage.getItem('accessToken');
+      const accessToken = localStorage.getItem('accessToken');
 
-      // if (accessToken) {
-      //   const response = await fetch(`${BASE_URL}/links?folderId=${selectedMenu}`, {
-      //     headers: {
-      //       Authorization: `Bearer ${accessToken}`,
-      //     },
-      //   });
-      //   const { data } = await response.json();
-      //   // setCardList(data.folder);
-      //   console.log(data)
-      // }
+      if (accessToken) {
+        const response = await fetch(`${BASE_URL}/links?folderId=${selectedMenu}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const { data } = await response.json();
+        setCardList(data.folder);
+        console.log(data)
+      }
     } else {
       const accessToken = localStorage.getItem('accessToken');
 
