@@ -2,6 +2,7 @@ import MainContext from '@/src/components/main/MainContext';
 import { useState, useEffect, ReactNode } from 'react';
 import useAsync from '@/src/hook/useAsync';
 import { Folder, Card } from '@/src/components/main/MainContext';
+import { BASE_URL } from '@/constant';
 
 interface MainProviderProps {
   cardUrl: string;
@@ -51,8 +52,19 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
       const { data } = await getFolderData();
       setCardList(data);
     } else {
-      const { data } = await getFolderAll();
-      setCardList(data);
+      const accessToken = localStorage.getItem('accessToken');
+
+      if (accessToken) {
+        const response = await fetch(`${BASE_URL}/links`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        // const { data } = await getFolderAll();
+        const { data } = await response.json();
+        setCardList(data.folder);
+        console.log(data)
+      }
     }
   };
 
