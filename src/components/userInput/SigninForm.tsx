@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { BASE_URL } from '@/constant';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';
 import styled from 'styled-components';
-import { InputValue, Error } from '@/src/components/userInput/SignFormProvider';
 
-export async function onSubmit(USER_INFO: InputValue, setError: Error) {
+interface Inputvalue {
+  email: string;
+  password: string;
+  passwordCheck?: string;
+}
+
+type Error = (name: 'email' | 'password', messages: {}) => void;
+
+async function onSubmit(USER_INFO: Inputvalue, setError: Error) {
   try {
     const response = await fetch(`${BASE_URL}/sign-in`, {
       method: 'POST',
@@ -33,7 +40,7 @@ export default function SigninForm() {
     setError,
     formState: { errors },
     getValues,
-  } = useForm<InputValue>({ mode: 'onBlur' });
+  } = useForm<Inputvalue>({ mode: 'onBlur' });
 
   const [togglePassword, setTogglePassword] = useState<boolean>(false);
 
@@ -46,60 +53,63 @@ export default function SigninForm() {
 
   return (
     <>
-      <InputContainer>
-        <InputBox>
-          <Label htmlFor="">이메일</Label>
-          <Input
-            type="email"
-            id=""
-            className={errors.email ? 'active' : ''}
-            placeholder="이메일을 입력해주세요"
-            {...register('email', {
-              required: '이메일을 입력해주세요',
-              pattern: {
-                value:
-                  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-                message: '올바른 이메일 주소가 아닙니다',
-              },
-            })}
-            name="email"
-          />
-          {errors.email && <Messages>{errors.email?.message}</Messages>}
-        </InputBox>
-
-        <InputBox>
-          <Label htmlFor="">비밀번호</Label>
-          <PassWord>
+      <form onSubmit={handleSubmit(() => onSubmit(USER_INFO, setError))}>
+        <InputContainer>
+          <InputBox>
+            <Label htmlFor="email">이메일</Label>
             <Input
-              type={togglePassword ? 'text' : 'password'}
-              id=""
-              className={
-                errors.password && errors.password?.message ? 'active' : ''
-              }
-              placeholder="영문, 숫자를 조합해 8자 이상 입력해 주세요."
-              {...register('password', {
-                required: '비밀번호를 입력해주세요',
+              type="email"
+              id="email"
+              className={errors.email ? 'active' : ''}
+              placeholder="이메일을 입력해주세요"
+              {...register('email', {
+                required: '이메일을 입력해주세요',
                 pattern: {
-                  value: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/,
-                  message: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요',
+                  value:
+                    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+                  message: '올바른 이메일 주소가 아닙니다',
                 },
               })}
-              name="password"
+              name="email"
             />
-            <EyeImg
-              src={
-                togglePassword
-                  ? '/image/ico-eye-on.svg'
-                  : '/image/ico-eye-off.svg'
-              }
-              alt={togglePassword ? '비밀번호 표시' : '비밀번호 숨기기'}
-              onClick={handleClickPassword}
-            />
-          </PassWord>
-          {errors.password && <Messages>{errors.password?.message}</Messages>}
-        </InputBox>
-      </InputContainer>
-      {/* <UserButton /> */}
+            {errors.email && <Messages>{errors.email?.message}</Messages>}
+          </InputBox>
+
+          <InputBox>
+            <Label htmlFor="password">비밀번호</Label>
+            <PassWord>
+              <Input
+                type={togglePassword ? 'text' : 'password'}
+                id="password"
+                className={
+                  errors.password && errors.password?.message ? 'active' : ''
+                }
+                placeholder="영문, 숫자를 조합해 8자 이상 입력해 주세요."
+                {...register('password', {
+                  required: '비밀번호를 입력해주세요',
+                  pattern: {
+                    value: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/,
+                    message:
+                      '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요',
+                  },
+                })}
+                name="password"
+              />
+              <EyeImg
+                src={
+                  togglePassword
+                    ? '/image/ico-eye-on.svg'
+                    : '/image/ico-eye-off.svg'
+                }
+                alt={togglePassword ? '비밀번호 표시' : '비밀번호 숨기기'}
+                onClick={handleClickPassword}
+              />
+            </PassWord>
+            {errors.password && <Messages>{errors.password?.message}</Messages>}
+          </InputBox>
+        </InputContainer>
+        <UserButton />
+      </form>
     </>
   );
 }
