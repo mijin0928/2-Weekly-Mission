@@ -4,6 +4,7 @@ import useAsync from '@/src/hook/useAsync';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '@/public/image/logo.svg';
+import { BASE_URL } from '@/constant';
 
 export default function Nav() {
   const [profileImg, setProfileImg] = useState<string | null>(null);
@@ -11,7 +12,7 @@ export default function Nav() {
   const [position, setPosition] = useState<string>('');
   const [getProfile] = useAsync({
     baseUrl: '/users',
-    folderId: '/1',
+    folderId: '',
     path: '',
     userId: '',
   });
@@ -23,17 +24,25 @@ export default function Nav() {
   });
 
   const handleProfileShared = async () => {
-    const { email, profileImageSource } = await getProfileSample();
-
-    setProfileImg(profileImageSource);
-    setProfileEmail(email);
+    // const { email, profileImageSource } = await getProfileSample();
+    // setProfileImg(profileImageSource);
+    // setProfileEmail(email);
   };
 
   const handleProfileFolder = async () => {
-    const { data } = await getProfile();
+    const accessToken = localStorage.getItem('accessToken');
 
-    setProfileImg(data[0]?.image_source);
-    setProfileEmail(data[0]?.email);
+    if (accessToken) {
+      const response = await fetch(`${BASE_URL}/users`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const { data } = await response.json();
+      setProfileImg(data[0].image_source);
+      setProfileEmail(data[0].email);
+    }
   };
 
   useEffect(() => {

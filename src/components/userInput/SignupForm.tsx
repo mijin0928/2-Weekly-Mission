@@ -1,4 +1,5 @@
 import { MouseEventHandler } from 'react';
+import styled from 'styled-components';
 import { BASE_URL } from '@/constant';
 import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';
@@ -34,25 +35,15 @@ async function onSubmit(USER_INFO: Inputvalue) {
   }
 }
 
-async function checkEmail(
-  USER_INFO: Inputvalue,
-  setError: InputError,
-  trigger: (name: 'email') => void
-) {
-  trigger('email');
-
+async function checkEmail(USER_INFO: Inputvalue, setError: InputError) {
   try {
-    const response = await fetch(`${BASE_URL}/sign-up`, {
+    const response = await fetch(`${BASE_URL}/check-email`, {
       method: 'POST',
       body: JSON.stringify({ email: USER_INFO.email }),
       headers: {
         'Content-Type': 'application/json',
       },
     });
-
-    const { data } = await response.json();
-    localStorage.setItem('accessToken', data.accessToken);
-    if (localStorage.getItem('accessToken')) window.location.href = '/folder';
 
     if (!response.ok) throw new Error('중복된 이메일입니다.');
   } catch {
@@ -65,8 +56,8 @@ export default function SignupForm() {
     register,
     handleSubmit,
     setError,
-    trigger,
     watch,
+    trigger,
     formState: { errors },
   } = useForm<Inputvalue>({ mode: 'onBlur' });
 
@@ -75,6 +66,11 @@ export default function SignupForm() {
   const USER_INFO = {
     email: watch('email'),
     password: watch('password'),
+  };
+
+  const handleCheckEmail = async () => {
+    await trigger('email');
+    if (!errors.email && USER_INFO.email) checkEmail(USER_INFO, setError);
   };
 
   return (
@@ -96,7 +92,7 @@ export default function SignupForm() {
               },
             })}
             name="email"
-            onBlur={() => checkEmail(USER_INFO, setError, trigger)}
+            onBlur={handleCheckEmail}
           />
           {errors.email && <Messages>{errors.email?.message}</Messages>}
         </InputBox>
