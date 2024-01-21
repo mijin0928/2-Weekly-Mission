@@ -43,14 +43,40 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
   };
 
   const handleLoadFolderList = async () => {
-    const { data } = await getfolderList();
-    setFolderList(data);
+    // const { data } = await getfolderList();
+    // setFolderList(data);
+    
+    const accessToken = localStorage.getItem('accessToken');
+
+      if (accessToken) {
+        const response = await fetch(`${BASE_URL}/folders`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        // const { data } = await getFolderAll();
+        const { data } = await response.json();
+        setFolderList(data.folder);
+      }
   };
 
   const handleLoadFolderData = async (options: string) => {
     if (options !== 'all') {
-      const { data } = await getFolderData();
-      setCardList(data);
+      // const { data } = await getFolderData();
+      // setCardList(data);
+
+      // const accessToken = localStorage.getItem('accessToken');
+
+      // if (accessToken) {
+      //   const response = await fetch(`${BASE_URL}/links?folderId=${selectedMenu}`, {
+      //     headers: {
+      //       Authorization: `Bearer ${accessToken}`,
+      //     },
+      //   });
+      //   const { data } = await response.json();
+      //   // setCardList(data.folder);
+      //   console.log(data)
+      // }
     } else {
       const accessToken = localStorage.getItem('accessToken');
 
@@ -63,7 +89,6 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
         // const { data } = await getFolderAll();
         const { data } = await response.json();
         setCardList(data.folder);
-        console.log(data)
       }
     }
   };
