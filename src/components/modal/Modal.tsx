@@ -99,7 +99,7 @@ export default function Modal() {
 
   return (
     <>
-      <ModalContainer modalOpen={modalOpen}>
+      <ModalContainer $modalOpen={modalOpen}>
         <Title>
           <ModalType />
         </Title>
@@ -164,13 +164,13 @@ export default function Modal() {
           닫기
         </CloseButton>
       </ModalContainer>
-      <Dim modalOpen={modalOpen}></Dim>
+      <Dim $modalOpen={modalOpen}></Dim>
     </>
   );
 }
 
-const ModalContainer = styled.div<{ modalOpen?: boolean }>`
-  display: ${({ modalOpen }) => (modalOpen ? 'block' : 'none')};
+const ModalContainer = styled.div<{ $modalOpen?: boolean }>`
+  display: ${({ $modalOpen }) => ($modalOpen ? 'block' : 'none')};
   position: fixed;
   left: 50%;
   top: 50%;
@@ -239,8 +239,8 @@ const CloseButton = styled.button`
   cursor: pointer;
 `;
 
-const Dim = styled.div<{ modalOpen?: boolean }>`
-  display: ${({ modalOpen }) => (modalOpen ? 'block' : 'none')};
+const Dim = styled.div<{ $modalOpen?: boolean }>`
+  display: ${({ $modalOpen }) => ($modalOpen ? 'block' : 'none')};
   position: fixed;
   left: 0;
   top: 0;

@@ -2,7 +2,7 @@ import MainContext from '@/src/components/main/MainContext';
 import { useState, useEffect, ReactNode } from 'react';
 import useAsync from '@/src/hook/useAsync';
 import { Folder, Card } from '@/src/components/main/MainContext';
-
+import { SetStateAction } from 'react';
 interface MainProviderProps {
   cardUrl: string;
   children: ReactNode;
@@ -17,6 +17,7 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [searchResult, setSearchResult] = useState<Card[]>([]);
   const [userId, setUserId] = useState<string>('');
+  const [folderId, setFolderId] = useState<string>('');
 
   const [getfolderList] = useAsync({
     baseUrl: '/folders',
@@ -40,7 +41,7 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
   const handleClickMenu = (folder: Folder) => {
     setSelectedMenu(folder.id);
     setButtonOption(folder.name !== '전체' && true);
-    setTitle(folder.name !== '전체' ? folder.name : '');
+    setTitle(folder.name !== '전체' ? folder.name : '');   
   };
 
   const handleLoadFolderList = async () => {
@@ -97,6 +98,7 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
           searchKeyword,
           cardUrl,
           userId,
+          folderId,
           setUserId,
           handleClickMenu,
           handleChangeSearch,

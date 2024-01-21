@@ -7,7 +7,7 @@ import { BUTTON_OPTION } from '@/constant';
 export default function ButtonOption() {
   const { title, buttonOption, selectedMenu } = useContext(MainContext);
   const { handleModalOpen } = useContext(ModalContext);
-
+  
   return (
     <>
       <ButtonOptionContainer>
