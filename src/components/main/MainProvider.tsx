@@ -9,7 +9,6 @@ interface MainProviderProps {
 }
 
 export default function MainProvider({ children, cardUrl }: MainProviderProps) {
-  
   const [selectedMenu, setSelectedMenu] = useState<string>('all');
   const [title, setTitle] = useState<string>('');
   const [buttonOption, setButtonOption] = useState<boolean>(false);
@@ -17,6 +16,8 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
   const [cardList, setCardList] = useState<Card[]>([]);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [searchResult, setSearchResult] = useState<Card[]>([]);
+  const [userId, setUserId] = useState<string>('');
+
   const [getfolderList] = useAsync({
     baseUrl: '/folders',
     folderId: '',
@@ -44,9 +45,9 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
 
   const handleLoadFolderList = async () => {
     const { data } = await getfolderList();
-    setFolderList(data.folder);    
+    setFolderList(data.folder);
   };
-    
+
   const handleLoadFolderData = async (options: string) => {
     if (options !== 'all') {
       const { data } = await getFolderData();
@@ -95,6 +96,8 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
           folderList,
           searchKeyword,
           cardUrl,
+          userId,
+          setUserId,
           handleClickMenu,
           handleChangeSearch,
         }}

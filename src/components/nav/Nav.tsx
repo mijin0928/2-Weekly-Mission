@@ -1,15 +1,16 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import useAsync from '@/src/hook/useAsync';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '@/public/image/logo.svg';
+import MainContext from '../main/MainContext';
 
 export default function Nav() {
   const [profileImg, setProfileImg] = useState<string | null>(null);
   const [profileEmail, setProfileEmail] = useState<string>('');
   const [position, setPosition] = useState<string>('');
-  const [userId, setUserId] = useState<string>('');
+  const { userId, setUserId } = useContext(MainContext);
   const [getProfile] = useAsync({
     baseUrl: '/users',
     folderId: '',

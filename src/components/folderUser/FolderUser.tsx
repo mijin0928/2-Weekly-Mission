@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import useAsync from '@/src/hook/useAsync';
 import Image from 'next/image';
+import MainContext from '../main/MainContext';
 
 export default function FolderUser() {
   const [folderUserProfile, setFolderUserProfile] = useState<string | null>(
@@ -9,9 +10,10 @@ export default function FolderUser() {
   );
   const [folderUserName, setFolderUserName] = useState<string>('');
   const [folderName, setFolderName] = useState<string>('');
+  const { userId, setUserId } = useContext(MainContext);
   const [getFolderSample] = useAsync({
     baseUrl: '/users',
-    folderId: '/25',
+    folderId: userId,
     path: '',
     userId: '',
   });
@@ -21,6 +23,7 @@ export default function FolderUser() {
     // setFolderName(data[0].name);
     setFolderUserName(data[0].name);
     setFolderUserProfile(data[0].image_source);
+    setUserId(data[0].id);
   };
 
   useEffect(() => {
