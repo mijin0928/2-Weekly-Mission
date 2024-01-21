@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { BASE_URL } from '@/constant';
 import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';
 import styled from 'styled-components';
-
+import useToggle from '@/src/hook/useToggle';
+import { MouseEventHandler } from 'react';
 interface Inputvalue {
   email: string;
   password: string;
@@ -42,10 +42,8 @@ export default function SigninForm() {
     getValues,
   } = useForm<Inputvalue>({ mode: 'onBlur' });
 
-  const [togglePassword, setTogglePassword] = useState<boolean>(false);
-
-  const handleClickPassword = () => setTogglePassword(!togglePassword);
-
+  const [togglePassword, setTogglePassword] = useToggle(false);
+  
   const USER_INFO = {
     email: getValues('email'),
     password: getValues('password'),
@@ -102,7 +100,7 @@ export default function SigninForm() {
                     : '/image/ico-eye-off.svg'
                 }
                 alt={togglePassword ? '비밀번호 표시' : '비밀번호 숨기기'}
-                onClick={handleClickPassword}
+                onClick={setTogglePassword as MouseEventHandler}
               />
             </PassWord>
             {errors.password && <Messages>{errors.password?.message}</Messages>}
