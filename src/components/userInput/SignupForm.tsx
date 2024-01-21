@@ -1,11 +1,18 @@
-import { useEffect, useState } from 'react';
+import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { BASE_URL } from '@/constant';
 import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';
-import { InputValue, Error } from '@/src/components/userInput/SignFormProvider';
+import useToggle from '@/src/hook/useToggle';
+interface Inputvalue {
+  email: string;
+  password: string;
+  passwordCheck?: string;
+}
 
-async function onSubmit(USER_INFO: InputValue, setError: Error) {
+type Error = (name: 'email' | 'password', messages: {}) => void;
+
+async function onSubmit(USER_INFO: Inputvalue) {
   try {
     const response = await fetch(`${BASE_URL}/sign-up`, {
       method: 'POST',
@@ -25,11 +32,17 @@ async function onSubmit(USER_INFO: InputValue, setError: Error) {
   }
 }
 
-async function checkEmail(USER_INFO: InputValue, setError: Error) {
+async function checkEmail(
+  USER_INFO: Inputvalue,
+  setError: Error,
+  trigger: (name: 'email') => void
+) {
+  trigger('email');
+
   try {
     const response = await fetch(`${BASE_URL}/sign-up`, {
       method: 'POST',
-      body: JSON.stringify(USER_INFO.email),
+      body: JSON.stringify({ email: USER_INFO.email }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -51,41 +64,84 @@ export default function SignupForm() {
     handleSubmit,
     setError,
     trigger,
+    watch,
     formState: { errors },
-    getValues,
-  } = useForm<InputValue>({ mode: 'onBlur' });
+  } = useForm<Inputvalue>({ mode: 'onBlur' });
 
-  const [togglePassword, setTogglePassword] = useState<boolean>(false);
-  const [togglePasswordCheck, setTogglePasswordCheck] =
-    useState<boolean>(false);
-
-  const handleClickPasswordCheck = () =>
-    setTogglePasswordCheck(!togglePasswordCheck);
+  const [togglePassword, setTogglePassword] = useToggle(false);
 
   const USER_INFO = {
-    email: getValues('email'),
-    password: getValues('password'),
+    email: watch('email'),
+    password: watch('password'),
   };
 
-  useEffect(() => {
-    setTogglePassword(true);
-  }, []);
-
   return (
-    <form onSubmit={handleSubmit(() => onSubmit(USER_INFO, setError))}>
+    <form onSubmit={handleSubmit(() => onSubmit(USER_INFO))}>
       <InputContainer>
         <InputBox>
-          <Label htmlFor="signup-check-password">비밀번호 확인</Label>
+          <Label htmlFor="email">이메일</Label>
+          <Input
+            type="email"
+            id="email"
+            className={errors.email ? 'active' : ''}
+            placeholder="이메일을 입력해주세요"
+            {...register('email', {
+              required: '이메일을 입력해주세요',
+              pattern: {
+                value:
+                  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+                message: '올바른 이메일 주소가 아닙니다',
+              },
+            })}
+            name="email"
+            onBlur={() => checkEmail(USER_INFO, setError, trigger)}
+          />
+          {errors.email && <Messages>{errors.email?.message}</Messages>}
+        </InputBox>
+
+        <InputBox>
+          <Label htmlFor="password">비밀번호</Label>
           <PassWord>
             <Input
               type={togglePassword ? 'text' : 'password'}
-              id="signup-check-password"
+              id="password"
+              className={
+                errors.password && errors.password?.message ? 'active' : ''
+              }
+              placeholder="영문, 숫자를 조합해 8자 이상 입력해 주세요."
+              {...register('password', {
+                required: '비밀번호를 입력해주세요',
+                pattern: {
+                  value: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/,
+                  message: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요',
+                },
+              })}
+              name="password"
+            />
+            <EyeImg
+              src={
+                togglePassword
+                  ? '/image/ico-eye-on.svg'
+                  : '/image/ico-eye-off.svg'
+              }
+              alt={togglePassword ? '비밀번호 표시' : '비밀번호 숨기기'}
+              onClick={setTogglePassword as MouseEventHandler}
+            />
+          </PassWord>
+          {errors.password && <Messages>{errors.password?.message}</Messages>}
+        </InputBox>
+        <InputBox>
+          <Label htmlFor="passwordCheck">비밀번호 확인</Label>
+          <PassWord>
+            <Input
+              type={togglePassword ? 'text' : 'password'}
+              id="passwordCheck"
               className={errors.passwordCheck ? 'active' : ''}
               placeholder="비밀번호와 일치하는 값을 입력해 주세요"
               {...register('passwordCheck', {
                 validate: {
                   check: (val) => {
-                    if (getValues('password') !== val) {
+                    if (USER_INFO.password !== val) {
                       return '비밀번호가 일치하지 않습니다.';
                     }
                   },
@@ -95,12 +151,12 @@ export default function SignupForm() {
             />
             <EyeImg
               src={
-                togglePasswordCheck
+                togglePassword
                   ? '/image/ico-eye-on.svg'
                   : '/image/ico-eye-off.svg'
               }
-              alt={togglePasswordCheck ? '비밀번호 표시' : '비밀번호 숨기기'}
-              onClick={handleClickPasswordCheck}
+              alt={togglePassword ? '비밀번호 표시' : '비밀번호 숨기기'}
+              onClick={setTogglePassword as MouseEventHandler}
             />
           </PassWord>
           {errors.passwordCheck && (
