@@ -1,7 +1,8 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ModalContext from '@/src/components/modal/ModalContext';
 import MainContext, { Folder } from '@/src/components/main/MainContext';
+import { useRouter } from 'next/router';
 interface All {
   id: string;
   name: string;
@@ -28,7 +29,7 @@ function TabMenuList({
     <li key={folder.id}>
       <button
         type="button"
-        className={$selectedMenu === folder.id ? 'active' : ''}
+        className={String($selectedMenu) === String(folder.id) ? 'active' : ''}
         onClick={() => handleClickMenu(folder)}
       >
         {folder.name}
@@ -41,6 +42,20 @@ function TabMenuList({
 export default function TabMenu() {
   const { folderList, selectedMenu, handleClickMenu } = useContext(MainContext);
   const { handleModalOpen } = useContext(ModalContext);
+  
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    if (id) {
+      const folder = folderList.find((folder) => String(folder.id) === String(id));
+      if (folder) {
+        handleClickMenu(folder);
+      }
+    }else{
+      return
+    }
+  }, [id, folderList, handleClickMenu]);
 
   return (
     <>

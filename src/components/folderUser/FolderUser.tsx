@@ -10,17 +10,17 @@ export default function FolderUser() {
   const [folderUserName, setFolderUserName] = useState<string>('');
   const [folderName, setFolderName] = useState<string>('');
   const [getFolderSample] = useAsync({
-    baseUrl: '/sample/folder',
-    folderId: '',
+    baseUrl: '/users',
+    folderId: '/25',
     path: '',
     userId: '',
   });
 
   const handleLoadFolder = async () => {
-    const { folder } = await getFolderSample();
-    setFolderName(folder?.name);
-    setFolderUserName(folder?.owner?.name);
-    setFolderUserProfile(folder?.owner?.profileImageSource);
+    const { data } = await getFolderSample();
+    // setFolderName(data[0].name);
+    setFolderUserName(data[0].name);
+    setFolderUserProfile(data[0].image_source);
   };
 
   useEffect(() => {

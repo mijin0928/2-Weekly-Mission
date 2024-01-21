@@ -2,7 +2,6 @@ import MainContext from '@/src/components/main/MainContext';
 import { useState, useEffect, ReactNode } from 'react';
 import useAsync from '@/src/hook/useAsync';
 import { Folder, Card } from '@/src/components/main/MainContext';
-import { BASE_URL } from '@/constant';
 
 interface MainProviderProps {
   cardUrl: string;
@@ -10,6 +9,7 @@ interface MainProviderProps {
 }
 
 export default function MainProvider({ children, cardUrl }: MainProviderProps) {
+  
   const [selectedMenu, setSelectedMenu] = useState<string>('all');
   const [title, setTitle] = useState<string>('');
   const [buttonOption, setButtonOption] = useState<boolean>(false);
@@ -18,78 +18,42 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [searchResult, setSearchResult] = useState<Card[]>([]);
   const [getfolderList] = useAsync({
-    baseUrl: '/users',
-    folderId: '/1',
-    path: '/folders',
+    baseUrl: '/folders',
+    folderId: '',
+    path: '',
     userId: '',
   });
   const [getFolderAll] = useAsync({
-    baseUrl: '/users',
-    folderId: '/1',
-    path: '/links',
+    baseUrl: '/links',
+    folderId: '',
+    path: '',
     userId: '',
   });
   const [getFolderData] = useAsync({
-    baseUrl: '/users',
-    folderId: '/1',
-    path: '/links?folderId=',
-    userId: selectedMenu,
+    baseUrl: '/links?folderId=',
+    folderId: selectedMenu,
+    path: '',
+    userId: '',
   });
 
   const handleClickMenu = (folder: Folder) => {
-    setSelectedMenu(folder?.id);
-    setButtonOption(folder?.name !== '전체' && true);
-    setTitle(folder?.name !== '전체' ? folder?.name : '');
+    setSelectedMenu(folder.id);
+    setButtonOption(folder.name !== '전체' && true);
+    setTitle(folder.name !== '전체' ? folder.name : '');
   };
 
   const handleLoadFolderList = async () => {
-    // const { data } = await getfolderList();
-    // setFolderList(data);
-    
-    const accessToken = localStorage.getItem('accessToken');
-
-      if (accessToken) {
-        const response = await fetch(`${BASE_URL}/folders`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        // const { data } = await getFolderAll();
-        const { data } = await response.json();
-        setFolderList(data.folder);
-      }
+    const { data } = await getfolderList();
+    setFolderList(data.folder);    
   };
-
+    
   const handleLoadFolderData = async (options: string) => {
     if (options !== 'all') {
-      // const { data } = await getFolderData();
-      // setCardList(data);
-
-      const accessToken = localStorage.getItem('accessToken');
-
-      if (accessToken) {
-        const response = await fetch(`${BASE_URL}/links?folderId=${selectedMenu}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        const { data } = await response.json();
-        setCardList(data.folder);
-        console.log(data)
-      }
+      const { data } = await getFolderData();
+      setCardList(data.folder);
     } else {
-      const accessToken = localStorage.getItem('accessToken');
-
-      if (accessToken) {
-        const response = await fetch(`${BASE_URL}/links`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        // const { data } = await getFolderAll();
-        const { data } = await response.json();
-        setCardList(data.folder);
-      }
+      const { data } = await getFolderAll();
+      setCardList(data.folder);
     }
   };
 

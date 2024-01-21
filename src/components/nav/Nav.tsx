@@ -4,45 +4,37 @@ import useAsync from '@/src/hook/useAsync';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '@/public/image/logo.svg';
-import { BASE_URL } from '@/constant';
 
 export default function Nav() {
   const [profileImg, setProfileImg] = useState<string | null>(null);
   const [profileEmail, setProfileEmail] = useState<string>('');
   const [position, setPosition] = useState<string>('');
+  const [userId, setUserId] = useState<string>('');
   const [getProfile] = useAsync({
     baseUrl: '/users',
     folderId: '',
     path: '',
     userId: '',
   });
+
   const [getProfileSample] = useAsync({
-    baseUrl: '/sample/user',
-    folderId: '',
+    baseUrl: '/users',
+    folderId: userId,
     path: '',
     userId: '',
   });
 
   const handleProfileShared = async () => {
-    // const { email, profileImageSource } = await getProfileSample();
-    // setProfileImg(profileImageSource);
-    // setProfileEmail(email);
+    const { data } = await getProfileSample();
+    setProfileImg(data[0].image_source);
+    setProfileEmail(data[0].email);
   };
 
   const handleProfileFolder = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    if (accessToken) {
-      const response = await fetch(`${BASE_URL}/users`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      const { data } = await response.json();
-      setProfileImg(data[0].image_source);
-      setProfileEmail(data[0].email);
-    }
+    const { data } = await getProfile();
+    setProfileImg(data[0].image_source);
+    setProfileEmail(data[0].email);
+    setUserId(data[0].id);
   };
 
   useEffect(() => {

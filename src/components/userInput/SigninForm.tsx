@@ -28,8 +28,6 @@ async function onSubmit(USER_INFO: Inputvalue, setError: InputError) {
     localStorage.setItem('accessToken', data.accessToken);
     if (localStorage.getItem('accessToken')) {
       window.location.href = '/folder';
-    }else{
-     console.log('aa') 
     }
     
     if (!response.ok) throw new Error('로그인 정보가 일치하지 않습니다.');
