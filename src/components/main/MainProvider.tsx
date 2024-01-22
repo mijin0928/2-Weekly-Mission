@@ -2,6 +2,7 @@ import MainContext from '@/src/components/main/MainContext';
 import { useState, useEffect, ReactNode } from 'react';
 import useAsync from '@/src/hook/useAsync';
 import { Folder, Card } from '@/src/components/main/MainContext';
+import { useRouter } from 'next/router';
 interface MainProviderProps {
   cardUrl: string;
   children: ReactNode;
@@ -31,24 +32,24 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
   });
 
   const handleClickMenu = (folder: Folder) => {
-    setSelectedMenu(folder.id);
-    setButtonOption(folder.name !== '전체' && true);
-    setTitle(folder.name !== '전체' ? folder.name : '');
+    setSelectedMenu(folder?.id);
+    setButtonOption(folder?.name !== '전체' && true);
+    setTitle(folder?.name !== '전체' ? folder?.name : '');
   };
 
   const handleLoadFolderList = async () => {
     const { data } = await getfolderList();
-    setFolderList(data.folder);
-    setUserId(data.folder[0]?.user_id);
+    setFolderList(data?.folder);
+    setUserId(data?.folder[0]?.user_id);
   };
 
-  const handleLoadFolderData = async (options: string) => {
-    if (options !== 'all') {
+  const handleLoadFolderData = async (selectedMenu: string) => {
+    if (selectedMenu !== 'all') {
       const { data } = await getFolderData();
-      setCardList(data.folder);
+      setCardList(data?.folder);
     } else {
       const { data } = await getFolderAll();
-      setCardList(data.folder);
+      setCardList(data?.folder);
     }
   };
 

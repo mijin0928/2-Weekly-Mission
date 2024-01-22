@@ -23,14 +23,14 @@ export default function Nav() {
 
   const handleProfileShared = async () => {
     const { data } = await getProfileSample();
-    setProfileImg(data[0].image_source);
-    setProfileEmail(data[0].email);
+    setProfileImg(data[0]?.image_source);
+    setProfileEmail(data[0]?.email);
   };
 
   const handleProfileFolder = async () => {
     const { data } = await getProfile();
-    setProfileImg(data[0].image_source);
-    setProfileEmail(data[0].email);
+    setProfileImg(data[0]?.image_source);
+    setProfileEmail(data[0]?.email);
   };
 
   useEffect(() => {

@@ -25,13 +25,13 @@ function TabMenuList({
   folderListArr.unshift(All);
 
   const item = folderListArr.map((folder) => (
-    <li key={folder.id}>
+    <li key={folder?.id}>
       <button
         type="button"
-        className={$selectedMenu === folder.id ? 'active' : ''}
+        className={$selectedMenu === folder?.id ? 'active' : ''}
         onClick={() => handleClickMenu(folder)}
       >
-        {folder.name}
+        {folder?.name}
       </button>
     </li>
   ));

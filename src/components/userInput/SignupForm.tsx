@@ -1,5 +1,4 @@
 import { MouseEventHandler } from 'react';
-import styled from 'styled-components';
 import { BASE_URL } from '@/constant';
 import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';

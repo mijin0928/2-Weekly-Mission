@@ -13,8 +13,9 @@ import {
   PassWord,
   EyeImg,
 } from '@/src/components/userInput/SignStyle';
+import { NextRouter, useRouter } from 'next/router';
 
-async function onSubmit(USER_INFO: Inputvalue, setError: InputError) {
+async function onSubmit(USER_INFO: Inputvalue, setError: InputError, router: NextRouter) {
   try {
     const response = await fetch(`${BASE_URL}/sign-in`, {
       method: 'POST',
@@ -23,11 +24,11 @@ async function onSubmit(USER_INFO: Inputvalue, setError: InputError) {
         'Content-Type': 'application/json',
       },
     });
-
+    
     const { data } = await response.json();
     localStorage.setItem('accessToken', data.accessToken);
     if (localStorage.getItem('accessToken')) {
-      window.location.href = '/folder';
+      router.push('/folder');
     }
     
     if (!response.ok) throw new Error('로그인 정보가 일치하지 않습니다.');
@@ -53,9 +54,11 @@ export default function SigninForm() {
     password: watch('password'),
   };
 
+  const router = useRouter();
+
   return (
     <>
-      <form onSubmit={handleSubmit(() => onSubmit(USER_INFO, setError))}>
+      <form onSubmit={handleSubmit(() => onSubmit(USER_INFO, setError, router))}>
         <InputContainer>
           <InputBox>
             <Label htmlFor="email">이메일</Label>

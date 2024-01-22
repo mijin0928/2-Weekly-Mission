@@ -29,16 +29,16 @@ function FolderItem({ folderList }: { folderList: Folder[] }) {
   const [selectedFolder, setSelectedFolder] = useState<string>('');
 
   const handleClickFolderList = (folder: Folder) =>
-    setSelectedFolder(folder.name);
+    setSelectedFolder(folder?.name);
 
   const item = folderList.map((folder) => (
     <Item
-      key={folder.id}
+      key={folder?.id}
       onClick={() => handleClickFolderList(folder)}
-      className={selectedFolder === folder.name ? 'active' : ''}
+      className={selectedFolder === folder?.name ? 'active' : ''}
     >
-      <Name>{folder.name}</Name>
-      <Count>{folder.link?.count}개</Count>
+      <Name>{folder?.name}</Name>
+      <Count>{folder?.link?.count}개</Count>
     </Item>
   ));
 

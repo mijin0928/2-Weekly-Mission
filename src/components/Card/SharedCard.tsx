@@ -45,9 +45,9 @@ export default function SharedCard() {
   if (cardList.length === 0) return <NoLink>저장된 링크가 없습니다</NoLink>;
 
   const cards = cardList.map((card: Card) => (
-    <Cards key={card.id}>
+    <Cards key={card?.id}>
       <Link
-        href={card.url}
+        href={card?.url}
         target="_blank"
         rel="noopener noreferrer"
         onMouseOver={(e) => handleMouseOver(e, true)}
@@ -55,15 +55,15 @@ export default function SharedCard() {
       >
         <ImgBox>
           <CardImg
-            src={card.image_source ? card.image_source : '/image/no-img.svg'}
+            src={card?.image_source ? card?.image_source : '/image/no-img.svg'}
             alt="카드 이미지"
           />
         </ImgBox>
         <Text>
-          <TimeStamp>{getDateInfo({ createdAt: card.created_at })}</TimeStamp>
+          <TimeStamp>{getDateInfo({ createdAt: card?.created_at })}</TimeStamp>
           <Desc>{card.description}</Desc>
           <CreatedDate>
-            {getDateText({ createdAt: card.created_at })}
+            {getDateText({ createdAt: card?.created_at })}
           </CreatedDate>
         </Text>
       </Link>

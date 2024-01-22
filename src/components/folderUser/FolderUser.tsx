@@ -26,8 +26,8 @@ export default function FolderUser() {
 
   const handleLoadFolder = async () => {
     const { data } = await getFolderSample();
-    setFolderUserName(data[0].name);
-    setFolderUserProfile(data[0].image_source);
+    setFolderUserName(data[0]?.name);
+    setFolderUserProfile(data[0]?.image_source);
   };
 
   const handleLoadFolderId = async () => {
