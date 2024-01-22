@@ -7,7 +7,7 @@ import {
   getDateText,
   getDateInfo,
   handleMouseOver,
-} from '@/src/components/Card/CardFunction';
+} from '@/src/components/card/CardFunction';
 import {
   NoLink,
   Cards,
@@ -19,7 +19,7 @@ import {
   CardImg,
   CardContainer,
   CardBox
-} from '@/src/components/Card/CardStyle';
+} from '@/src/components/card/CardStyle';
 
 export default function SharedCard() {
   const { userId } = useContext(MainContext);
