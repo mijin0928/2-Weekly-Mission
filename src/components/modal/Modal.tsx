@@ -29,9 +29,7 @@ function FolderItem({ folderList }: { folderList: Folder[] }) {
   const [selectedFolder, setSelectedFolder] = useState<string>('');
 
   const handleClickFolderList = (folder: Folder) =>
-    {setSelectedFolder(folder.name);
-    console.log(folder)
-    }
+    setSelectedFolder(folder.name);
 
   const item = folderList.map((folder) => (
     <Item
@@ -58,8 +56,10 @@ export default function Modal() {
 
   let host;
   if (typeof window !== 'undefined') host = window.location.href;
+
   let userId;
   if (folderList.length > 0) userId = folderList[0].user_id;
+  
   const folderId = selectedMenu;
   const currentUrl = `${host}/shared?user=${userId}&folderId=${folderId}`;
 

@@ -1,4 +1,4 @@
-import { SetStateAction, createContext, Dispatch } from 'react';
+import { createContext } from 'react';
 
 export interface Folder {
   id: string;
@@ -28,7 +28,6 @@ interface MainContext {
   searchResult: Card[];
   cardUrl: string;
   userId: string;
-  setUserId: Dispatch<SetStateAction<string>>
   handleClickMenu: (folder: Folder) => void;
   handleChangeSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -43,7 +42,6 @@ const MainContext = createContext<MainContext>({
   searchResult: [],
   cardUrl: '',
   userId: '',
-  setUserId: () => {},
   handleClickMenu: () => {},
   handleChangeSearch: () => {},
 });

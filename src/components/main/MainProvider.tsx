@@ -39,6 +39,7 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
   const handleLoadFolderList = async () => {
     const { data } = await getfolderList();
     setFolderList(data.folder);
+    setUserId(data.folder[0]?.user_id);
   };
 
   const handleLoadFolderData = async (options: string) => {
@@ -90,7 +91,6 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
           searchKeyword,
           cardUrl,
           userId,
-          setUserId,
           handleClickMenu,
           handleChangeSearch,
         }}

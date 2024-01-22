@@ -10,7 +10,7 @@ export default function Nav() {
   const [profileImg, setProfileImg] = useState<string | null>(null);
   const [profileEmail, setProfileEmail] = useState<string>('');
   const [position, setPosition] = useState<string>('');
-  const { userId, setUserId } = useContext(MainContext);
+  const { userId } = useContext(MainContext);
   const [getProfile] = useAsync({
     baseUrl: '/users',
     folderId: '',
@@ -31,7 +31,6 @@ export default function Nav() {
     const { data } = await getProfile();
     setProfileImg(data[0].image_source);
     setProfileEmail(data[0].email);
-    setUserId(data[0].id);
   };
 
   useEffect(() => {
