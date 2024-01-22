@@ -11,8 +11,8 @@ import Image from 'next/image';
 interface SharedCard {
   id: string;
   url: string;
-  imageSource: string;
-  createdAt: string;
+  image_source: string;
+  created_at: string;
   description: string;
 }
 
@@ -44,17 +44,28 @@ function getDateInfo({ createdAt }: { createdAt: string }) {
   }
 }
 
-export default function CardList() {
+export default function CardList({ folderData }:any) {
   const { searchResult } = useContext(MainContext);
   const { pathname } = useRouter();
   const [popOverOpen, setPopOverOpen] = useState<string | boolean>(false);
   const [cardList, setCardList] = useState<SharedCard[]>([]);
-  const [getFolderSample] = useAsync({
-    baseUrl: '/sample/folder',
-    folderId: '',
-    path: '',
-    userId: '',
-  });
+
+  // const [getFolderSample] = useAsync({
+  //   baseUrl: '/sample/folder',
+  //   folderId: '',
+  //   path: '',
+  //   userId: '',
+  // });
+  
+  
+  // const handleLoadFolderList = async (foldeId: string | string[]) => {
+  //   const { data } = await getfolderList();
+  //   console.log(data)
+  // };
+
+  useEffect(() => {
+    // setCardList(folderData);
+  }, []);
 
   const handleClickKebab = (e: MouseEvent<HTMLSpanElement>, cardId: string) => {
     e.preventDefault();
@@ -64,83 +75,80 @@ export default function CardList() {
   const handleMouseOver = (e: MouseEvent<HTMLAnchorElement>, isOver: boolean) =>
     e.currentTarget.classList[isOver ? 'add' : 'remove']('active');
 
-  const handleLoadFolder = async () => {
-    const { folder } = await getFolderSample();
-    const { links } = folder;
-    setCardList(links);
-  };
+  // const handleLoadFolder = async () => {
+  //   const { folder } = await getFolderSample();
+  //   const { links } = folder;
+  //   setCardList(links);
+  // };
 
-  useEffect(() => {
-    handleLoadFolder();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadFolder();
+  // }, []);
 
   if (searchResult.length === 0) return <NoLink>저장된 링크가 없습니다</NoLink>;
 
-  const cards =
-    pathname !== '/shared'
-      ? searchResult.map((card: Card) => (
-          <Cards key={card.id}>
-            <Link
-              href={card.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseOver={(e) => handleMouseOver(e, true)}
-              onMouseOut={(e) => handleMouseOver(e, false)}
-            >
-              <ImgBox>
-                <CardImg
-                  src={
-                    card.image_source ? card.image_source : '/image/no-img.svg'
-                  }
-                  alt="카드 이미지"
-                />
-                <StarImg>
-                  <Image src={star} alt="별 이미지" />
-                </StarImg>
-              </ImgBox>
-              <Text>
-                <TimeStamp>
-                  {getDateInfo({ createdAt: card.created_at })}
-                </TimeStamp>
-                <Kebab onClick={(e) => handleClickKebab(e, card.id)}></Kebab>
-                <Desc>{card.description}</Desc>
-                <CreatedDate>
-                  {getDateText({ createdAt: card.created_at })}
-                </CreatedDate>
-              </Text>
-            </Link>
-            <PopOver popOverOpen={card.id === popOverOpen} cardUrl={card.url} />
-          </Cards>
-        ))
-      : cardList.map((card: SharedCard) => (
-          <Cards key={card.id}>
-            <Link
-              href={card.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseOver={(e) => handleMouseOver(e, true)}
-              onMouseOut={(e) => handleMouseOver(e, false)}
-            >
-              <ImgBox>
-                <CardImg
-                  src={
-                    card.imageSource ? card.imageSource : '/image/no-img.svg'
-                  }
-                  alt="카드 이미지"
-                />
-              </ImgBox>
-              <Text>
-                <TimeStamp>
-                  {getDateInfo({ createdAt: card.createdAt })}
-                </TimeStamp>
-                <Desc>{card.description}</Desc>
-                <CreatedDate>
-                  {getDateText({ createdAt: card.createdAt })}
-                </CreatedDate>
-              </Text>
-            </Link>
-          </Cards>
-        ));
+  // const cards =
+  //   pathname !== '/shared' &&
+  //   searchResult.map((card: Card) => (
+  //     <Cards key={card.id}>
+  //       <Link
+  //         href={card.url}
+  //         target="_blank"
+  //         rel="noopener noreferrer"
+  //         onMouseOver={(e) => handleMouseOver(e, true)}
+  //         onMouseOut={(e) => handleMouseOver(e, false)}
+  //       >
+  //         <ImgBox>
+  //           <CardImg
+  //             src={card.image_source ? card.image_source : '/image/no-img.svg'}
+  //             alt="카드 이미지"
+  //           />
+  //           <StarImg>
+  //             <Image src={star} alt="별 이미지" />
+  //           </StarImg>
+  //         </ImgBox>
+  //         <Text>
+  //           <TimeStamp>{getDateInfo({ createdAt: card.created_at })}</TimeStamp>
+  //           <Kebab onClick={(e) => handleClickKebab(e, card.id)}></Kebab>
+  //           <Desc>{card.description}</Desc>
+  //           <CreatedDate>
+  //             {getDateText({ createdAt: card.created_at })}
+  //           </CreatedDate>
+  //         </Text>
+  //       </Link>
+  //       <PopOver popOverOpen={card.id === popOverOpen} cardUrl={card.url} />
+  //     </Cards>
+  //   ));
+
+    const cards = cardList.map((card: SharedCard) => (
+      <Cards key={card.id}>
+        <Link
+          href={card.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onMouseOver={(e) => handleMouseOver(e, true)}
+          onMouseOut={(e) => handleMouseOver(e, false)}
+        >
+          <ImgBox>
+            <CardImg
+              src={
+                card.image_source ? card.image_source : '/image/no-img.svg'
+              }
+              alt="카드 이미지"
+            />
+          </ImgBox>
+          <Text>
+            <TimeStamp>
+              {getDateInfo({ createdAt: card.created_at })}
+            </TimeStamp>
+            <Desc>{card.description}</Desc>
+            <CreatedDate>
+              {getDateText({ createdAt: card.created_at })}
+            </CreatedDate>
+          </Text>
+        </Link>
+      </Cards>
+    ))
   return (
     <>
       <CardContainer>

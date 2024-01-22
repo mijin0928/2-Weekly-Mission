@@ -11,25 +11,39 @@ export default function FolderUser() {
   );
   const [folderUserName, setFolderUserName] = useState<string>('');
   const [folderName, setFolderName] = useState<string>('');
-  const { userId, setUserId, folderId } = useContext(MainContext);
+  const { userId, setUserId } = useContext(MainContext);
   const [getFolderSample] = useAsync({
     baseUrl: '/users',
     folderId: userId,
-    path: '',
-    userId: '',
   });
+
+  const router = useRouter();
+  const { id } = router.query;
+  const [getFolderId] = useAsync({
+    baseUrl: '/folders/',
+    folderId: id,
+  })
 
   const handleLoadFolder = async () => {
     const { data } = await getFolderSample();
-    // setFolderName();
     setFolderUserName(data[0].name);
     setFolderUserProfile(data[0].image_source);
     setUserId(data[0].id);
   };
 
+  const handleLoadFolderId = async () => {
+    const { data } = await getFolderId();
+    setFolderName(data[0].name);
+  };
+
   useEffect(() => {
     handleLoadFolder();
   }, []);
+
+  useEffect(() => {
+    if(!router.isReady) return;
+    handleLoadFolderId();
+ }, [router.isReady])
 
   return (
     <FolderUserContainer>

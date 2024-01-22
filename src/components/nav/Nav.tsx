@@ -14,15 +14,11 @@ export default function Nav() {
   const [getProfile] = useAsync({
     baseUrl: '/users',
     folderId: '',
-    path: '',
-    userId: '',
   });
 
   const [getProfileSample] = useAsync({
     baseUrl: '/users',
     folderId: userId,
-    path: '',
-    userId: '',
   });
 
   const handleProfileShared = async () => {
