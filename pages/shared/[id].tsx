@@ -3,7 +3,7 @@ import FolderUser from '@/src/components/folderUser/FolderUser';
 import Nav from '@/src/components/nav/Nav';
 import Footer from '@/src/components/footer/Footer';
 import SearchBar from '@/src/components/main/SearchBar';
-import SharedCard from '@/src/components/main/SharedCard';
+import SharedCard from '@/src/components/Card/SharedCard';
 
 export default function SharedPage() {
   return (
