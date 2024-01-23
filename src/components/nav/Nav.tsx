@@ -12,7 +12,7 @@ export default function Nav() {
   const [profileEmail, setProfileEmail] = useState<string>('');
   const { userId } = useContext(MainContext);
   const router = useRouter();
-  const path = router.pathname === '/folder' ? true : false;
+  const path = router.pathname === '/shared' ? true : false;
 
   const [getProfileFolder] = useAsync({
     baseUrl: '/users',
@@ -44,7 +44,7 @@ export default function Nav() {
   }, []);
 
   return (
-    <NavContainer className={path ? 'active' : ''}>
+    <NavContainer className={path ? '' : 'active'}>
       <Logo>
         <Link href="/">
           <LogoImg>
