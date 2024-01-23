@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 import ModalContext from '@/src/components/modal/ModalContext';
 import MainContext, { Folder } from '@/src/components/main/MainContext';
+import { useRouter } from 'next/router';
 interface All {
   id: string;
   name: string;
@@ -10,12 +11,14 @@ interface TabMenuListProps {
   folderList: Folder[];
   $selectedMenu: string;
   handleClickMenu: (folder: Folder) => void;
+  id: number | string;
 }
 
 function TabMenuList({
   folderList,
   $selectedMenu,
   handleClickMenu,
+  id
 }: TabMenuListProps) {
   const All: All = {
     id: 'all',
@@ -28,7 +31,7 @@ function TabMenuList({
     <li key={folder?.id}>
       <button
         type="button"
-        className={$selectedMenu === folder?.id ? 'active' : ''}
+        className={$selectedMenu === folder?.id || id === folder?.id ? 'active' : ''}
         onClick={() => handleClickMenu(folder)}
       >
         {folder?.name}
@@ -38,11 +41,13 @@ function TabMenuList({
   return item;
 }
 
-
 export default function TabMenu() {
   const { folderList, selectedMenu, handleClickMenu } = useContext(MainContext);
   const { handleModalOpen } = useContext(ModalContext);
-
+  
+  const router = useRouter();
+  const id = Number(router.query.id);
+  
   return (
     <>
       <TabMenuContainer>
@@ -51,6 +56,7 @@ export default function TabMenu() {
             folderList={folderList}
             handleClickMenu={handleClickMenu}
             $selectedMenu={selectedMenu}
+            id={id}
           />
         </ul>
         <Button

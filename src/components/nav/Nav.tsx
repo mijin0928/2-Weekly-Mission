@@ -4,31 +4,34 @@ import useAsync from '@/src/hook/useAsync';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '@/public/image/logo.svg';
-import MainContext from '../main/MainContext';
+import MainContext from '@/src/components/main/MainContext';
 
 export default function Nav() {
   const [profileImg, setProfileImg] = useState<string | null>(null);
   const [profileEmail, setProfileEmail] = useState<string>('');
   const [position, setPosition] = useState<string>('');
   const { userId } = useContext(MainContext);
-  const [getProfile] = useAsync({
+
+  const [getProfileFolder] = useAsync({
     baseUrl: '/users',
     folderId: '',
   });
 
-  const [getProfileSample] = useAsync({
-    baseUrl: '/users',
+  const [getProfileShared] = useAsync({
+    baseUrl: '/users/',
     folderId: userId,
   });
 
   const handleProfileShared = async () => {
-    const { data } = await getProfileSample();
-    setProfileImg(data[0]?.image_source);
-    setProfileEmail(data[0]?.email);
+    if (userId) {
+      const { data } = await getProfileShared();
+      setProfileImg(data[0]?.image_source);
+      setProfileEmail(data[0]?.email);
+    }
   };
 
   const handleProfileFolder = async () => {
-    const { data } = await getProfile();
+    const { data } = await getProfileFolder();
     setProfileImg(data[0]?.image_source);
     setProfileEmail(data[0]?.email);
   };
