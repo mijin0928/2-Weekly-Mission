@@ -18,7 +18,7 @@ import {
   CreatedDate,
   CardImg,
   CardContainer,
-  CardBox
+  CardBox,
 } from '@/src/components/card/CardStyle';
 
 export default function SharedCard() {
@@ -28,19 +28,21 @@ export default function SharedCard() {
   const router = useRouter();
   const { id } = router.query;
   const [getFolderLink] = useAsync({
-    baseUrl: `/users/25/links?folderId=`,
+    baseUrl: `/users/${userId}/links?folderId=`,
     folderId: id,
   });
 
   const handleLoadLinkList = async () => {
-    const { data } = await getFolderLink();
-    setCardList(data);
+    if (userId) {
+      const { data } = await getFolderLink();
+      setCardList(data);
+    }
   };
 
   useEffect(() => {
     if (!router.isReady) return;
     handleLoadLinkList();
-  }, [router.isReady]);
+  }, [router.isReady, userId]);
 
   if (cardList.length === 0) return <NoLink>저장된 링크가 없습니다</NoLink>;
 
