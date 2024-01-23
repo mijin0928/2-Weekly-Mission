@@ -10,7 +10,7 @@ interface MainProviderProps {
 }
 
 export default function MainProvider({ children, cardUrl }: MainProviderProps) {
-  const [selectedMenu, setSelectedMenu] = useState<string>('');
+  const [selectedMenu, setSelectedMenu] = useState<string>('all');
   const [title, setTitle] = useState<string>('');
   const [buttonOption, setButtonOption] = useState<boolean>(false);
   const [folderList, setFolderList] = useState<Folder[]>([]);

@@ -65,6 +65,7 @@ export default function FolderUser() {
 const FolderUserContainer = styled.div`
   padding: 2rem 0 6rem 0;
   text-align: center;
+  margin: 9rem 0 0;
 
   @media screen and (min-width: 375px) and (max-width: 768px) {
     margin: 6.3rem 0 0;
