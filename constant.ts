@@ -1,5 +1,10 @@
 const BASE_URL = 'https://bootcamp-api.codeit.kr/api';
 
+const All = {
+  id: 'all',
+  name: '전체',
+};
+
 const PAGE_CONTENT = {
   signin: {
     button: '로그인',
@@ -67,4 +72,4 @@ const BUTTON_OPTION = [
   },
 ];
 
-export { BASE_URL, PAGE_CONTENT, POPOVER_BUTTONS, SNS_INFO, BUTTON_OPTION }
+export { BASE_URL, All, PAGE_CONTENT, POPOVER_BUTTONS, SNS_INFO, BUTTON_OPTION }

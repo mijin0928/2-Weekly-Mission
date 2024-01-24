@@ -7,7 +7,6 @@ export interface Folder {
   link?: {
     count: number;
   };
-
 }
 
 export interface Card {

@@ -86,7 +86,7 @@ export default function MainProvider({ children, cardUrl }: MainProviderProps) {
   useEffect(() => {
     if (!router.isReady) return;
     handleFolderIdData();
-    if(id === undefined) setSearchResult(cardList);
+    setSearchResult(cardList);
   }, [router.isReady, id, cardList]);
 
   useEffect(() => {

@@ -3,13 +3,10 @@ import styled from 'styled-components';
 import ModalContext from '@/src/components/modal/ModalContext';
 import MainContext, { Folder } from '@/src/components/main/MainContext';
 import { useRouter } from 'next/router';
-interface All {
-  id: string;
-  name: string;
-}
+import { All } from '@/constant';
 interface TabMenuListProps {
   folderList: Folder[];
-  $selectedMenu: string;
+  $selectedMenu: string | boolean;
   handleClickMenu: (folder: Folder) => void;
   id: number | string;
 }
@@ -18,36 +15,41 @@ function TabMenuList({
   folderList,
   $selectedMenu,
   handleClickMenu,
-  id
+  id,
 }: TabMenuListProps) {
-  const All: All = {
-    id: 'all',
-    name: '전체',
-  };
-  const folderListArr = [...folderList];
-  folderListArr.unshift(All);
-
-  const item = folderListArr.map((folder) => (
+  const item = folderList.map((folder) => (
     <li key={folder?.id}>
       <button
         type="button"
-        className={$selectedMenu === folder?.id || id === folder?.id ? 'active' : ''}
+        className={id === folder?.id ? 'active' : ''}
         onClick={() => handleClickMenu(folder)}
       >
         {folder?.name}
       </button>
     </li>
   ));
-  return item;
+
+  return (
+    <>
+      <button
+        type="button"
+        className={!id && $selectedMenu === All.id ? 'active' : ''}
+        onClick={() => handleClickMenu(All)}
+      >
+        전체
+      </button>
+      {item}
+    </>
+  );
 }
 
 export default function TabMenu() {
   const { folderList, selectedMenu, handleClickMenu } = useContext(MainContext);
   const { handleModalOpen } = useContext(ModalContext);
-  
+
   const router = useRouter();
   const id = Number(router.query.id);
-  
+
   return (
     <>
       <TabMenuContainer>
@@ -79,25 +81,25 @@ const TabMenuContainer = styled.div`
 
     li {
       line-height: 1.9rem;
+    }
 
-      button {
-        display: block;
-        padding: 0 1.2rem;
-        height: 3.5rem;
-        font-size: 1.6rem;
-        border-radius: 5px;
-        border: 1px solid var(--primary);
-        background-color: var(--white);
-        cursor: pointer;
+    button {
+      display: block;
+      padding: 0 1.2rem;
+      height: 3.5rem;
+      font-size: 1.6rem;
+      border-radius: 5px;
+      border: 1px solid var(--primary);
+      background-color: var(--white);
+      cursor: pointer;
 
-        @media screen and (min-width: 375px) and (max-width: 768px) {
-          font-size: 1.4rem;
-        }
+      @media screen and (min-width: 375px) and (max-width: 768px) {
+        font-size: 1.4rem;
+      }
 
-        &.active {
-          color: var(--white);
-          background-color: var(--primary);
-        }
+      &.active {
+        color: var(--white);
+        background-color: var(--primary);
       }
     }
   }
