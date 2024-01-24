@@ -3,7 +3,7 @@ import { BASE_URL } from '@/constant';
 import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';
 import useToggle from '@/src/hook/useToggle';
-import { Inputvalue, InputError } from '@/src/components/userInput/SignType';
+import { Inputvalue, InputError } from '@/src/components/input/SignType';
 import {
   InputContainer,
   InputBox,
@@ -12,7 +12,7 @@ import {
   Messages,
   PassWord,
   EyeImg,
-} from '@/src/components/userInput/SignStyle';
+} from '@/src/components/input/SignStyle';
 
 async function onSubmit(USER_INFO: Inputvalue) {
   try {

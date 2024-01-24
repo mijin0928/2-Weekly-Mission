@@ -1,30 +1,28 @@
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
-import UserInput, {
-  FormValues,
-} from '@/src/components/userInput/cooperation/UserInput';
+import input, { FormValues } from '@/src/components/input/cooperation/input';
 
-interface UserInputListProps {
+interface inputListProps {
   onSubmit: SubmitHandler<FormValues>;
 }
 
-export default function UserInputFormProvider() {
+export default function inputFormProvider() {
   const methods = useForm<FormValues>({ mode: 'onBlur' });
   const handleSubmit = (data: any) => {
     console.log(data);
   };
   return (
     <FormProvider {...methods}>
-      <UserInputList onSubmit={handleSubmit} />
+      <inputList onSubmit={handleSubmit} />
     </FormProvider>
   );
 }
 
-function UserInputList({ onSubmit }: UserInputListProps) {
+function inputList({ onSubmit }: inputListProps) {
   const methods = useForm<FormValues>({ mode: 'onBlur' });
 
   return (
     <form onSubmit={methods.handleSubmit(onSubmit)}>
-      <UserInput
+      <input
         label="이메일"
         id="email"
         type="email"
@@ -37,7 +35,7 @@ function UserInputList({ onSubmit }: UserInputListProps) {
           },
         }}
       />
-      <UserInput
+      <input
         label="비밀번호"
         id="password"
         type="password"
@@ -50,7 +48,7 @@ function UserInputList({ onSubmit }: UserInputListProps) {
           },
         }}
       />
-      <UserInput
+      <input
         label="비밀번호 확인"
         id="doubleCheckPassword"
         type="password"

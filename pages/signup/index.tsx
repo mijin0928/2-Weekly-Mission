@@ -2,7 +2,7 @@ import Head from 'next/head';
 import JoinSns from '@/src/components/joinSns/JoinSns';
 import JoinLink from '@/src/components/joinLink/JoinLink';
 import styled from 'styled-components';
-import SignupForm from '@/src/components/userInput/SignupForm';
+import SignupForm from '@/src/components/input/SignupForm';
 
 const Container = styled.div`
   display: flex;

@@ -35,7 +35,7 @@ type validation = {
   };
 };
 
-export default function UserInputCommon({
+export default function inputCommon({
   label,
   id,
   type,

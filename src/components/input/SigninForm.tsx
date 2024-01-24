@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';
 import useToggle from '@/src/hook/useToggle';
 import { MouseEventHandler } from 'react';
-import { Inputvalue, InputError } from '@/src/components/userInput/SignType';
+import { Inputvalue, InputError } from '@/src/components/input/SignType';
 import {
   InputContainer,
   InputBox,
@@ -12,10 +12,14 @@ import {
   Messages,
   PassWord,
   EyeImg,
-} from '@/src/components/userInput/SignStyle';
+} from '@/src/components/input/SignStyle';
 import { NextRouter, useRouter } from 'next/router';
 
-async function onSubmit(USER_INFO: Inputvalue, setError: InputError, router: NextRouter) {
+async function onSubmit(
+  USER_INFO: Inputvalue,
+  setError: InputError,
+  router: NextRouter
+) {
   try {
     const response = await fetch(`${BASE_URL}/sign-in`, {
       method: 'POST',
@@ -24,13 +28,13 @@ async function onSubmit(USER_INFO: Inputvalue, setError: InputError, router: Nex
         'Content-Type': 'application/json',
       },
     });
-    
+
     const { data } = await response.json();
     localStorage.setItem('accessToken', data.accessToken);
     if (localStorage.getItem('accessToken')) {
       router.push('/folder');
     }
-    
+
     if (!response.ok) throw new Error('로그인 정보가 일치하지 않습니다.');
   } catch {
     setError('email', { message: '이메일을 확인해주세요' });
@@ -48,7 +52,7 @@ export default function SigninForm() {
   } = useForm<Inputvalue>({ mode: 'onBlur' });
 
   const [togglePassword, setTogglePassword] = useToggle(false);
-  
+
   const USER_INFO = {
     email: watch('email'),
     password: watch('password'),
@@ -58,7 +62,9 @@ export default function SigninForm() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(() => onSubmit(USER_INFO, setError, router))}>
+      <form
+        onSubmit={handleSubmit(() => onSubmit(USER_INFO, setError, router))}
+      >
         <InputContainer>
           <InputBox>
             <Label htmlFor="email">이메일</Label>
