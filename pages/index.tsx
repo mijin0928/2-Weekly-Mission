@@ -1,7 +1,7 @@
-import SignupPage from "@/pages/signup/index"
+import SigninPage from "@/pages/signin/index"
 
 export default function Home() {
   return (
-    <SignupPage />
+    <SigninPage />
   )
 }
