@@ -1,9 +1,11 @@
+import instance from '@/lib/axios';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import { MouseEventHandler } from 'react';
-import { BASE_URL } from '@/constant';
 import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';
 import useToggle from '@/src/hook/useToggle';
-import { Inputvalue, InputError } from '@/src/components/input/SignType';
+import { Inputvalue } from '@/src/components/input/SignType';
 import {
   InputContainer,
   InputBox,
@@ -13,42 +15,6 @@ import {
   PassWord,
   EyeImg,
 } from '@/src/components/input/SignStyle';
-
-async function onSubmit(USER_INFO: Inputvalue) {
-  try {
-    const response = await fetch(`${BASE_URL}/sign-up`, {
-      method: 'POST',
-      body: JSON.stringify(USER_INFO),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const { data } = await response.json();
-    localStorage.setItem('accessToken', data.accessToken);
-    if (localStorage.getItem('accessToken')) window.location.href = '/folder';
-
-    if (!response.ok) throw new Error('이미 가입된 회원입니다.');
-  } catch {
-    return;
-  }
-}
-
-async function checkEmail(USER_INFO: Inputvalue, setError: InputError) {
-  try {
-    const response = await fetch(`${BASE_URL}/check-email`, {
-      method: 'POST',
-      body: JSON.stringify({ email: USER_INFO.email }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) throw new Error('중복된 이메일입니다.');
-  } catch {
-    setError('email', { message: '이미 사용중인 이메일입니다' });
-  }
-}
 
 export default function SignupForm() {
   const {
@@ -61,19 +27,55 @@ export default function SignupForm() {
   } = useForm<Inputvalue>({ mode: 'onBlur' });
 
   const [togglePassword, setTogglePassword] = useToggle(false);
+  const router = useRouter();
 
   const USER_INFO = {
     email: watch('email'),
     password: watch('password'),
   };
 
+  const inputType = togglePassword ? 'text' : 'password';
+  const imgType = togglePassword
+    ? '/image/ico-eye-on.svg'
+    : '/image/ico-eye-off.svg';
+
+  async function signUp() {
+    const response = await instance.post('/auth/sign-up', USER_INFO);
+    return response;
+  }
+
+  const { mutate } = useMutation({
+    mutationFn: signUp,
+    onSuccess: () => {
+      router.push('/signin');
+    },
+  });
+
+  const onSubmit = async () => {
+    mutate();
+  };
+
+  async function checkEmail() {
+    const response = instance.post('/users/check-email', {
+      email: USER_INFO.email,
+    });
+    return response;
+  }
+
   const handleCheckEmail = async () => {
     await trigger('email');
-    if (!errors.email && USER_INFO.email) checkEmail(USER_INFO, setError);
+
+    try {
+      if (!errors.email && USER_INFO.email) {
+        await checkEmail();
+      }
+    } catch (error) {
+      setError('email', { message: '이미 사용중인 이메일입니다.' });
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit(() => onSubmit(USER_INFO))}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <InputContainer>
         <InputBox>
           <Label htmlFor="email">이메일</Label>
@@ -93,17 +95,17 @@ export default function SignupForm() {
             name="email"
             onBlur={handleCheckEmail}
           />
-          {errors.email && <Messages>{errors.email?.message}</Messages>}
+          {errors.email && <Messages>{errors.email.message}</Messages>}
         </InputBox>
 
         <InputBox>
           <Label htmlFor="password">비밀번호</Label>
           <PassWord>
             <Input
-              type={togglePassword ? 'text' : 'password'}
+              type={inputType}
               id="password"
               className={
-                errors.password && errors.password?.message ? 'active' : ''
+                errors.password && errors.password.message ? 'active' : ''
               }
               placeholder="영문, 숫자를 조합해 8자 이상 입력해 주세요."
               {...register('password', {
@@ -116,22 +118,18 @@ export default function SignupForm() {
               name="password"
             />
             <EyeImg
-              src={
-                togglePassword
-                  ? '/image/ico-eye-on.svg'
-                  : '/image/ico-eye-off.svg'
-              }
+              src={imgType}
               alt={togglePassword ? '비밀번호 표시' : '비밀번호 숨기기'}
               onClick={setTogglePassword as MouseEventHandler}
             />
           </PassWord>
-          {errors.password && <Messages>{errors.password?.message}</Messages>}
+          {errors.password && <Messages>{errors.password.message}</Messages>}
         </InputBox>
         <InputBox>
           <Label htmlFor="passwordCheck">비밀번호 확인</Label>
           <PassWord>
             <Input
-              type={togglePassword ? 'text' : 'password'}
+              type={inputType}
               id="passwordCheck"
               className={errors.passwordCheck ? 'active' : ''}
               placeholder="비밀번호와 일치하는 값을 입력해 주세요"
@@ -147,11 +145,7 @@ export default function SignupForm() {
               name="passwordCheck"
             />
             <EyeImg
-              src={
-                togglePassword
-                  ? '/image/ico-eye-on.svg'
-                  : '/image/ico-eye-off.svg'
-              }
+              src={imgType}
               alt={togglePassword ? '비밀번호 표시' : '비밀번호 숨기기'}
               onClick={setTogglePassword as MouseEventHandler}
             />

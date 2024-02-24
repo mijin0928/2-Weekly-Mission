@@ -1,9 +1,10 @@
-import { BASE_URL } from '@/constant';
+import instance from '@/lib/axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';
 import useToggle from '@/src/hook/useToggle';
 import { MouseEventHandler } from 'react';
-import { Inputvalue, InputError } from '@/src/components/input/SignType';
+import { Inputvalue } from '@/src/components/input/SignType';
 import {
   InputContainer,
   InputBox,
@@ -13,34 +14,7 @@ import {
   PassWord,
   EyeImg,
 } from '@/src/components/input/SignStyle';
-import { NextRouter, useRouter } from 'next/router';
-
-async function onSubmit(
-  USER_INFO: Inputvalue,
-  setError: InputError,
-  router: NextRouter
-) {
-  try {
-    const response = await fetch(`${BASE_URL}/sign-in`, {
-      method: 'POST',
-      body: JSON.stringify(USER_INFO),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const { data } = await response.json();
-    localStorage.setItem('accessToken', data.accessToken);
-    if (localStorage.getItem('accessToken')) {
-      router.push('/folder');
-    }
-
-    if (!response.ok) throw new Error('로그인 정보가 일치하지 않습니다.');
-  } catch {
-    setError('email', { message: '이메일을 확인해주세요' });
-    setError('password', { message: '비밀번호를 확인해주세요' });
-  }
-}
+import { useRouter } from 'next/router';
 
 export default function SigninForm() {
   const {
@@ -52,19 +26,39 @@ export default function SigninForm() {
   } = useForm<Inputvalue>({ mode: 'onBlur' });
 
   const [togglePassword, setTogglePassword] = useToggle(false);
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const USER_INFO = {
     email: watch('email'),
     password: watch('password'),
   };
 
-  const router = useRouter();
+  async function signIn() {
+    const response = await instance.post('/auth/sign-in', USER_INFO);
+    return response.data.accessToken;
+  }
+
+  const { mutate } = useMutation({
+    mutationFn: signIn,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['/auth/sign-in'] });
+      localStorage.setItem('accessToken', data);
+      router.push('/folder');
+    },
+    onError: () => {
+      setError('email', { message: '이메일을 확인해주세요' });
+      setError('password', { message: '비밀번호를 확인해주세요' });
+    },
+  });
+
+  const onSubmit = async () => {
+    mutate();
+  };
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit(() => onSubmit(USER_INFO, setError, router))}
-      >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <InputContainer>
           <InputBox>
             <Label htmlFor="email">이메일</Label>
