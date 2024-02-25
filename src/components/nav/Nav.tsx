@@ -1,47 +1,20 @@
 import styled from 'styled-components';
-import { useContext, useEffect, useState } from 'react';
 import useAsync from '@/src/hook/useAsync';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '@/public/image/logo.svg';
-import MainContext from '@/src/components/main/MainContext';
 import { useRouter } from 'next/router';
 
 export default function Nav() {
-  const [profileImg, setProfileImg] = useState<string | null>(null);
-  const [profileEmail, setProfileEmail] = useState<string>('');
-  const { userId } = useContext(MainContext);
   const router = useRouter();
   const path = router.pathname === '/shared' ? true : false;
 
-  const [getProfileFolder] = useAsync({
+  const { data: users, isLoading: usersLoading } = useAsync({
     baseUrl: '/users',
     folderId: '',
   });
 
-  const [getProfileShared] = useAsync({
-    baseUrl: '/users/',
-    folderId: userId,
-  });
-
-  const handleProfileShared = async () => {
-    if (userId) {
-      const { data } = await getProfileShared();
-      setProfileImg(data[0]?.image_source);
-      setProfileEmail(data[0]?.email);
-    }
-  };
-
-  const handleProfileFolder = async () => {
-    const { data } = await getProfileFolder();
-    setProfileImg(data[0]?.image_source);
-    setProfileEmail(data[0]?.email);
-  };
-
-  useEffect(() => {
-    handleProfileShared();
-    handleProfileFolder();
-  }, []);
+  if (usersLoading) return;
 
   return (
     <NavContainer className={path ? '' : 'active'}>
@@ -52,11 +25,11 @@ export default function Nav() {
           </LogoImg>
         </Link>
       </Logo>
-      {profileImg ? (
+      {users ? (
         <Profile>
           <Link href="/">
-            <ProfileImg src={profileImg} alt="프로필 이미지" />
-            <ProfileEmail>{profileEmail}</ProfileEmail>
+            <ProfileImg src={users[0].image_source} alt="프로필 이미지" />
+            <ProfileEmail>{users[0].email}</ProfileEmail>
           </Link>
         </Profile>
       ) : (

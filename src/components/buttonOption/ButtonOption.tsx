@@ -1,13 +1,20 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
-import MainContext from '@/src/components/main/MainContext';
 import ModalContext from '@/src/components/modal/ModalContext';
 import { BUTTON_OPTION } from '@/constant';
 
-export default function ButtonOption() {
-  const { title, buttonOption, selectedMenu } = useContext(MainContext);
+interface Props {
+  title: string;
+  buttonOption?: boolean;
+  selectedMenu: string;
+}
+export default function ButtonOption({
+  title,
+  buttonOption,
+  selectedMenu,
+}: Props) {
   const { handleModalOpen } = useContext(ModalContext);
-  
+
   return (
     <>
       <ButtonOptionContainer>

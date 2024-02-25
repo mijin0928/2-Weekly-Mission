@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Footer from '@/src/components/footer/Footer';
 import AddLinkBar from '@/src/components/addLinkBar/AddLinkBar';
 import Nav from '@/src/components/nav/Nav';
-import Main from '@/src/components/main/Main';
+// import Main from '@/src/components/main/Main';
 
 export default function FolderPage() {
   return (
@@ -17,7 +17,7 @@ export default function FolderPage() {
           <AddLinkBar />
         </header>
         <main>
-          <Main />
+          {/* <Main /> */}
         </main>
         <footer>
           <Footer />

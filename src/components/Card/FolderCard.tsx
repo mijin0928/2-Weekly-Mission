@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import star from '@/public/image/ico-star.png';
 import Image from 'next/image';
-import MainContext, { Card } from '@/src/components/main/MainContext';
-import { useState, useContext } from 'react';
+import { Card } from '@/src/components/main/MainContext';
+import { useState } from 'react';
 import { MouseEvent } from 'react';
 import PopOver from '@/src/components/popOver/PopOver';
 import {
@@ -25,8 +25,7 @@ import {
   CardBox,
 } from '@/src/components/card/CardStyle';
 
-export default function FolderCard() {
-  const { searchResult } = useContext(MainContext);
+export default function FolderCard({ searchResult }: { searchResult: Card[] }) {
   const [popOverOpen, setPopOverOpen] = useState<string | boolean>(false);
 
   const handleClickKebab = (e: MouseEvent<HTMLSpanElement>, cardId: string) => {
@@ -37,9 +36,9 @@ export default function FolderCard() {
   if (searchResult.length === 0) return <NoLink>저장된 링크가 없습니다</NoLink>;
 
   const cards = searchResult.map((card: Card) => (
-    <Cards key={card?.id}>
+    <Cards key={card.id}>
       <Link
-        href={card?.url}
+        href={card.url}
         target="_blank"
         rel="noopener noreferrer"
         onMouseOver={(e) => handleMouseOver(e, true)}
@@ -47,7 +46,7 @@ export default function FolderCard() {
       >
         <ImgBox>
           <CardImg
-            src={card?.image_source ? card?.image_source : '/image/no-img.svg'}
+            src={card.image_source ? card.image_source : '/image/no-img.svg'}
             alt="카드 이미지"
           />
           <StarImg>
@@ -55,15 +54,15 @@ export default function FolderCard() {
           </StarImg>
         </ImgBox>
         <Text>
-          <TimeStamp>{getDateInfo({ createdAt: card?.created_at })}</TimeStamp>
-          <Kebab onClick={(e) => handleClickKebab(e, card?.id)}></Kebab>
+          <TimeStamp>{getDateInfo({ createdAt: card.created_at })}</TimeStamp>
+          <Kebab onClick={(e) => handleClickKebab(e, card.id)}></Kebab>
           <Desc>{card.description}</Desc>
           <CreatedDate>
-            {getDateText({ createdAt: card?.created_at })}
+            {getDateText({ createdAt: card.created_at })}
           </CreatedDate>
         </Text>
       </Link>
-      <PopOver popOverOpen={card?.id === popOverOpen} cardUrl={card?.url} />
+      <PopOver popOverOpen={card.id === popOverOpen} cardUrl={card.url} />
     </Cards>
   ));
 

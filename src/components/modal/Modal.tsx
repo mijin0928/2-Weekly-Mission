@@ -31,16 +31,16 @@ function FolderItem({ folderList }: { folderList: Folder[] }) {
   const handleClickFolderList = (folder: Folder) =>
     setSelectedFolder(folder?.name);
 
-  const item = folderList.map((folder) => (
-    <Item
-      key={folder?.id}
-      onClick={() => handleClickFolderList(folder)}
-      className={selectedFolder === folder?.name ? 'active' : ''}
-    >
-      <Name>{folder?.name}</Name>
-      <Count>{folder?.link?.count}개</Count>
-    </Item>
-  ));
+  // const item = folderList.map((folder) => (
+  //   <Item
+  //     key={folder?.id}
+  //     onClick={() => handleClickFolderList(folder)}
+  //     className={selectedFolder === folder?.name ? 'active' : ''}
+  //   >
+  //     <Name>{folder?.name}</Name>
+  //     <Count>{folder?.link?.count}개</Count>
+  //   </Item>
+  // ));
 
   return item;
 }
@@ -58,7 +58,7 @@ export default function Modal() {
   if (typeof window !== 'undefined') host = window.location.href;
 
   let userId;
-  if (folderList.length > 0) userId = folderList[0].user_id;
+  // if (folderList.length > 0) userId = folderList[0].user_id;
   
   const folderId = selectedMenu;
   const currentUrl = `${host}/shared?user=${userId}&folderId=${folderId}`;

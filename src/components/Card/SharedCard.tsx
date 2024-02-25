@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import MainContext, { Card } from '@/src/components/main/MainContext';
-import { useState, useContext, useEffect } from 'react';
+import { Card } from '@/src/components/main/MainContext';
 import useAsync from '@/src/hook/useAsync';
 import { useRouter } from 'next/router';
 import {
@@ -22,27 +21,14 @@ import {
 } from '@/src/components/card/CardStyle';
 
 export default function SharedCard() {
-  const { userId } = useContext(MainContext);
-  const [cardList, setCardList] = useState<Card[]>([]);
-
   const router = useRouter();
   const { id } = router.query;
-  const [getFolderLink] = useAsync({
-    baseUrl: `/users/${userId}/links?folderId=`,
-    folderId: id,
+  const { data: cardList, isLoading: cardListLoading } = useAsync({
+    baseUrl: `/folders/${id}`,
+    folderId: '/links',
   });
 
-  const handleLoadLinkList = async () => {
-    if (userId) {
-      const { data } = await getFolderLink();
-      setCardList(data);
-    }
-  };
-
-  useEffect(() => {
-    if (!router.isReady) return;
-    handleLoadLinkList();
-  }, [router.isReady, userId]);
+  if (cardListLoading) return;
 
   if (cardList.length === 0) return <NoLink>저장된 링크가 없습니다</NoLink>;
 

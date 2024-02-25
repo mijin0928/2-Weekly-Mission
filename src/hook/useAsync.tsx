@@ -1,29 +1,29 @@
-interface url {
+import instance from "@/lib/axios";
+import { useQuery } from '@tanstack/react-query';
+interface Url {
   baseUrl: string;
   folderId: string | string[] | undefined | number;
 }
 
-export default function useAsync({ baseUrl, folderId }: url) {
+export default function useAsync({ baseUrl, folderId }: Url) {
   const fetchUrl = async () => {
-    try {
-      const accessToken = localStorage.getItem('accessToken');
-      if (accessToken) {
-        const response = await fetch(
-          `https://bootcamp-api.codeit.kr/api${baseUrl}${folderId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        if (!response.ok) throw new Error('데이터를 불러오는데 실패했습니다');
-
-        const result = await response.json();
-        return result;
+    const accessToken = localStorage.getItem('accessToken');
+    const response = await instance.get(
+      `${baseUrl}${folderId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       }
-    } catch (error) {
-      console.error(error);
-    }
+    );
+    return response.data;
   };
-  return [fetchUrl];
+  
+  return useQuery({
+    queryKey: [baseUrl, folderId],
+    queryFn: async () => {
+      const data = await fetchUrl();
+      return data;
+    }
+  });
 }

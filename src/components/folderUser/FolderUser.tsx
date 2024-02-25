@@ -1,63 +1,48 @@
 import styled from 'styled-components';
-import { useState, useEffect, useContext } from 'react';
 import useAsync from '@/src/hook/useAsync';
 import Image from 'next/image';
-import MainContext from '@/src/components/main/MainContext';
 import { useRouter } from 'next/router';
 
 export default function FolderUser() {
-  const [folderUserProfile, setFolderUserProfile] = useState<string | null>(
-    null
-  );
-  const [folderUserName, setFolderUserName] = useState<string>('');
-  const [folderName, setFolderName] = useState<string>('');
-  const { userId } = useContext(MainContext);
-  const [getFolderSample] = useAsync({
+  const router = useRouter();
+  const { id } = router.query;
+
+  const { data: users, isLoading: usersLoading } = useAsync({
     baseUrl: '/users',
+    folderId: '',
+  });
+
+  let userId;
+  if (users) {
+    userId = users[0].id;
+  }
+
+  const { data: folderUser, isLoading: folderUserLoading } = useAsync({
+    baseUrl: '/users/',
     folderId: userId,
   });
 
-  const router = useRouter();
-  const { id } = router.query;
-  const [getFolderId] = useAsync({
+  const { data: folders, isLoading: foldersLoading } = useAsync({
     baseUrl: '/folders/',
     folderId: id,
   });
 
-  const handleLoadFolder = async () => {
-    const { data } = await getFolderSample();
-    setFolderUserName(data[0]?.name);
-    setFolderUserProfile(data[0]?.image_source);
-  };
-
-  const handleLoadFolderId = async () => {
-    const { data } = await getFolderId();
-    setFolderName(data[0]?.name);
-  };
-
-  useEffect(() => {
-    handleLoadFolder();
-  }, []);
-
-  useEffect(() => {
-    if (!router.isReady) return;
-    handleLoadFolderId();
-  }, [router.isReady]);
+  if (usersLoading || folderUserLoading || foldersLoading) return;
 
   return (
     <FolderUserContainer>
-      {folderUserProfile && (
+      {folderUser && (
         <UserProfileImg>
           <Image
             fill
-            src={folderUserProfile !== null ? folderUserProfile : ''}
+            src={folderUser[0].image_source}
             alt="폴더 사용자 프로필 이미지"
             object-fit="cover"
           />
         </UserProfileImg>
       )}
-      <UserName>{folderUserName}</UserName>
-      <FolderName>{folderName}</FolderName>
+      <UserName>{folderUser[0].name}</UserName>
+      <FolderName>{folders[0].name}</FolderName>
     </FolderUserContainer>
   );
 }
