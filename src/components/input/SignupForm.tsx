@@ -5,7 +5,6 @@ import { MouseEventHandler } from 'react';
 import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';
 import useToggle from '@/src/hook/useToggle';
-import { Inputvalue } from '@/src/components/input/SignType';
 import {
   InputContainer,
   InputBox,
@@ -15,6 +14,12 @@ import {
   PassWord,
   EyeImg,
 } from '@/src/components/input/SignStyle';
+
+interface Inputvalue {
+  email: string;
+  password: string;
+  passwordCheck?: string;
+}
 
 export default function SignupForm() {
   const {

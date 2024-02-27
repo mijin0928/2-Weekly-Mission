@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import UserButton from '@/src/components/userButton/UserButton';
 import useToggle from '@/src/hook/useToggle';
 import { MouseEventHandler } from 'react';
-import { Inputvalue } from '@/src/components/input/SignType';
 import {
   InputContainer,
   InputBox,
@@ -15,6 +14,11 @@ import {
   EyeImg,
 } from '@/src/components/input/SignStyle';
 import { useRouter } from 'next/router';
+interface Inputvalue {
+  email: string;
+  password: string;
+  passwordCheck?: string;
+}
 
 export default function SigninForm() {
   const {
@@ -77,7 +81,7 @@ export default function SigninForm() {
               })}
               name="email"
             />
-            {errors.email && <Messages>{errors.email?.message}</Messages>}
+            {errors.email && <Messages>{errors.email.message}</Messages>}
           </InputBox>
 
           <InputBox>
@@ -87,7 +91,7 @@ export default function SigninForm() {
                 type={togglePassword ? 'text' : 'password'}
                 id="password"
                 className={
-                  errors.password && errors.password?.message ? 'active' : ''
+                  errors.password && errors.password.message ? 'active' : ''
                 }
                 placeholder="영문, 숫자를 조합해 8자 이상 입력해 주세요."
                 {...register('password', {
@@ -110,7 +114,7 @@ export default function SigninForm() {
                 onClick={setTogglePassword as MouseEventHandler}
               />
             </PassWord>
-            {errors.password && <Messages>{errors.password?.message}</Messages>}
+            {errors.password && <Messages>{errors.password.message}</Messages>}
           </InputBox>
         </InputContainer>
         <UserButton />

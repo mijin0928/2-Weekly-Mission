@@ -1,11 +1,9 @@
-const BASE_URL = 'https://bootcamp-api.codeit.kr/api';
-
-const All = {
+export const All = {
   id: 'all',
   name: '전체',
 };
 
-const PAGE_CONTENT = {
+export const PAGE_CONTENT = {
   signin: {
     button: '로그인',
     text: '회원이 아니신가요?',
@@ -20,7 +18,7 @@ const PAGE_CONTENT = {
   },
 };
 
-const POPOVER_BUTTONS = [
+export const POPOVER_BUTTONS = [
   {
     id: 'linkRemove',
     name: '삭제하기',
@@ -31,7 +29,7 @@ const POPOVER_BUTTONS = [
   },
 ];
 
-const SNS_INFO = [
+export const SNS_INFO = [
   {
     id: 'facebook',
     src: '/image/ico-facebook.png',
@@ -57,7 +55,7 @@ const SNS_INFO = [
   },
 ];
 
-const BUTTON_OPTION = [
+export const BUTTON_OPTION = [
   {
     id: 'share',
     name: '공유',
@@ -71,5 +69,3 @@ const BUTTON_OPTION = [
     name: '삭제',
   },
 ];
-
-export { BASE_URL, All, PAGE_CONTENT, POPOVER_BUTTONS, SNS_INFO, BUTTON_OPTION }

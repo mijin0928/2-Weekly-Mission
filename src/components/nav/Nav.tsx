@@ -14,7 +14,7 @@ export default function Nav() {
     folderId: '',
   });
 
-  if (usersLoading) return;
+  if (usersLoading) return <div>Loading</div>;
 
   return (
     <NavContainer className={path ? '' : 'active'}>

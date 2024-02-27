@@ -27,7 +27,7 @@ export default function FolderUser() {
     folderId: id,
   });
 
-  if (usersLoading || folderUserLoading || foldersLoading) return;
+  if (usersLoading || folderUserLoading || foldersLoading) return <div>Loading</div>;
 
   return (
     <FolderUserContainer>

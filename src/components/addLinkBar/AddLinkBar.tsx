@@ -1,13 +1,17 @@
 import styled from 'styled-components';
-import { ChangeEvent, useContext, useState } from 'react';
+import { useContext } from 'react';
 import ModalContext from '@/src/components/modal/ModalContext';
+import useModalAsync from '@/src/hook/useModalAsync';
 
 export default function AddLinkBar() {
   const { handleModalOpen } = useContext(ModalContext);
-  const [linkValue, setLinkValue] = useState<string>('');
+  const { values, handleValuesChange } = useModalAsync();
 
-  const handleChangeLinkValue = (e: ChangeEvent<HTMLInputElement>) =>
-    setLinkValue(e.target.value);
+  const handleUrl = () => {
+    if (values.url) {
+      handleModalOpen('folderAdd');
+    }
+  };
 
   return (
     <>
@@ -15,13 +19,11 @@ export default function AddLinkBar() {
         <Input
           type="text"
           placeholder="링크를 추가해보세요"
-          onChange={handleChangeLinkValue}
-          value={linkValue}
+          onChange={handleValuesChange}
+          value={values.url}
+          name="url"
         />
-        <Button
-          type="button"
-          onClick={() => linkValue && handleModalOpen('folderAdd')}
-        >
+        <Button type="button" onClick={handleUrl}>
           추가하기
         </Button>
       </AddLinkBarContainer>

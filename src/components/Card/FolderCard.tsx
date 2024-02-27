@@ -1,9 +1,7 @@
 import Link from 'next/link';
 import star from '@/public/image/ico-star.png';
 import Image from 'next/image';
-import { Card } from '@/src/components/main/MainContext';
-import { useState } from 'react';
-import { MouseEvent } from 'react';
+import { useState, MouseEvent } from 'react';
 import PopOver from '@/src/components/popOver/PopOver';
 import {
   getDateText,
@@ -24,6 +22,14 @@ import {
   CardContainer,
   CardBox,
 } from '@/src/components/card/CardStyle';
+interface Card {
+  id: string;
+  title: string;
+  url: string;
+  description: string;
+  image_source: string;
+  created_at: string;
+}
 
 export default function FolderCard({ searchResult }: { searchResult: Card[] }) {
   const [popOverOpen, setPopOverOpen] = useState<string | boolean>(false);
