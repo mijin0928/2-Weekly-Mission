@@ -2,8 +2,21 @@ import styled, { css } from 'styled-components';
 import shareKakao from '@/src/components/shareKakao/shareKakao';
 import { useContext, useState } from 'react';
 import ModalContext from '@/src/components/modal/ModalContext';
-import MainContext, { Folder } from '@/src/components/main/MainContext';
 import Image from 'next/image';
+import useModalAsync from '@/src/hook/useModalAsync';
+import useAsync from '@/src/hook/useAsync';
+interface Folder {
+  id: string;
+  title: string;
+  name: string;
+  link_count: number;
+}
+
+interface Props {
+  title: string;
+  selectedMenu: string;
+  folderList: Folder[];
+}
 
 async function clipBoard(text: string) {
   try {
@@ -29,37 +42,45 @@ function FolderItem({ folderList }: { folderList: Folder[] }) {
   const [selectedFolder, setSelectedFolder] = useState<string>('');
 
   const handleClickFolderList = (folder: Folder) =>
-    setSelectedFolder(folder?.name);
+    setSelectedFolder(folder.name);
 
-  // const item = folderList.map((folder) => (
-  //   <Item
-  //     key={folder?.id}
-  //     onClick={() => handleClickFolderList(folder)}
-  //     className={selectedFolder === folder?.name ? 'active' : ''}
-  //   >
-  //     <Name>{folder?.name}</Name>
-  //     <Count>{folder?.link?.count}개</Count>
-  //   </Item>
-  // ));
+  const item = folderList.map((folder) => (
+    <Item
+      key={folder.id}
+      onClick={() => handleClickFolderList(folder)}
+      className={selectedFolder === folder.name ? 'active' : ''}
+    >
+      <Name>{folder.name}</Name>
+      <Count>{folder.link_count}개</Count>
+    </Item>
+  ));
 
   return item;
 }
 
-export default function Modal() {
+export default function Modal({ title, selectedMenu, folderList }: Props) {
+  const { modalOpen, handleModalClose, type, cardUrl } =
+    useContext(ModalContext);
   const {
-    modalOpen,
-    handleModalClose: handleModalClose,
-    type,
-    cardUrl,
-  } = useContext(ModalContext);
-  const { title, folderList, selectedMenu } = useContext(MainContext);
+    values,
+    handleValuesChange,
+    folderAdd,
+    folderListAdd,
+    edit,
+    folderRemove,
+    linkRemove,
+  } = useModalAsync(cardUrl);
+  
+  const { data: users, isLoading: usersLoading } = useAsync({
+    baseUrl: '/users',
+    folderId: '',
+  });
+  if (usersLoading) return <div>Loading</div>;
 
   let host;
   if (typeof window !== 'undefined') host = window.location.href;
 
-  let userId;
-  // if (folderList.length > 0) userId = folderList[0].user_id;
-  
+  const userId = users[0].id;
   const folderId = selectedMenu;
   const currentUrl = `${host}/shared?user=${userId}&folderId=${folderId}`;
 
@@ -99,6 +120,25 @@ export default function Modal() {
     }
   }
 
+  const handleButtonClick = () => {
+    handleModalClose();
+
+    switch (type) {
+      case 'edit':
+        return edit();
+      case 'folderRemove':
+        return folderRemove();
+      case 'linkRemove':
+        return linkRemove();
+      case 'folderAdd':
+        return folderAdd();
+      case 'folderListAdd':
+        return folderListAdd();
+      default:
+        return;
+    }
+  };
+
   return (
     <>
       <ModalContainer $modalOpen={modalOpen}>
@@ -106,7 +146,13 @@ export default function Modal() {
           <ModalType />
         </Title>
         {type === 'edit' || type === 'folderListAdd' ? (
-          <Input type="text" placeholder="내용 입력" />
+          <Input
+            type="text"
+            placeholder="내용 입력"
+            onChange={handleValuesChange}
+            value={values.name}
+            name="name"
+          />
         ) : (
           <Text>
             {type === 'linkRemove' || type === 'folderAdd' ? cardUrl : title}
@@ -123,6 +169,7 @@ export default function Modal() {
             className={
               type === 'folderRemove' || type === 'linkRemove' ? 'red' : ''
             }
+            onClick={handleButtonClick}
           >
             <ButtonType />
           </Button>

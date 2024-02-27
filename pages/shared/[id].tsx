@@ -2,7 +2,7 @@ import Head from 'next/head';
 import FolderUser from '@/src/components/folderUser/FolderUser';
 import Nav from '@/src/components/nav/Nav';
 import Footer from '@/src/components/footer/Footer';
-// import SearchBar from '@/src/components/main/SearchBar';
+import SearchBar from '@/src/components/searchBar/SearchBar';
 import SharedCard from '@/src/components/card/SharedCard';
 
 export default function SharedPage() {
@@ -17,7 +17,7 @@ export default function SharedPage() {
           <FolderUser />
         </header>
         <main>
-          {/* <SearchBar /> */}
+          <SearchBar />
           <SharedCard />
         </main>
         <footer>

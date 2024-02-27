@@ -5,8 +5,9 @@ import { useRouter } from 'next/router';
 import { All } from '@/constant';
 import useAsync from '@/src/hook/useAsync';
 import ButtonOption from '@/src/components/buttonOption/ButtonOption';
-import FolderCard from '../card/FolderCard';
-import SearchBar from '../searchBar/SearchBar';
+import FolderCard from '@/src/components/card/FolderCard';
+import SearchBar from '@/src/components/searchBar/SearchBar';
+import Modal from '@/src/components/modal/Modal';
 interface TabMenuListProps {
   folderList: Folder[];
   $selectedMenu: string | boolean;
@@ -14,20 +15,29 @@ interface TabMenuListProps {
   id: number | string;
 }
 
-function TabMenuList({
-  folderList,
-  $selectedMenu,
-  handleClickMenu,
-  id,
-}: TabMenuListProps) {
+interface Folder {
+  id: string;
+  name: string;
+}
+
+interface Card {
+  id: string;
+  title: string;
+  url: string;
+  description: string;
+  image_source: string;
+  created_at: string;
+}
+
+function TabMenuList({ folderList, handleClickMenu, id }: TabMenuListProps) {
   const item = folderList.map((folder) => (
-    <li key={folder?.id}>
+    <li key={folder.id}>
       <button
         type="button"
-        className={id === folder?.id ? 'active' : ''}
+        className={id == folder.id ? 'active' : ''}
         onClick={() => handleClickMenu(folder)}
       >
-        {folder?.name}
+        {folder.name}
       </button>
     </li>
   ));
@@ -36,7 +46,7 @@ function TabMenuList({
     <>
       <button
         type="button"
-        className={!id && $selectedMenu === All.id ? 'active' : ''}
+        className={!id ? 'active' : ''}
         onClick={() => handleClickMenu(All)}
       >
         전체
@@ -56,7 +66,7 @@ export default function TabMenu() {
 
   const router = useRouter();
   const id = Number(router.query.id);
-
+  
   const { data: folders, isLoading: foldersLoading } = useAsync({
     baseUrl: '/folders',
     folderId: '',
@@ -98,10 +108,11 @@ export default function TabMenu() {
     if (cardList) {
       setSearchResult(cardList);
     }
+
   }, [cardList]);
 
   if (foldersLoading || allLoading || selectedFolderLoading) {
-    return;
+    return <div>Loading</div>;
   }
 
   return (
@@ -130,6 +141,7 @@ export default function TabMenu() {
         selectedMenu={selectedMenu}
       />
       <FolderCard searchResult={searchResult} />
+      <Modal title={title} selectedMenu={selectedMenu} folderList={folders} />
     </>
   );
 }

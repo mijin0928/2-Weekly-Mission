@@ -1,7 +1,14 @@
 import styled from 'styled-components';
 import { ChangeEvent } from 'react';
+interface Props {
+  handleChangeSearch?: (e: ChangeEvent<HTMLInputElement>) => void;
+  searchKeyword?: string;
+}
 
-export default function SearchBar({ handleChangeSearch, searchKeyword }) {
+export default function SearchBar({
+  handleChangeSearch,
+  searchKeyword,
+}: Props) {
   return (
     <>
       <SearchBarContainer>
@@ -9,9 +16,9 @@ export default function SearchBar({ handleChangeSearch, searchKeyword }) {
           type="search"
           placeholder="링크를 검색해 보세요."
           value={searchKeyword}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeSearch(e)}
+          onChange={(e) => handleChangeSearch && handleChangeSearch(e)}
         />
-        <Text $searchKeyword={searchKeyword}>
+        <Text $searchKeyword={searchKeyword ? searchKeyword : ''}>
           <span>{searchKeyword}</span>로 검색한 결과입니다.
         </Text>
       </SearchBarContainer>

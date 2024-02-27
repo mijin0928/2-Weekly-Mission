@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Card } from '@/src/components/main/MainContext';
 import useAsync from '@/src/hook/useAsync';
 import { useRouter } from 'next/router';
 import {
@@ -20,6 +19,15 @@ import {
   CardBox,
 } from '@/src/components/card/CardStyle';
 
+interface Card {
+  id: string;
+  title: string;
+  url: string;
+  description: string;
+  image_source: string;
+  created_at: string;
+}
+
 export default function SharedCard() {
   const router = useRouter();
   const { id } = router.query;
@@ -28,14 +36,14 @@ export default function SharedCard() {
     folderId: '/links',
   });
 
-  if (cardListLoading) return;
+  if (cardListLoading) return <div>Loading</div>;
 
   if (cardList.length === 0) return <NoLink>저장된 링크가 없습니다</NoLink>;
 
   const cards = cardList.map((card: Card) => (
-    <Cards key={card?.id}>
+    <Cards key={card.id}>
       <Link
-        href={card?.url}
+        href={card.url}
         target="_blank"
         rel="noopener noreferrer"
         onMouseOver={(e) => handleMouseOver(e, true)}
@@ -43,15 +51,15 @@ export default function SharedCard() {
       >
         <ImgBox>
           <CardImg
-            src={card?.image_source ? card?.image_source : '/image/no-img.svg'}
+            src={card.image_source ? card.image_source : '/image/no-img.svg'}
             alt="카드 이미지"
           />
         </ImgBox>
         <Text>
-          <TimeStamp>{getDateInfo({ createdAt: card?.created_at })}</TimeStamp>
+          <TimeStamp>{getDateInfo({ createdAt: card.created_at })}</TimeStamp>
           <Desc>{card.description}</Desc>
           <CreatedDate>
-            {getDateText({ createdAt: card?.created_at })}
+            {getDateText({ createdAt: card.created_at })}
           </CreatedDate>
         </Text>
       </Link>
