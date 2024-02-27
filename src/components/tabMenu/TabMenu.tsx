@@ -29,12 +29,26 @@ interface Card {
   created_at: string;
 }
 
+interface Folder {
+  id: string;
+  name: string;
+}
+
+interface Card {
+  id: string;
+  title: string;
+  url: string;
+  description: string;
+  image_source: string;
+  created_at: string;
+}
+
 function TabMenuList({ folderList, handleClickMenu, id }: TabMenuListProps) {
   const item = folderList.map((folder) => (
     <li key={folder.id}>
       <button
         type="button"
-        className={id == folder.id ? 'active' : ''}
+        className={id === folder.id ? 'active' : ''}
         onClick={() => handleClickMenu(folder)}
       >
         {folder.name}
@@ -66,6 +80,7 @@ export default function TabMenu() {
 
   const router = useRouter();
   const id = Number(router.query.id);
+  
   
   const { data: folders, isLoading: foldersLoading } = useAsync({
     baseUrl: '/folders',
@@ -108,7 +123,6 @@ export default function TabMenu() {
     if (cardList) {
       setSearchResult(cardList);
     }
-
   }, [cardList]);
 
   if (foldersLoading || allLoading || selectedFolderLoading) {
